@@ -1,0 +1,57 @@
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: ["triage", "bug"]
+projects: ["cloudnative-pg/cnpg-i"]
+assignees:
+  - gbartolini
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report for CNPG-I!
+  - type: checkboxes
+    id: search
+    attributes:
+      label: Is there an existing issue already for this bug?
+      description: Before you submit a bug, make sure you have searched if a similar one already exists
+      options:
+        - label: I have searched for an existing issue, and could not find anything. I believe this is a new bug.
+          required: true
+  - type: checkboxes
+    id: troubleshooting
+    attributes:
+      label: I have read the troubleshooting guide
+      description: Before you submit a bug, make sure you have read the ["Common issues" section in the Troubleshooting guide](https://cloudnative-pg.io/documentation/current/troubleshooting/#some-common-issues).
+      options:
+        - label: I have read the troubleshooting guide and I think this is a new bug.
+          required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also tell us, what did you expect to happen?
+      placeholder: Tell us what you see!
+    validations:
+      required: true
+  - type: textarea
+    id: spec
+    attributes:
+      label: Cluster resource
+      description: Please copy and paste the CR of the cluster
+      render: shell
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/cloudnative-pg/cloudnative-pg/blob/main/CODE_OF_CONDUCT.md)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
+
