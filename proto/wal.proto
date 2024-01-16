@@ -3,33 +3,33 @@ package cnpgi.adapter.v1;
 option go_package = "github.com/cloudnative-pg/cnpg-i/pkg/wal";
 
 service WAL {
-    // Archive copies one WAL file into the archive
-    rpc Archive(WALArchiveRequest) returns (WALArchiveResult) {}
+  // Archive copies one WAL file into the archive
+  rpc Archive(WALArchiveRequest) returns (WALArchiveResult) {}
 
-    // Restores copies WAL file from the archive to the data directory
-    rpc Restore(WALRestoreRequest) returns (WALRestoreResult) {}
+  // Restores copies WAL file from the archive to the data directory
+  rpc Restore(WALRestoreRequest) returns (WALRestoreResult) {}
 
-    // Status gets the statistics of the WAL file archive
-    rpc Status(WALStatusRequest) returns (WALStatusResult) {}
+  // Status gets the statistics of the WAL file archive
+  rpc Status(WALStatusRequest) returns (WALStatusResult) {}
 
-    // SetFirstRequired sets the first required WAL for the cluster
-    rpc SetFirstRequired(SetFirstRequiredRequest) returns (SetFirstRequiredResult) {}
+  // SetFirstRequired sets the first required WAL for the cluster
+  rpc SetFirstRequired(SetFirstRequiredRequest) returns (SetFirstRequiredResult) {}
 
-    // GetCapabilities gets the capabilities of the WAL service
-    rpc GetCapabilities(WALCapabilitiesRequest) returns (WALCapabilitiesResult) {}
+  // GetCapabilities gets the capabilities of the WAL service
+  rpc GetCapabilities(WALCapabilitiesRequest) returns (WALCapabilitiesResult) {}
 }
 
 message WALArchiveRequest {
-    // This field is REQUIRED. Value of this field is the name of
-    // the CNPG cluster for which the WAL should be archived
-    string clusterName = 1;
+  // This field is REQUIRED. Value of this field is the name of
+  // the CNPG cluster for which the WAL should be archived
+  string cluster_name = 1;
 
-    // This field is REQUIRED. Value of this field is the full path
-    // of the WAL file that should be archived
-    string sourceFileName = 2;
+  // This field is REQUIRED. Value of this field is the full path
+  // of the WAL file that should be archived
+  string source_file_name = 2;
 
-    // This field is OPTIONAL. Values are opaque.
-    map<string, string> parameters = 3;
+  // This field is OPTIONAL. Values are opaque.
+  map<string, string> parameters = 3;
 }
 
 message WALArchiveResult {
@@ -37,21 +37,21 @@ message WALArchiveResult {
 }
 
 message WALRestoreRequest {
-    // This field is REQUIRED. Value of this field is the name of
-    // the CNPG cluster for which the WAL should be archived
-    string clusterName = 1;
+  // This field is REQUIRED. Value of this field is the name of
+  // the CNPG cluster for which the WAL should be archived
+  string cluster_name = 1;
 
-    // This field is REQUIRED. Value of this field is the name of
-    // the WAL to be retrieved from the archive, such as:
-    // 000000010000000100000012
-    string sourceWalName = 2;
+  // This field is REQUIRED. Value of this field is the name of
+  // the WAL to be retrieved from the archive, such as:
+  // 000000010000000100000012
+  string source_wal_name = 2;
 
-    // This field is REQUIRED. Value of this field is the full path
-    // where the WAL file should be stored
-    string destinationFileName = 3;
+  // This field is REQUIRED. Value of this field is the full path
+  // where the WAL file should be stored
+  string destination_file_name = 3;
 
-    // This field is OPTIONAL. Values are opaque.
-    map<string, string> parameters = 4;
+  // This field is OPTIONAL. Values are opaque.
+  map<string, string> parameters = 4;
 }
 
 message WALRestoreResult {
@@ -59,35 +59,35 @@ message WALRestoreResult {
 }
 
 message WALStatusRequest {
-    // This field is REQUIRED. Value of this field is the name of
-    // the CNPG cluster for which the WAL should be archived
-    string clusterName = 1;
+  // This field is REQUIRED. Value of this field is the name of
+  // the CNPG cluster for which the WAL should be archived
+  string cluster_name = 1;
 }
 
 message WALStatusResult {
-    // This field is REQUIRED. Value of this field is the base name of
-    // the oldest archived WAL, such as:
-    // 000000010000000100000012
-    string firstWAL = 1;
+  // This field is REQUIRED. Value of this field is the base name of
+  // the oldest archived WAL, such as:
+  // 000000010000000100000012
+  string first_wal = 1;
 
-    // This field is REQUIRED. Value of this field is the base name of
-    // the newest archived WAL, such as:
-    // 000000010000000100000014
-    string lastWAL = 2;
+  // This field is REQUIRED. Value of this field is the base name of
+  // the newest archived WAL, such as:
+  // 000000010000000100000014
+  string last_wal = 2;
 
-    // This field is OPTIONAL. Value is opaque.
-    map<string, string> additionalInformation = 4;
+  // This field is OPTIONAL. Value is opaque.
+  map<string, string> additional_information = 4;
 }
 
 message SetFirstRequiredRequest {
-    // This field is REQUIRED. Value of this field is the name of
-    // the CNPG cluster for which the WAL should be archived
-    string clusterName = 1;
+  // This field is REQUIRED. Value of this field is the name of
+  // the CNPG cluster for which the WAL should be archived
+  string cluster_name = 1;
 
-    // This field is REQUIRED. Value of this field is the name of the first
-    // required WAL in the WAL archive for this cluster (normally based on the
-    // begin WAL of the first available base backup for the cluster)
-    string firstRequiredWAL = 2;
+  // This field is REQUIRED. Value of this field is the name of the first
+  // required WAL in the WAL archive for this cluster (normally based on the
+  // begin WAL of the first available base backup for the cluster)
+  string first_required_wal = 2;
 }
 
 message SetFirstRequiredResult {
@@ -107,23 +107,23 @@ message WALCapabilitiesResult {
 message WALCapability {
   message RPC {
     enum Type {
-        UNKNOWN = 0;
+      TYPE_UNSPECIFIED = 0;
 
-        // ARCHIVE_WAL indicates that the Plugin is able to
-        // reply to the Archive RPC request
-        ARCHIVE_WAL = 1;
+      // ARCHIVE_WAL indicates that the Plugin is able to
+      // reply to the Archive RPC request
+      TYPE_ARCHIVE_WAL = 1;
 
-        // RESTORE_WAL indicates that the Plugin is able to
-        // reply to the Restore RPC request
-        RESTORE_WAL = 2;
+      // RESTORE_WAL indicates that the Plugin is able to
+      // reply to the Restore RPC request
+      TYPE_RESTORE_WAL = 2;
 
-        // STATUS indicates that the Plugin is able to
-        // reply to the Status RPC request
-        STATUS = 3;
+      // STATUS indicates that the Plugin is able to
+      // reply to the Status RPC request
+      TYPE_STATUS = 3;
 
-        // SET_FIRST_REQUIRED indicates that the Plugin is able to
-        // reply to the SetFirstRequired RPC request
-        SET_FIRST_REQUIRED = 4;
+      // SET_FIRST_REQUIRED indicates that the Plugin is able to
+      // reply to the SetFirstRequired RPC request
+      TYPE_SET_FIRST_REQUIRED = 4;
     }
 
     Type type = 1;

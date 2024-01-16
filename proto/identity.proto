@@ -3,35 +3,35 @@ package cnpgi.identity.v1;
 option go_package = "github.com/cloudnative-pg/cnpg-i/pkg/identity";
 
 service Identity {
-    // GetPluginInfo gets the plugin metadata
-    rpc GetPluginInfo(GetPluginInfoRequest) returns (GetPluginInfoResponse) {}
+  // GetPluginInfo gets the plugin metadata
+  rpc GetPluginInfo(GetPluginInfoRequest) returns (GetPluginInfoResponse) {}
 
-    // GetPluginCapabilities gets information about this plugin
-    rpc GetPluginCapabilities(GetPluginCapabilitiesRequest)  returns (GetPluginCapabilitiesResponse) {}
+  // GetPluginCapabilities gets information about this plugin
+  rpc GetPluginCapabilities(GetPluginCapabilitiesRequest) returns (GetPluginCapabilitiesResponse) {}
 
-    // Probe is used to tell if the plugin is ready to receive requests
-    rpc Probe (ProbeRequest) returns (ProbeResponse) {}
+  // Probe is used to tell if the plugin is ready to receive requests
+  rpc Probe (ProbeRequest) returns (ProbeResponse) {}
 }
 
 message GetPluginInfoRequest {
-    // Intentionally empty.
+  // Intentionally empty.
 }
 
 message GetPluginInfoResponse {
-    // The name MUST follow domain name notation format
-    // (https://tools.ietf.org/html/rfc1035#section-2.3.1). It SHOULD
-    // include the plugin's host company name and the plugin name,
-    // to minimize the possibility of collisions. It MUST be 63
-    // characters or less, beginning and ending with an alphanumeric
-    // character ([a-z0-9A-Z]) with dashes (-), dots (.), and
-    // alphanumerics between. This field is REQUIRED.
-    string name = 1;
+  // The name MUST follow domain name notation format
+  // (https://tools.ietf.org/html/rfc1035#section-2.3.1). It SHOULD
+  // include the plugin's host company name and the plugin name,
+  // to minimize the possibility of collisions. It MUST be 63
+  // characters or less, beginning and ending with an alphanumeric
+  // character ([a-z0-9A-Z]) with dashes (-), dots (.), and
+  // alphanumerics between. This field is REQUIRED.
+  string name = 1;
 
-    // This field is REQUIRED. Value of this field is opaque.
-    string vendor_version = 2;
+  // This field is REQUIRED. Value of this field is opaque.
+  string vendor_version = 2;
 
-    // This field is OPTIONAL. Values are opaque.
-    map<string, string> manifest = 3;
+  // This field is OPTIONAL. Values are opaque.
+  map<string, string> manifest = 3;
 }
 
 message GetPluginCapabilitiesRequest {
@@ -47,14 +47,14 @@ message GetPluginCapabilitiesResponse {
 message PluginCapability {
   message Service {
     enum Type {
-      UNKNOWN = 0;
+      TYPE_UNSPECIFIED = 0;
 
-      // WAL_SERVICE indicates that the Plugin provides RPCs for
+      // TYPE_WAL_SERVICE indicates that the Plugin provides RPCs for
       // the WAL service. Plugins SHOULD provide this capability.
       // The presence of this capability determines whether the CO will
       // attempt to invoke the REQUIRED WALService RPCs, as well
       // as specific RPCs as indicated by GetCapabilities.
-      WAL_SERVICE = 1;
+      TYPE_WAL_SERVICE = 1;
     }
     Type type = 1;
   }
@@ -65,13 +65,13 @@ message PluginCapability {
 }
 
 message ProbeRequest {
-    // Intentionally empty.
+  // Intentionally empty.
 }
 
 message ProbeResponse {
-    // This field is OPTIONAL. If not present, the caller SHALL assume
-    // that the plugin is in a ready state and is accepting calls to its
-    // Controller and/or Node services (according to the plugin's reported
-    // capabilities).
-    bool ready = 1;
+  // This field is OPTIONAL. If not present, the caller SHALL assume
+  // that the plugin is in a ready state and is accepting calls to its
+  // Controller and/or Node services (according to the plugin's reported
+  // capabilities).
+  bool ready = 1;
 }
