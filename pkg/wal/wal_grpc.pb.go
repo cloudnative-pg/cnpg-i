@@ -19,10 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	WAL_Archive_FullMethodName         = "/cnpgi.adapter.v1.WAL/Archive"
-	WAL_Restore_FullMethodName         = "/cnpgi.adapter.v1.WAL/Restore"
-	WAL_Status_FullMethodName          = "/cnpgi.adapter.v1.WAL/Status"
-	WAL_GetCapabilities_FullMethodName = "/cnpgi.adapter.v1.WAL/GetCapabilities"
+	WAL_Archive_FullMethodName          = "/cnpgi.adapter.v1.WAL/Archive"
+	WAL_Restore_FullMethodName          = "/cnpgi.adapter.v1.WAL/Restore"
+	WAL_Status_FullMethodName           = "/cnpgi.adapter.v1.WAL/Status"
+	WAL_SetFirstRequired_FullMethodName = "/cnpgi.adapter.v1.WAL/SetFirstRequired"
+	WAL_GetCapabilities_FullMethodName  = "/cnpgi.adapter.v1.WAL/GetCapabilities"
 )
 
 // WALClient is the client API for WAL service.
@@ -35,6 +36,8 @@ type WALClient interface {
 	Restore(ctx context.Context, in *WALRestoreRequest, opts ...grpc.CallOption) (*WALRestoreResult, error)
 	// Status gets the statistics of the WAL file archive
 	Status(ctx context.Context, in *WALStatusRequest, opts ...grpc.CallOption) (*WALStatusResult, error)
+	// SetFirstRequired sets the first required WAL for the cluster
+	SetFirstRequired(ctx context.Context, in *SetFirstRequiredRequest, opts ...grpc.CallOption) (*SetFirstRequiredResult, error)
 	// GetCapabilities gets the capabilities of the WAL service
 	GetCapabilities(ctx context.Context, in *WALCapabilitiesRequest, opts ...grpc.CallOption) (*WALCapabilitiesResult, error)
 }
@@ -74,6 +77,15 @@ func (c *wALClient) Status(ctx context.Context, in *WALStatusRequest, opts ...gr
 	return out, nil
 }
 
+func (c *wALClient) SetFirstRequired(ctx context.Context, in *SetFirstRequiredRequest, opts ...grpc.CallOption) (*SetFirstRequiredResult, error) {
+	out := new(SetFirstRequiredResult)
+	err := c.cc.Invoke(ctx, WAL_SetFirstRequired_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *wALClient) GetCapabilities(ctx context.Context, in *WALCapabilitiesRequest, opts ...grpc.CallOption) (*WALCapabilitiesResult, error) {
 	out := new(WALCapabilitiesResult)
 	err := c.cc.Invoke(ctx, WAL_GetCapabilities_FullMethodName, in, out, opts...)
@@ -93,6 +105,8 @@ type WALServer interface {
 	Restore(context.Context, *WALRestoreRequest) (*WALRestoreResult, error)
 	// Status gets the statistics of the WAL file archive
 	Status(context.Context, *WALStatusRequest) (*WALStatusResult, error)
+	// SetFirstRequired sets the first required WAL for the cluster
+	SetFirstRequired(context.Context, *SetFirstRequiredRequest) (*SetFirstRequiredResult, error)
 	// GetCapabilities gets the capabilities of the WAL service
 	GetCapabilities(context.Context, *WALCapabilitiesRequest) (*WALCapabilitiesResult, error)
 	mustEmbedUnimplementedWALServer()
@@ -110,6 +124,9 @@ func (UnimplementedWALServer) Restore(context.Context, *WALRestoreRequest) (*WAL
 }
 func (UnimplementedWALServer) Status(context.Context, *WALStatusRequest) (*WALStatusResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Status not implemented")
+}
+func (UnimplementedWALServer) SetFirstRequired(context.Context, *SetFirstRequiredRequest) (*SetFirstRequiredResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetFirstRequired not implemented")
 }
 func (UnimplementedWALServer) GetCapabilities(context.Context, *WALCapabilitiesRequest) (*WALCapabilitiesResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCapabilities not implemented")
@@ -181,6 +198,24 @@ func _WAL_Status_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WAL_SetFirstRequired_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetFirstRequiredRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WALServer).SetFirstRequired(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WAL_SetFirstRequired_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WALServer).SetFirstRequired(ctx, req.(*SetFirstRequiredRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _WAL_GetCapabilities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(WALCapabilitiesRequest)
 	if err := dec(in); err != nil {
@@ -217,6 +252,10 @@ var WAL_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Status",
 			Handler:    _WAL_Status_Handler,
+		},
+		{
+			MethodName: "SetFirstRequired",
+			Handler:    _WAL_SetFirstRequired_Handler,
 		},
 		{
 			MethodName: "GetCapabilities",

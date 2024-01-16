@@ -12,6 +12,9 @@ service WAL {
     // Status gets the statistics of the WAL file archive
     rpc Status(WALStatusRequest) returns (WALStatusResult) {}
 
+    // SetFirstRequired sets the first required WAL for the cluster
+    rpc SetFirstRequired(SetFirstRequiredRequest) returns (SetFirstRequiredResult) {}
+
     // GetCapabilities gets the capabilities of the WAL service
     rpc GetCapabilities(WALCapabilitiesRequest) returns (WALCapabilitiesResult) {}
 }
@@ -76,6 +79,21 @@ message WALStatusResult {
     map<string, string> additionalInformation = 4;
 }
 
+message SetFirstRequiredRequest {
+    // This field is REQUIRED. Value of this field is the name of
+    // the CNPG cluster for which the WAL should be archived
+    string clusterName = 1;
+
+    // This field is REQUIRED. Value of this field is the name of the first
+    // required WAL in the WAL archive for this cluster (normally based on the
+    // begin WAL of the first available base backup for the cluster)
+    string firstRequiredWAL = 2;
+}
+
+message SetFirstRequiredResult {
+    // Intentionally empty.
+}
+
 message WALCapabilitiesRequest {
     // Intentionally empty.
 }
@@ -102,6 +120,10 @@ message WALCapability {
         // STATUS indicates that the Plugin is able to
         // reply to the Status RPC request
         STATUS = 3;
+
+        // SET_FIRST_REQUIRED indicates that the Plugin is able to
+        // reply to the SetFirstRequired RPC request
+        SET_FIRST_REQUIRED = 4;
     }
 
     Type type = 1;
