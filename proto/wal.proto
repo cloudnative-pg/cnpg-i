@@ -3,6 +3,9 @@ package cnpgi.adapter.v1;
 option go_package = "github.com/cloudnative-pg/cnpg-i/pkg/wal";
 
 service WAL {
+  // GetCapabilities gets the capabilities of the WAL service
+  rpc GetCapabilities(WALCapabilitiesRequest) returns (WALCapabilitiesResult) {}
+
   // Archive copies one WAL file into the archive
   rpc Archive(WALArchiveRequest) returns (WALArchiveResult) {}
 
@@ -14,9 +17,6 @@ service WAL {
 
   // SetFirstRequired sets the first required WAL for the cluster
   rpc SetFirstRequired(SetFirstRequiredRequest) returns (SetFirstRequiredResult) {}
-
-  // GetCapabilities gets the capabilities of the WAL service
-  rpc GetCapabilities(WALCapabilitiesRequest) returns (WALCapabilitiesResult) {}
 }
 
 message WALArchiveRequest {
