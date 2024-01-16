@@ -1,0 +1,135 @@
+syntax = "proto3";
+package cnpgi.adapter.v1;
+option go_package = "github.com/cloudnative-pg/cnpg-i/pkg/wal";
+
+service WAL {
+  // Archive copies one WAL file into the archive
+  rpc Archive(WALArchiveRequest) returns (WALArchiveResult) {}
+
+  // Restores copies WAL file from the archive to the data directory
+  rpc Restore(WALRestoreRequest) returns (WALRestoreResult) {}
+
+  // Status gets the statistics of the WAL file archive
+  rpc Status(WALStatusRequest) returns (WALStatusResult) {}
+
+  // SetFirstRequired sets the first required WAL for the cluster
+  rpc SetFirstRequired(SetFirstRequiredRequest) returns (SetFirstRequiredResult) {}
+
+  // GetCapabilities gets the capabilities of the WAL service
+  rpc GetCapabilities(WALCapabilitiesRequest) returns (WALCapabilitiesResult) {}
+}
+
+message WALArchiveRequest {
+  // This field is REQUIRED. Value of this field is the name of
+  // the CNPG cluster for which the WAL should be archived
+  string cluster_name = 1;
+
+  // This field is REQUIRED. Value of this field is the full path
+  // of the WAL file that should be archived
+  string source_file_name = 2;
+
+  // This field is OPTIONAL. Values are opaque.
+  map<string, string> parameters = 3;
+}
+
+message WALArchiveResult {
+    // Intentionally empty.
+}
+
+message WALRestoreRequest {
+  // This field is REQUIRED. Value of this field is the name of
+  // the CNPG cluster for which the WAL should be archived
+  string cluster_name = 1;
+
+  // This field is REQUIRED. Value of this field is the name of
+  // the WAL to be retrieved from the archive, such as:
+  // 000000010000000100000012
+  string source_wal_name = 2;
+
+  // This field is REQUIRED. Value of this field is the full path
+  // where the WAL file should be stored
+  string destination_file_name = 3;
+
+  // This field is OPTIONAL. Values are opaque.
+  map<string, string> parameters = 4;
+}
+
+message WALRestoreResult {
+    // Intentionally empty.
+}
+
+message WALStatusRequest {
+  // This field is REQUIRED. Value of this field is the name of
+  // the CNPG cluster for which the WAL should be archived
+  string cluster_name = 1;
+}
+
+message WALStatusResult {
+  // This field is REQUIRED. Value of this field is the base name of
+  // the oldest archived WAL, such as:
+  // 000000010000000100000012
+  string first_wal = 1;
+
+  // This field is REQUIRED. Value of this field is the base name of
+  // the newest archived WAL, such as:
+  // 000000010000000100000014
+  string last_wal = 2;
+
+  // This field is OPTIONAL. Value is opaque.
+  map<string, string> additional_information = 4;
+}
+
+message SetFirstRequiredRequest {
+  // This field is REQUIRED. Value of this field is the name of
+  // the CNPG cluster for which the WAL should be archived
+  string cluster_name = 1;
+
+  // This field is REQUIRED. Value of this field is the name of the first
+  // required WAL in the WAL archive for this cluster (normally based on the
+  // begin WAL of the first available base backup for the cluster)
+  string first_required_wal = 2;
+}
+
+message SetFirstRequiredResult {
+    // Intentionally empty.
+}
+
+message WALCapabilitiesRequest {
+    // Intentionally empty.
+}
+
+message WALCapabilitiesResult {
+  // All the capabilities that the controller service supports. This
+  // field is OPTIONAL.
+  repeated WALCapability capabilities = 1;
+}
+
+message WALCapability {
+  message RPC {
+    enum Type {
+      TYPE_UNSPECIFIED = 0;
+
+      // TYPE_ARCHIVE_WAL indicates that the Plugin is able to
+      // reply to the Archive RPC request
+      TYPE_ARCHIVE_WAL = 1;
+
+      // TYPE_RESTORE_WAL indicates that the Plugin is able to
+      // reply to the Restore RPC request
+      TYPE_RESTORE_WAL = 2;
+
+      // TYPE_STATUS indicates that the Plugin is able to
+      // reply to the Status RPC request
+      TYPE_STATUS = 3;
+
+      // TYPE_SET_FIRST_REQUIRED indicates that the Plugin is able to
+      // reply to the SetFirstRequired RPC request
+      TYPE_SET_FIRST_REQUIRED = 4;
+    }
+
+    Type type = 1;
+  }
+
+  oneof type {
+    RPC rpc = 1;
+  }
+}
