@@ -14,5 +14,5 @@ jobs:
         id: release
         with:
           release-type: go
-          package-name: backup-adapter
+          package-name: cnpg-i
           token: ${{secrets.REPO_PAT}}
