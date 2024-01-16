@@ -56,7 +56,9 @@ message WALRestoreResult {
 }
 
 message WALStatusRequest {
-    // Intentionally empty.
+    // This field is REQUIRED. Value of this field is the name of
+    // the CNPG cluster for which the WAL should be archived
+    string clusterName = 1;
 }
 
 message WALStatusResult {
