@@ -24,16 +24,16 @@ type WALCapability_RPC_Type int32
 
 const (
 	WALCapability_RPC_TYPE_UNSPECIFIED WALCapability_RPC_Type = 0
-	// ARCHIVE_WAL indicates that the Plugin is able to
+	// TYPE_ARCHIVE_WAL indicates that the Plugin is able to
 	// reply to the Archive RPC request
 	WALCapability_RPC_TYPE_ARCHIVE_WAL WALCapability_RPC_Type = 1
-	// RESTORE_WAL indicates that the Plugin is able to
+	// TYPE_RESTORE_WAL indicates that the Plugin is able to
 	// reply to the Restore RPC request
 	WALCapability_RPC_TYPE_RESTORE_WAL WALCapability_RPC_Type = 2
-	// STATUS indicates that the Plugin is able to
+	// TYPE_STATUS indicates that the Plugin is able to
 	// reply to the Status RPC request
 	WALCapability_RPC_TYPE_STATUS WALCapability_RPC_Type = 3
-	// SET_FIRST_REQUIRED indicates that the Plugin is able to
+	// TYPE_SET_FIRST_REQUIRED indicates that the Plugin is able to
 	// reply to the SetFirstRequired RPC request
 	WALCapability_RPC_TYPE_SET_FIRST_REQUIRED WALCapability_RPC_Type = 4
 )
