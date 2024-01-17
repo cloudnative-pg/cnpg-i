@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Identity_GetPluginInfo_FullMethodName         = "/cnpgi.identity.v1.Identity/GetPluginInfo"
+	Identity_GetPluginMetadata_FullMethodName     = "/cnpgi.identity.v1.Identity/GetPluginMetadata"
 	Identity_GetPluginCapabilities_FullMethodName = "/cnpgi.identity.v1.Identity/GetPluginCapabilities"
 	Identity_Probe_FullMethodName                 = "/cnpgi.identity.v1.Identity/Probe"
 )
@@ -28,8 +28,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type IdentityClient interface {
-	// GetPluginInfo gets the plugin metadata
-	GetPluginInfo(ctx context.Context, in *GetPluginInfoRequest, opts ...grpc.CallOption) (*GetPluginInfoResponse, error)
+	// GetPluginMetadata gets the plugin metadata
+	GetPluginMetadata(ctx context.Context, in *GetPluginMetadataRequest, opts ...grpc.CallOption) (*GetPluginMetadataResponse, error)
 	// GetPluginCapabilities gets information about this plugin
 	GetPluginCapabilities(ctx context.Context, in *GetPluginCapabilitiesRequest, opts ...grpc.CallOption) (*GetPluginCapabilitiesResponse, error)
 	// Probe is used to tell if the plugin is ready to receive requests
@@ -44,9 +44,9 @@ func NewIdentityClient(cc grpc.ClientConnInterface) IdentityClient {
 	return &identityClient{cc}
 }
 
-func (c *identityClient) GetPluginInfo(ctx context.Context, in *GetPluginInfoRequest, opts ...grpc.CallOption) (*GetPluginInfoResponse, error) {
-	out := new(GetPluginInfoResponse)
-	err := c.cc.Invoke(ctx, Identity_GetPluginInfo_FullMethodName, in, out, opts...)
+func (c *identityClient) GetPluginMetadata(ctx context.Context, in *GetPluginMetadataRequest, opts ...grpc.CallOption) (*GetPluginMetadataResponse, error) {
+	out := new(GetPluginMetadataResponse)
+	err := c.cc.Invoke(ctx, Identity_GetPluginMetadata_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -75,8 +75,8 @@ func (c *identityClient) Probe(ctx context.Context, in *ProbeRequest, opts ...gr
 // All implementations must embed UnimplementedIdentityServer
 // for forward compatibility
 type IdentityServer interface {
-	// GetPluginInfo gets the plugin metadata
-	GetPluginInfo(context.Context, *GetPluginInfoRequest) (*GetPluginInfoResponse, error)
+	// GetPluginMetadata gets the plugin metadata
+	GetPluginMetadata(context.Context, *GetPluginMetadataRequest) (*GetPluginMetadataResponse, error)
 	// GetPluginCapabilities gets information about this plugin
 	GetPluginCapabilities(context.Context, *GetPluginCapabilitiesRequest) (*GetPluginCapabilitiesResponse, error)
 	// Probe is used to tell if the plugin is ready to receive requests
@@ -88,8 +88,8 @@ type IdentityServer interface {
 type UnimplementedIdentityServer struct {
 }
 
-func (UnimplementedIdentityServer) GetPluginInfo(context.Context, *GetPluginInfoRequest) (*GetPluginInfoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPluginInfo not implemented")
+func (UnimplementedIdentityServer) GetPluginMetadata(context.Context, *GetPluginMetadataRequest) (*GetPluginMetadataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPluginMetadata not implemented")
 }
 func (UnimplementedIdentityServer) GetPluginCapabilities(context.Context, *GetPluginCapabilitiesRequest) (*GetPluginCapabilitiesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPluginCapabilities not implemented")
@@ -110,20 +110,20 @@ func RegisterIdentityServer(s grpc.ServiceRegistrar, srv IdentityServer) {
 	s.RegisterService(&Identity_ServiceDesc, srv)
 }
 
-func _Identity_GetPluginInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPluginInfoRequest)
+func _Identity_GetPluginMetadata_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPluginMetadataRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(IdentityServer).GetPluginInfo(ctx, in)
+		return srv.(IdentityServer).GetPluginMetadata(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Identity_GetPluginInfo_FullMethodName,
+		FullMethod: Identity_GetPluginMetadata_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(IdentityServer).GetPluginInfo(ctx, req.(*GetPluginInfoRequest))
+		return srv.(IdentityServer).GetPluginMetadata(ctx, req.(*GetPluginMetadataRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -172,8 +172,8 @@ var Identity_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*IdentityServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetPluginInfo",
-			Handler:    _Identity_GetPluginInfo_Handler,
+			MethodName: "GetPluginMetadata",
+			Handler:    _Identity_GetPluginMetadata_Handler,
 		},
 		{
 			MethodName: "GetPluginCapabilities",

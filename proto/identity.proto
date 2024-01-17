@@ -3,8 +3,8 @@ package cnpgi.identity.v1;
 option go_package = "github.com/cloudnative-pg/cnpg-i/pkg/identity";
 
 service Identity {
-  // GetPluginInfo gets the plugin metadata
-  rpc GetPluginInfo(GetPluginInfoRequest) returns (GetPluginInfoResponse) {}
+  // GetPluginMetadata gets the plugin metadata
+  rpc GetPluginMetadata(GetPluginMetadataRequest) returns (GetPluginMetadataResponse) {}
 
   // GetPluginCapabilities gets information about this plugin
   rpc GetPluginCapabilities(GetPluginCapabilitiesRequest) returns (GetPluginCapabilitiesResponse) {}
@@ -13,11 +13,11 @@ service Identity {
   rpc Probe (ProbeRequest) returns (ProbeResponse) {}
 }
 
-message GetPluginInfoRequest {
+message GetPluginMetadataRequest {
   // Intentionally empty.
 }
 
-message GetPluginInfoResponse {
+message GetPluginMetadataResponse {
   // The name MUST follow domain name notation format
   // (https://tools.ietf.org/html/rfc1035#section-2.3.1). It SHOULD
   // include the plugin's host company name and the plugin name,
