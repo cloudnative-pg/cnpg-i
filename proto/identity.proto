@@ -3,8 +3,8 @@ package cnpgi.identity.v1;
 option go_package = "github.com/cloudnative-pg/cnpg-i/pkg/identity";
 
 service Identity {
-  // GetPluginInfo gets the plugin metadata
-  rpc GetPluginInfo(GetPluginInfoRequest) returns (GetPluginInfoResponse) {}
+  // GetPluginMetadata gets the plugin metadata
+  rpc GetPluginMetadata(GetPluginMetadataRequest) returns (GetPluginMetadataResponse) {}
 
   // GetPluginCapabilities gets information about this plugin
   rpc GetPluginCapabilities(GetPluginCapabilitiesRequest) returns (GetPluginCapabilitiesResponse) {}
@@ -13,11 +13,11 @@ service Identity {
   rpc Probe (ProbeRequest) returns (ProbeResponse) {}
 }
 
-message GetPluginInfoRequest {
+message GetPluginMetadataRequest {
   // Intentionally empty.
 }
 
-message GetPluginInfoResponse {
+message GetPluginMetadataResponse {
   // The name MUST follow domain name notation format
   // (https://tools.ietf.org/html/rfc1035#section-2.3.1). It SHOULD
   // include the plugin's host company name and the plugin name,
@@ -28,10 +28,37 @@ message GetPluginInfoResponse {
   string name = 1;
 
   // This field is REQUIRED. Value of this field is opaque.
-  string vendor_version = 2;
+  string version = 2;
+
+  // A name to display for the plugin. This field is REQUIRED.
+  string display_name = 3;
+
+  // A description for the plugin. This field is REQUIRED.
+  string description = 4;
+
+  // URL of the home page of the plugin project.
+  string project_url = 5;
+
+  // URL of the source code repository for the plugin project.
+  string repository_url = 6;
+
+  // License of the plugin. This field is REQUIRED.
+  string license = 7;
+  
+  // URL of the license of the plugin. This field is REQUIRED.
+  string license_url = 8;
+
+  // Maturity level (alpha, beta, stable)
+  string maturity = 9;
+
+  // Provider/vendor of the plugin, e.g. an organization
+  string vendor = 10;
+
+  // A list of human or organizational entities maintaining the plugin
+  repeated string maintainers = 11;
 
   // This field is OPTIONAL. Values are opaque.
-  map<string, string> manifest = 3;
+  map<string, string> manifest = 12;
 }
 
 message GetPluginCapabilitiesRequest {
