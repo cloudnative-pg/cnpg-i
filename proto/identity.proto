@@ -28,10 +28,28 @@ message GetPluginInfoResponse {
   string name = 1;
 
   // This field is REQUIRED. Value of this field is opaque.
-  string vendor_version = 2;
+  string version = 2;
+
+  string display_name = 3;
+
+  string description = 4;
+
+  string project_url = 5;
+
+  string repository_url = 6;
+
+  string license = 7;
+  
+  string license_url = 8;
+
+  string maturity = 9;
+
+  string vendor = 10;
+
+  repeated string maintainers = 11;
 
   // This field is OPTIONAL. Values are opaque.
-  map<string, string> manifest = 3;
+  map<string, string> manifest = 12;
 }
 
 message GetPluginCapabilitiesRequest {
