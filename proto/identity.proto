@@ -30,22 +30,31 @@ message GetPluginInfoResponse {
   // This field is REQUIRED. Value of this field is opaque.
   string version = 2;
 
+  // A name to display for the plugin. This field is REQUIRED.
   string display_name = 3;
 
+  // A description for the plugin. This field is REQUIRED.
   string description = 4;
 
+  // URL of the home page of the plugin project.
   string project_url = 5;
 
+  // URL of the source code repository for the plugin project.
   string repository_url = 6;
 
+  // License of the plugin. This field is REQUIRED.
   string license = 7;
   
+  // URL of the license of the plugin. This field is REQUIRED.
   string license_url = 8;
 
+  // Maturity level (alpha, beta, stable)
   string maturity = 9;
 
+  // Provider/vendor of the plugin, e.g. an organization
   string vendor = 10;
 
+  // A list of human or organizational entities maintaining the plugin
   repeated string maintainers = 11;
 
   // This field is OPTIONAL. Values are opaque.
