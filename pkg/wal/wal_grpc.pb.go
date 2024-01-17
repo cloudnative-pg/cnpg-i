@@ -19,17 +19,19 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
+	WAL_GetCapabilities_FullMethodName  = "/cnpgi.adapter.v1.WAL/GetCapabilities"
 	WAL_Archive_FullMethodName          = "/cnpgi.adapter.v1.WAL/Archive"
 	WAL_Restore_FullMethodName          = "/cnpgi.adapter.v1.WAL/Restore"
 	WAL_Status_FullMethodName           = "/cnpgi.adapter.v1.WAL/Status"
 	WAL_SetFirstRequired_FullMethodName = "/cnpgi.adapter.v1.WAL/SetFirstRequired"
-	WAL_GetCapabilities_FullMethodName  = "/cnpgi.adapter.v1.WAL/GetCapabilities"
 )
 
 // WALClient is the client API for WAL service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type WALClient interface {
+	// GetCapabilities gets the capabilities of the WAL service
+	GetCapabilities(ctx context.Context, in *WALCapabilitiesRequest, opts ...grpc.CallOption) (*WALCapabilitiesResult, error)
 	// Archive copies one WAL file into the archive
 	Archive(ctx context.Context, in *WALArchiveRequest, opts ...grpc.CallOption) (*WALArchiveResult, error)
 	// Restores copies WAL file from the archive to the data directory
@@ -38,8 +40,6 @@ type WALClient interface {
 	Status(ctx context.Context, in *WALStatusRequest, opts ...grpc.CallOption) (*WALStatusResult, error)
 	// SetFirstRequired sets the first required WAL for the cluster
 	SetFirstRequired(ctx context.Context, in *SetFirstRequiredRequest, opts ...grpc.CallOption) (*SetFirstRequiredResult, error)
-	// GetCapabilities gets the capabilities of the WAL service
-	GetCapabilities(ctx context.Context, in *WALCapabilitiesRequest, opts ...grpc.CallOption) (*WALCapabilitiesResult, error)
 }
 
 type wALClient struct {
@@ -48,6 +48,15 @@ type wALClient struct {
 
 func NewWALClient(cc grpc.ClientConnInterface) WALClient {
 	return &wALClient{cc}
+}
+
+func (c *wALClient) GetCapabilities(ctx context.Context, in *WALCapabilitiesRequest, opts ...grpc.CallOption) (*WALCapabilitiesResult, error) {
+	out := new(WALCapabilitiesResult)
+	err := c.cc.Invoke(ctx, WAL_GetCapabilities_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *wALClient) Archive(ctx context.Context, in *WALArchiveRequest, opts ...grpc.CallOption) (*WALArchiveResult, error) {
@@ -86,19 +95,12 @@ func (c *wALClient) SetFirstRequired(ctx context.Context, in *SetFirstRequiredRe
 	return out, nil
 }
 
-func (c *wALClient) GetCapabilities(ctx context.Context, in *WALCapabilitiesRequest, opts ...grpc.CallOption) (*WALCapabilitiesResult, error) {
-	out := new(WALCapabilitiesResult)
-	err := c.cc.Invoke(ctx, WAL_GetCapabilities_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // WALServer is the server API for WAL service.
 // All implementations must embed UnimplementedWALServer
 // for forward compatibility
 type WALServer interface {
+	// GetCapabilities gets the capabilities of the WAL service
+	GetCapabilities(context.Context, *WALCapabilitiesRequest) (*WALCapabilitiesResult, error)
 	// Archive copies one WAL file into the archive
 	Archive(context.Context, *WALArchiveRequest) (*WALArchiveResult, error)
 	// Restores copies WAL file from the archive to the data directory
@@ -107,8 +109,6 @@ type WALServer interface {
 	Status(context.Context, *WALStatusRequest) (*WALStatusResult, error)
 	// SetFirstRequired sets the first required WAL for the cluster
 	SetFirstRequired(context.Context, *SetFirstRequiredRequest) (*SetFirstRequiredResult, error)
-	// GetCapabilities gets the capabilities of the WAL service
-	GetCapabilities(context.Context, *WALCapabilitiesRequest) (*WALCapabilitiesResult, error)
 	mustEmbedUnimplementedWALServer()
 }
 
@@ -116,6 +116,9 @@ type WALServer interface {
 type UnimplementedWALServer struct {
 }
 
+func (UnimplementedWALServer) GetCapabilities(context.Context, *WALCapabilitiesRequest) (*WALCapabilitiesResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCapabilities not implemented")
+}
 func (UnimplementedWALServer) Archive(context.Context, *WALArchiveRequest) (*WALArchiveResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Archive not implemented")
 }
@@ -128,9 +131,6 @@ func (UnimplementedWALServer) Status(context.Context, *WALStatusRequest) (*WALSt
 func (UnimplementedWALServer) SetFirstRequired(context.Context, *SetFirstRequiredRequest) (*SetFirstRequiredResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetFirstRequired not implemented")
 }
-func (UnimplementedWALServer) GetCapabilities(context.Context, *WALCapabilitiesRequest) (*WALCapabilitiesResult, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetCapabilities not implemented")
-}
 func (UnimplementedWALServer) mustEmbedUnimplementedWALServer() {}
 
 // UnsafeWALServer may be embedded to opt out of forward compatibility for this service.
@@ -142,6 +142,24 @@ type UnsafeWALServer interface {
 
 func RegisterWALServer(s grpc.ServiceRegistrar, srv WALServer) {
 	s.RegisterService(&WAL_ServiceDesc, srv)
+}
+
+func _WAL_GetCapabilities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(WALCapabilitiesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WALServer).GetCapabilities(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WAL_GetCapabilities_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WALServer).GetCapabilities(ctx, req.(*WALCapabilitiesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _WAL_Archive_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -216,24 +234,6 @@ func _WAL_SetFirstRequired_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WAL_GetCapabilities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(WALCapabilitiesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WALServer).GetCapabilities(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: WAL_GetCapabilities_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WALServer).GetCapabilities(ctx, req.(*WALCapabilitiesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // WAL_ServiceDesc is the grpc.ServiceDesc for WAL service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -241,6 +241,10 @@ var WAL_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "cnpgi.adapter.v1.WAL",
 	HandlerType: (*WALServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetCapabilities",
+			Handler:    _WAL_GetCapabilities_Handler,
+		},
 		{
 			MethodName: "Archive",
 			Handler:    _WAL_Archive_Handler,
@@ -256,10 +260,6 @@ var WAL_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SetFirstRequired",
 			Handler:    _WAL_SetFirstRequired_Handler,
-		},
-		{
-			MethodName: "GetCapabilities",
-			Handler:    _WAL_GetCapabilities_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
