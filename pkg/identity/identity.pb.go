@@ -131,16 +131,25 @@ type GetPluginInfoResponse struct {
 	// alphanumerics between. This field is REQUIRED.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// This field is REQUIRED. Value of this field is opaque.
-	Version       string   `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
-	DisplayName   string   `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
-	Description   string   `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
-	ProjectUrl    string   `protobuf:"bytes,5,opt,name=project_url,json=projectUrl,proto3" json:"project_url,omitempty"`
-	RepositoryUrl string   `protobuf:"bytes,6,opt,name=repository_url,json=repositoryUrl,proto3" json:"repository_url,omitempty"`
-	License       string   `protobuf:"bytes,7,opt,name=license,proto3" json:"license,omitempty"`
-	LicenseUrl    string   `protobuf:"bytes,8,opt,name=license_url,json=licenseUrl,proto3" json:"license_url,omitempty"`
-	Maturity      string   `protobuf:"bytes,9,opt,name=maturity,proto3" json:"maturity,omitempty"`
-	Vendor        string   `protobuf:"bytes,10,opt,name=vendor,proto3" json:"vendor,omitempty"`
-	Maintainers   []string `protobuf:"bytes,11,rep,name=maintainers,proto3" json:"maintainers,omitempty"`
+	Version string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
+	// A name to display for the plugin. This field is REQUIRED.
+	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	// A description for the plugin. This field is REQUIRED.
+	Description string `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	// URL of the home page of the plugin project.
+	ProjectUrl string `protobuf:"bytes,5,opt,name=project_url,json=projectUrl,proto3" json:"project_url,omitempty"`
+	// URL of the source code repository for the plugin project.
+	RepositoryUrl string `protobuf:"bytes,6,opt,name=repository_url,json=repositoryUrl,proto3" json:"repository_url,omitempty"`
+	// License of the plugin. This field is REQUIRED.
+	License string `protobuf:"bytes,7,opt,name=license,proto3" json:"license,omitempty"`
+	// URL of the license of the plugin. This field is REQUIRED.
+	LicenseUrl string `protobuf:"bytes,8,opt,name=license_url,json=licenseUrl,proto3" json:"license_url,omitempty"`
+	// Maturity level (alpha, beta, stable)
+	Maturity string `protobuf:"bytes,9,opt,name=maturity,proto3" json:"maturity,omitempty"`
+	// Provider/vendor of the plugin, e.g. an organization
+	Vendor string `protobuf:"bytes,10,opt,name=vendor,proto3" json:"vendor,omitempty"`
+	// A list of human or organizational entities maintaining the plugin
+	Maintainers []string `protobuf:"bytes,11,rep,name=maintainers,proto3" json:"maintainers,omitempty"`
 	// This field is OPTIONAL. Values are opaque.
 	Manifest map[string]string `protobuf:"bytes,12,rep,name=manifest,proto3" json:"manifest,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
