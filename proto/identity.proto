@@ -54,11 +54,8 @@ message GetPluginMetadataResponse {
   // Provider/vendor of the plugin, e.g. an organization
   string vendor = 10;
 
-  // A list of human or organizational entities maintaining the plugin
-  repeated string maintainers = 11;
-
   // This field is OPTIONAL. Values are opaque.
-  map<string, string> manifest = 12;
+  map<string, string> manifest = 11;
 }
 
 message GetPluginCapabilitiesRequest {
