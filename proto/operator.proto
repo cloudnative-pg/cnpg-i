@@ -24,8 +24,12 @@ service Operator {
 
 message OperatorMutatePodRequest {
   // This field is REQUIRED. Value of this field is the JSON
+  // serialization of the Cluster corresponding to the Pod being applied
+  string cluster_definition = 1;
+
+  // This field is REQUIRED. Value of this field is the JSON
   // serialization of the Pod that is being applied
-  string definition = 1;
+  string pod_definition = 2;
 }
 
 message OperatorMutatePodResult {
