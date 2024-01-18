@@ -25,11 +25,11 @@ service Operator {
 message OperatorMutatePodRequest {
   // This field is REQUIRED. Value of this field is the JSON
   // serialization of the Cluster corresponding to the Pod being applied
-  string cluster_definition = 1;
+  bytes cluster_definition = 1;
 
   // This field is REQUIRED. Value of this field is the JSON
   // serialization of the Pod that is being applied
-  string pod_definition = 2;
+  bytes pod_definition = 2;
 }
 
 message OperatorMutatePodResult {
@@ -37,7 +37,7 @@ message OperatorMutatePodResult {
   // serialization of the Pod as modified by the plugin.
   // If not present, the operator will assume that no changes
   // have been requested by the plugins
-  string definition = 1;
+  bytes definition = 1;
 }
 
 message OperatorCapabilitiesRequest {
@@ -53,7 +53,7 @@ message OperatorCapabilitiesResult {
 message OperatorValidateClusterCreateRequest {
   // This field is REQUIRED. Value of this field is the JSON
   // serialization of the Cluster that is being created
-  string definition = 1;
+  bytes definition = 1;
 }
 
 message OperatorValidateClusterCreateResult {
@@ -65,11 +65,11 @@ message OperatorValidateClusterCreateResult {
 message OperatorValidateClusterChangeRequest {
   // This field is REQUIRED. Value of this field is the JSON
   // serialization of the current Cluster definition
-  string old_cluster = 1;
+  bytes old_cluster = 1;
 
   // This field is REQUIRED. Value of this field is the JSON
   // serialization of the updated Cluster definition
-  string new_cluster = 2;
+  bytes new_cluster = 2;
 }
 
 message OperatorValidateClusterChangeResult {
@@ -82,14 +82,14 @@ message OperatorMutateClusterRequest {
   // This field is REQUIRED. Value of this field is the JSON
   // serialization of the Cluster that should receive the
   // default values
-  string definition = 1;
+  bytes definition = 1;
 }
 
 message OperatorMutateClusterResult {
   // This field is REQUIRED. Value of this field is the JSON
   // serialization of the Cluster that have received the
   // default values
-  string definition = 1;
+  bytes definition = 1;
 }
 
 message ValidationError {
