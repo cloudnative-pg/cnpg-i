@@ -33,11 +33,9 @@ message OperatorMutatePodRequest {
 }
 
 message OperatorMutatePodResult {
-  // This field is OPTIONAL. Value of this field is the JSON
-  // serialization of the Pod as modified by the plugin.
-  // If not present, the operator will assume that no changes
-  // have been requested by the plugins
-  bytes definition = 1;
+  // This field is OPTIONAL. Value of this field is a JSONPatch
+  // to be applied on the passed Pod definition
+  bytes json_patch = 1;
 }
 
 message OperatorCapabilitiesRequest {
@@ -86,10 +84,9 @@ message OperatorMutateClusterRequest {
 }
 
 message OperatorMutateClusterResult {
-  // This field is REQUIRED. Value of this field is the JSON
-  // serialization of the Cluster that have received the
-  // default values
-  bytes definition = 1;
+  // This field is OPTIONAL. Value of this field is a JSONPatch
+  // to be applied on the passed Cluster definition
+  bytes json_patch = 1;
 }
 
 message ValidationError {
