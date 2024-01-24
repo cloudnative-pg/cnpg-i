@@ -20,9 +20,9 @@ service WAL {
 }
 
 message WALArchiveRequest {
-  // This field is REQUIRED. Value of this field is the name of
-  // the CNPG cluster for which the WAL should be archived
-  string cluster_name = 1;
+  // This field is REQUIRED. Value of this field is the JSON
+  // serialization of the Cluster corresponding to the Pod being applied
+  bytes cluster_definition = 1;
 
   // This field is REQUIRED. Value of this field is the full path
   // of the WAL file that should be archived
@@ -37,9 +37,9 @@ message WALArchiveResult {
 }
 
 message WALRestoreRequest {
-  // This field is REQUIRED. Value of this field is the name of
-  // the CNPG cluster for which the WAL should be archived
-  string cluster_name = 1;
+  // This field is REQUIRED. Value of this field is the JSON
+  // serialization of the Cluster corresponding to the Pod being applied
+  bytes cluster_definition = 1;
 
   // This field is REQUIRED. Value of this field is the name of
   // the WAL to be retrieved from the archive, such as:
@@ -59,9 +59,9 @@ message WALRestoreResult {
 }
 
 message WALStatusRequest {
-  // This field is REQUIRED. Value of this field is the name of
-  // the CNPG cluster for which the WAL should be archived
-  string cluster_name = 1;
+  // This field is REQUIRED. Value of this field is the JSON
+  // serialization of the Cluster corresponding to the Pod being applied
+  bytes cluster_definition = 1;
 }
 
 message WALStatusResult {
@@ -80,9 +80,9 @@ message WALStatusResult {
 }
 
 message SetFirstRequiredRequest {
-  // This field is REQUIRED. Value of this field is the name of
-  // the CNPG cluster for which the WAL should be archived
-  string cluster_name = 1;
+  // This field is REQUIRED. Value of this field is the JSON
+  // serialization of the Cluster corresponding to the Pod being applied
+  bytes cluster_definition = 1;
 
   // This field is REQUIRED. Value of this field is the name of the first
   // required WAL in the WAL archive for this cluster (normally based on the
