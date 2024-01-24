@@ -17,9 +17,21 @@ service Operator {
   // MutateCluster fills in the defaults inside a Cluster resource
   rpc MutateCluster(OperatorMutateClusterRequest) returns (OperatorMutateClusterResult) {}
 
-  // MutatePod reconciles a Pod definition before it
-  // is applied in the Kubernetes cluster
-  rpc MutatePod(OperatorMutatePodRequest) returns (OperatorMutatePodResult) {}
+}
+
+message KubernetesResourceMutateRequest {
+  bytes cluster = 1;
+  bytes resource = 2;
+}
+
+message KubernetesResourceMutateResult {
+  bytes json_patch = 1;
+}
+
+service KubernetesCUD {
+  rpc Create(KubernetesResourceMutateRequest) returns (KubernetesResourceMutateResult){}
+  rpc Update(KubernetesResourceMutateRequest)  returns(KubernetesResourceMutateResult){}
+  rpc Delete(KubernetesResourceMutateRequest) returns(KubernetesResourceMutateResult){}
 }
 
 message OperatorMutatePodRequest {
@@ -43,9 +55,18 @@ message OperatorCapabilitiesRequest {
 }
 
 message OperatorCapabilitiesResult {
+  message SupportedKubernetesResource {
+    enum Type {
+      POD = 0;
+    }
+    repeated Type type = 1;
+  }
+
   // All the capabilities that the controller service supports. This
   // field is OPTIONAL.
-  repeated OperatorCapability capabilities = 1;
+  OperatorCapability capabilities = 1;
+  SupportedKubernetesResource resource = 2;
+
 }
 
 message OperatorValidateClusterCreateRequest {
@@ -103,31 +124,21 @@ message ValidationError {
 }
 
 message OperatorCapability {
-  message RPC {
-    enum Type {
-      TYPE_UNSPECIFIED = 0;
+  enum Type {
+    TYPE_UNSPECIFIED = 0;
 
-      // TYPE_VALIDATE_CLUSTER_CREATE indicates that the Plugin is able to
-      // reply to the ValidateClusterCreate RPC request
-      TYPE_VALIDATE_CLUSTER_CREATE = 1;
+    // TYPE_VALIDATE_CLUSTER_CREATE indicates that the Plugin is able to
+    // reply to the ValidateClusterCreate RPC request
+    TYPE_VALIDATE_CLUSTER_CREATE = 1;
 
-      // TYPE_VALIDATE_CLUSTER_CHANGE indicates that the Plugin is able to
-      // reply to the ValidateClusterChange RPC request
-      TYPE_VALIDATE_CLUSTER_CHANGE = 2;
+    // TYPE_VALIDATE_CLUSTER_CHANGE indicates that the Plugin is able to
+    // reply to the ValidateClusterChange RPC request
+    TYPE_VALIDATE_CLUSTER_CHANGE = 2;
 
-      // TYPE_MUTATE_CLUSTER indicates that the Plugin is able to
-      // reply to the MutateCluster RPC request
-      TYPE_MUTATE_CLUSTER = 3;
-
-      // TYPE_MUTATE_POD indicates that the Plugin is able to
-      // reply to the MutatePod RPC request
-      TYPE_MUTATE_POD = 4;
-    }
-
-    Type type = 1;
+    // TYPE_MUTATE_CLUSTER indicates that the Plugin is able to
+    // reply to the MutateCluster RPC request
+    TYPE_MUTATE_CLUSTER = 3;
   }
 
-  oneof type {
-    RPC rpc = 1;
-  }
+  repeated Type rpc = 1;
 }
