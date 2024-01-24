@@ -30,8 +30,8 @@ message KubernetesResourceMutateResult {
 
 service KubernetesCUD {
   rpc Create(KubernetesResourceMutateRequest) returns (KubernetesResourceMutateResult){}
-  rpc Update(KubernetesResourceMutateRequest)  returns(KubernetesResourceMutateResult){}
-  rpc Delete(KubernetesResourceMutateRequest) returns(KubernetesResourceMutateResult){}
+  rpc Update(KubernetesResourceMutateRequest) returns (KubernetesResourceMutateResult){}
+  rpc Delete(KubernetesResourceMutateRequest) returns (KubernetesResourceMutateResult){}
 }
 
 message OperatorMutatePodRequest {
@@ -57,9 +57,10 @@ message OperatorCapabilitiesRequest {
 message OperatorCapabilitiesResult {
   message SupportedKubernetesResource {
     enum Type {
-      POD = 0;
+      TYPE_UNSPECIFIED = 0;
+      TYPE_POD = 1;
     }
-    repeated Type type = 1;
+    repeated Type types = 1;
   }
 
   // All the capabilities that the controller service supports. This
@@ -140,5 +141,5 @@ message OperatorCapability {
     TYPE_MUTATE_CLUSTER = 3;
   }
 
-  repeated Type rpc = 1;
+  repeated Type rpcs = 1;
 }
