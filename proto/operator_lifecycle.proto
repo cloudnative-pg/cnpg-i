@@ -1,0 +1,60 @@
+syntax = "proto3";
+package cnpgi.identity.v1;
+option go_package = "github.com/cloudnative-pg/cnpg-i/pkg/lifecycle";
+
+service OperatorLifecycle {
+  // GetCapabilities gets the capabilities of the Lifecycle service
+  rpc GetCapabilities(OperatorLifecycleCapabilitiesRequest) returns (OperatorLifecycleCapabilitiesResponse) {}
+
+  // LifecycleHook allows the plugin to manipulate the Kubernetes resources
+  // before the CNPG operator applies them to the Kubernetes cluster.
+  rpc LifecycleHook(OperatorLifecycleRequest) returns (OperatorLifecycleResponse) {}
+}
+
+message OperatorLifecycleCapabilitiesRequest {
+  // This message is intentionally empty
+}
+
+message OperatorLifecycleCapabilitiesResponse {
+  // This message is OPTIONAL, containing the list of resources
+  // for which the lifecycle hook is called
+  repeated OperatorLifecycleCapabilities lifecycle_capabilities = 1;
+}
+
+message OperatorLifecycleCapabilities {
+  // The Kubernetes resource group (such as "apps" or empty for core resources)
+  string group = 1;
+
+  // The Kubernetes Kind name (such as "Cluster" or "Pod")
+  string kind = 2;
+
+  // The operation type
+  repeated OperatorOperationType operation_types = 3;
+}
+
+message OperatorOperationType {
+  // The operator type corresponds to the Kubernetes API method
+  enum Type {
+    TYPE_UNSPECIFIED = 0;
+    TYPE_PATCH = 1;
+    TYPE_UPDATE = 2;
+    TYPE_CREATE = 3;
+    TYPE_DELETE = 4;
+  }
+
+  Type type = 1;
+}
+
+message OperatorLifecycleRequest {
+  // This field is REQUIRED.
+  OperatorOperationType operation_type = 1;
+  // This field is REQUIRED
+  bytes cluster_definition = 2;
+  // This field is REQUIRED.
+  bytes object_definition = 3;
+}
+
+message OperatorLifecycleResponse {
+  // This field is OPTIONAL.
+  bytes json_patch = 1;
+}
