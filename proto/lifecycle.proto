@@ -1,0 +1,48 @@
+syntax = "proto3";
+package cnpgi.identity.v1;
+option go_package = "github.com/cloudnative-pg/cnpg-i/pkg/lifecycle";
+
+service Lifecycle {
+  rpc GetCapabilities(LifecycleCapabilitiesRequest) returns (LifecycleCapabilitiesResponse) {}
+  rpc LifecycleHook(LifecycleRequest) returns (LifecycleResponse) {}
+
+}
+
+message LifecycleCapabilities {
+  string group = 1;
+  string kind = 2;
+  repeated OperationType operation_type = 3;
+}
+
+message LifecycleCapabilitiesResponse {
+  repeated LifecycleCapabilities lifecycle_capabilities = 1;
+}
+
+message LifecycleCapabilitiesRequest {
+
+}
+
+message OperationType {
+  enum Type {
+    TYPE_PATCH = 0;
+    TYPE_UPDATE = 1;
+    TYPE_CREATE = 2;
+    TYPE_DELETE = 3;
+  }
+
+  Type type = 1;
+}
+
+message LifecycleRequest {
+  // This field is REQUIRED.
+  OperationType operation_type = 1;
+  // This field is REQUIRED
+  bytes cluster_definition = 2;
+  // This field is REQUIRED.
+  bytes object_definition = 3;
+}
+
+message LifecycleResponse {
+  // This field is OPTIONAL.
+  bytes json_patch = 1;
+}
