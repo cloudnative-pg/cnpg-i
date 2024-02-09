@@ -93,4 +93,7 @@ message BackupResult {
 
   // This field is REQUIRED and is set to true for online/hot backups and to false otherwise.
   bool online = 12;
+
+  // This field is OPTIONAL and contains all the plugin specific information that needs to be stored
+  map<string, string> metadata = 13;
 }
