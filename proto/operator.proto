@@ -21,11 +21,10 @@ service Operator {
   // is applied in the Kubernetes cluster
   rpc MutatePod(OperatorMutatePodRequest) returns (OperatorMutatePodResult) {}
 
-  // PreReconcile is executed after the operator gets the resources and update
-  // the status.
+  // PreReconcile is executed before the operator executes the reconciliation loop
   rpc PreReconcile(OperatorPreReconcileRequest) returns (OperatorPreReconcileResult) {}
 
-  // PostReconcile is executed at the end of the reconciliation loop
+  // PostReconcile is executed after the operator executes the reconciliation loop
   rpc PostReconcile(OperatorPostReconcileRequest) returns (OperatorPostReconcileResult) {}
 }
 
