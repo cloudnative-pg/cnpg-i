@@ -87,9 +87,16 @@ message PluginCapability {
       // as specific RPCs as indicated by GetCapabilities.
       TYPE_WAL_SERVICE = 2;
 
+      // TYPE_BACKUP_SERVICE indicates that the Plugin provides RPCs for
+      // the Backup service.
+      // The presence of this capability determines whether the CO will
+      // attempt to invoke the REQUIRED Backup Service RPCs, as well
+      // as specific RPCs as indicated by GetCapabilities.
+      TYPE_BACKUP_SERVICE = 3;
+
       // TYPE_LIFECYCLE_SERVICE indicates that the Plugin provider RPCs for
       // the Lifecycle service.
-      TYPE_LIFECYCLE_SERVICE = 3;
+      TYPE_LIFECYCLE_SERVICE = 4;
     }
     Type type = 1;
   }

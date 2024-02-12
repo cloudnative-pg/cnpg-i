@@ -1,0 +1,99 @@
+syntax = "proto3";
+package cnpgi.adapter.v1;
+option go_package = "github.com/cloudnative-pg/cnpg-i/pkg/backup";
+
+service Backup {
+  // GetCapabilities gets the capabilities of the Backup service
+  rpc GetCapabilities(BackupCapabilitiesRequest) returns (BackupCapabilitiesResult) {}
+
+  // Backup takes a physical backup of PostgreSQL.
+  rpc Backup(BackupRequest) returns (BackupResult) {}
+}
+
+message BackupCapabilitiesRequest {
+  // Intentionally empty.
+}
+
+message BackupCapabilitiesResult {
+  // All the capabilities that the controller service supports. This
+  // field is OPTIONAL.
+  repeated BackupCapability capabilities = 1;
+}
+
+message BackupCapability {
+  message RPC {
+    enum Type {
+      TYPE_UNSPECIFIED = 0;
+
+      // TYPE_BACKUP indicates that the Plugin is able to
+      // take physical backups. This feature is required for every
+      // plugin exposing the Backup service
+      TYPE_BACKUP = 1;
+    }
+
+    Type type = 1;
+  }
+
+  oneof type {
+    RPC rpc = 1;
+  }
+}
+
+message BackupRequest {
+  // This field is REQUIRED. Value of this field is the JSON
+  // serialization of the Cluster being backed up
+  bytes cluster_definition = 1;
+
+  // This field is REQUIRED. Value of this field is the JSON
+  // serialization of the Backup that is being taken
+  bytes backup_definition = 2;
+
+  // This field is OPTIONAL. Value of this field is the configuration
+  // of this backup as set in the Backup or in the ScheduledBackup object
+  map<string, string> parameters = 3;
+}
+
+message BackupResult {
+  // This field is REQUIRED and contains a machine-readable ID of the
+  // backup that is being taken
+  string backup_id = 1;
+
+  // This field is OPTIONAL and contains a human-readable name of the
+  // backup that is being taken
+  string backup_name = 2;
+
+  // This field is REQUIRED and contains the Unix timestamp of the start
+  // time of the backup
+  int64 started_at = 3;
+
+  // This field is REQUIRED and contains the Unix timestamp of the end
+  // time of the backup
+  int64 stopped_at = 4;
+
+  // This field is OPTIONAL and contains the current WAL when the backup was started
+  string begin_wal = 5;
+
+  // This field is OPTIONAL and contains the current WAL at the end of the backup
+  string end_wal = 6;
+
+  // This field is OPTIONAL and contains the current LSN record when the backup was started
+  string begin_lsn = 7;
+
+  // This field is OPTIONAL and contains the current LSN record when the backup has finished
+  string end_lsn = 8;
+
+  // This field is OPTIONAL and contains the backup label of the backup that have been taken
+  bytes backup_label_file = 9;
+
+  // This field is OPTIONAL and contains the tablespace map of the backup that have been taken
+  bytes tablespace_map_file = 10;
+
+  // This field is OPTIONAL and contains the ID of the instance that have been backed up
+  string instance_id = 11;
+
+  // This field is REQUIRED and is set to true for online/hot backups and to false otherwise.
+  bool online = 12;
+
+  // This field is OPTIONAL and contains all the plugin specific information that needs to be stored
+  map<string, string> metadata = 13;
+}
