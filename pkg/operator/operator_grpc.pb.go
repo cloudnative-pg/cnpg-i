@@ -24,6 +24,8 @@ const (
 	Operator_ValidateClusterChange_FullMethodName = "/cnpgi.adapter.v1.Operator/ValidateClusterChange"
 	Operator_MutateCluster_FullMethodName         = "/cnpgi.adapter.v1.Operator/MutateCluster"
 	Operator_MutatePod_FullMethodName             = "/cnpgi.adapter.v1.Operator/MutatePod"
+	Operator_PreReconcile_FullMethodName          = "/cnpgi.adapter.v1.Operator/PreReconcile"
+	Operator_PostReconcile_FullMethodName         = "/cnpgi.adapter.v1.Operator/PostReconcile"
 )
 
 // OperatorClient is the client API for Operator service.
@@ -43,6 +45,10 @@ type OperatorClient interface {
 	// MutatePod reconciles a Pod definition before it
 	// is applied in the Kubernetes cluster
 	MutatePod(ctx context.Context, in *OperatorMutatePodRequest, opts ...grpc.CallOption) (*OperatorMutatePodResult, error)
+	// PreReconcile is executed before the operator executes the reconciliation loop
+	PreReconcile(ctx context.Context, in *OperatorPreReconcileRequest, opts ...grpc.CallOption) (*OperatorPreReconcileResult, error)
+	// PostReconcile is executed after the operator executes the reconciliation loop
+	PostReconcile(ctx context.Context, in *OperatorPostReconcileRequest, opts ...grpc.CallOption) (*OperatorPostReconcileResult, error)
 }
 
 type operatorClient struct {
@@ -98,6 +104,24 @@ func (c *operatorClient) MutatePod(ctx context.Context, in *OperatorMutatePodReq
 	return out, nil
 }
 
+func (c *operatorClient) PreReconcile(ctx context.Context, in *OperatorPreReconcileRequest, opts ...grpc.CallOption) (*OperatorPreReconcileResult, error) {
+	out := new(OperatorPreReconcileResult)
+	err := c.cc.Invoke(ctx, Operator_PreReconcile_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *operatorClient) PostReconcile(ctx context.Context, in *OperatorPostReconcileRequest, opts ...grpc.CallOption) (*OperatorPostReconcileResult, error) {
+	out := new(OperatorPostReconcileResult)
+	err := c.cc.Invoke(ctx, Operator_PostReconcile_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OperatorServer is the server API for Operator service.
 // All implementations must embed UnimplementedOperatorServer
 // for forward compatibility
@@ -115,6 +139,10 @@ type OperatorServer interface {
 	// MutatePod reconciles a Pod definition before it
 	// is applied in the Kubernetes cluster
 	MutatePod(context.Context, *OperatorMutatePodRequest) (*OperatorMutatePodResult, error)
+	// PreReconcile is executed before the operator executes the reconciliation loop
+	PreReconcile(context.Context, *OperatorPreReconcileRequest) (*OperatorPreReconcileResult, error)
+	// PostReconcile is executed after the operator executes the reconciliation loop
+	PostReconcile(context.Context, *OperatorPostReconcileRequest) (*OperatorPostReconcileResult, error)
 	mustEmbedUnimplementedOperatorServer()
 }
 
@@ -136,6 +164,12 @@ func (UnimplementedOperatorServer) MutateCluster(context.Context, *OperatorMutat
 }
 func (UnimplementedOperatorServer) MutatePod(context.Context, *OperatorMutatePodRequest) (*OperatorMutatePodResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MutatePod not implemented")
+}
+func (UnimplementedOperatorServer) PreReconcile(context.Context, *OperatorPreReconcileRequest) (*OperatorPreReconcileResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PreReconcile not implemented")
+}
+func (UnimplementedOperatorServer) PostReconcile(context.Context, *OperatorPostReconcileRequest) (*OperatorPostReconcileResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PostReconcile not implemented")
 }
 func (UnimplementedOperatorServer) mustEmbedUnimplementedOperatorServer() {}
 
@@ -240,6 +274,42 @@ func _Operator_MutatePod_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Operator_PreReconcile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OperatorPreReconcileRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperatorServer).PreReconcile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Operator_PreReconcile_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperatorServer).PreReconcile(ctx, req.(*OperatorPreReconcileRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Operator_PostReconcile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OperatorPostReconcileRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperatorServer).PostReconcile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Operator_PostReconcile_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperatorServer).PostReconcile(ctx, req.(*OperatorPostReconcileRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Operator_ServiceDesc is the grpc.ServiceDesc for Operator service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -266,6 +336,14 @@ var Operator_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "MutatePod",
 			Handler:    _Operator_MutatePod_Handler,
+		},
+		{
+			MethodName: "PreReconcile",
+			Handler:    _Operator_PreReconcile_Handler,
+		},
+		{
+			MethodName: "PostReconcile",
+			Handler:    _Operator_PostReconcile_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

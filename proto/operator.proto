@@ -20,6 +20,12 @@ service Operator {
   // MutatePod reconciles a Pod definition before it
   // is applied in the Kubernetes cluster
   rpc MutatePod(OperatorMutatePodRequest) returns (OperatorMutatePodResult) {}
+
+  // PreReconcile is executed before the operator executes the reconciliation loop
+  rpc PreReconcile(OperatorPreReconcileRequest) returns (OperatorPreReconcileResult) {}
+
+  // PostReconcile is executed after the operator executes the reconciliation loop
+  rpc PostReconcile(OperatorPostReconcileRequest) returns (OperatorPostReconcileResult) {}
 }
 
 message OperatorMutatePodRequest {
@@ -122,6 +128,14 @@ message OperatorCapability {
       // TYPE_MUTATE_POD indicates that the Plugin is able to
       // reply to the MutatePod RPC request
       TYPE_MUTATE_POD = 4;
+
+      // TYPE_PRE_RECONCILE indicates that the Plugin is able to
+      // reply to the PreReconcile RPC request
+      TYPE_PRE_RECONCILE = 5;
+
+      // TYPE_POST_RECONCILE indicates that the Plugin is able to
+      // reply to the PostReconcile RPC request
+      TYPE_POST_RECONCILE = 6;
     }
 
     Type type = 1;
@@ -130,4 +144,42 @@ message OperatorCapability {
   oneof type {
     RPC rpc = 1;
   }
+}
+
+message OperatorPreReconcileRequest {
+  // This field is REQUIRED. Value of this field is the JSON
+  // serialization of the Cluster corresponding to the Pod being applied
+  bytes cluster_definition = 1;
+}
+
+message OperatorPreReconcileResult {
+  // This field is REQUIRED. If true, the current reconciliation loop
+  // will be stopped and a new one will be requested.
+  bool requeue = 1;
+
+  // This field is OPTIONAL. If true, the current reconciliation loop
+  // will be stopped and the operator will ensure that another one will
+  // be run in the requested number of seconds. IMPORTANT: the new
+  // reconciliation loop may start even before the number of specified
+  // seconds.
+  int64 requeue_after = 2;
+}
+
+message OperatorPostReconcileRequest {
+  // This field is REQUIRED. Value of this field is the JSON
+  // serialization of the Cluster corresponding to the Pod being applied
+  bytes cluster_definition = 1;
+}
+
+message OperatorPostReconcileResult {
+  // This field is REQUIRED. If true, the current reconciliation loop
+  // will be stopped and a new one will be requested.
+  bool requeue = 1;
+
+  // This field is OPTIONAL. If true, the current reconciliation loop
+  // will be stopped and the operator will ensure that another one will
+  // be run in the requested number of seconds. IMPORTANT: the new
+  // reconciliation loop may start even before the number of specified
+  // seconds.
+  int64 requeue_after = 2;
 }
