@@ -102,14 +102,6 @@ message OperatorCapability {
       // TYPE_MUTATE_POD indicates that the Plugin is able to
       // reply to the MutatePod RPC request
       TYPE_MUTATE_POD = 4;
-
-      // TYPE_PRE_RECONCILE indicates that the Plugin is able to
-      // reply to the PreReconcile RPC request
-      TYPE_PRE_RECONCILE = 5;
-
-      // TYPE_POST_RECONCILE indicates that the Plugin is able to
-      // reply to the PostReconcile RPC request
-      TYPE_POST_RECONCILE = 6;
     }
 
     Type type = 1;
