@@ -5,14 +5,13 @@ import (
 	"strings"
 )
 
-type ValidationErrors []ValidationError
+type ValidationErrors []*ValidationError
 
 func (v ValidationErrors) Error() string {
 	messages := make([]string, len(v))
 
 	for idx := range v {
-		validationError := &v[idx]
-		messages[idx] = validationError.Error()
+		messages[idx] = v[idx].Error()
 	}
 
 	return strings.Join(messages, ";")
