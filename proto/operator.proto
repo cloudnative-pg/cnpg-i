@@ -16,26 +16,6 @@ service Operator {
 
   // MutateCluster fills in the defaults inside a Cluster resource
   rpc MutateCluster(OperatorMutateClusterRequest) returns (OperatorMutateClusterResult) {}
-
-  // MutatePod reconciles a Pod definition before it
-  // is applied in the Kubernetes cluster
-  rpc MutatePod(OperatorMutatePodRequest) returns (OperatorMutatePodResult) {}
-}
-
-message OperatorMutatePodRequest {
-  // This field is REQUIRED. Value of this field is the JSON
-  // serialization of the Cluster corresponding to the Pod being applied
-  bytes cluster_definition = 1;
-
-  // This field is REQUIRED. Value of this field is the JSON
-  // serialization of the Pod that is being applied
-  bytes pod_definition = 2;
-}
-
-message OperatorMutatePodResult {
-  // This field is OPTIONAL. Value of this field is a JSONPatch
-  // to be applied on the passed Pod definition
-  bytes json_patch = 1;
 }
 
 message OperatorCapabilitiesRequest {

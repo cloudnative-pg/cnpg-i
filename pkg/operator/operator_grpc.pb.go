@@ -23,7 +23,6 @@ const (
 	Operator_ValidateClusterCreate_FullMethodName = "/cnpgi.adapter.v1.Operator/ValidateClusterCreate"
 	Operator_ValidateClusterChange_FullMethodName = "/cnpgi.adapter.v1.Operator/ValidateClusterChange"
 	Operator_MutateCluster_FullMethodName         = "/cnpgi.adapter.v1.Operator/MutateCluster"
-	Operator_MutatePod_FullMethodName             = "/cnpgi.adapter.v1.Operator/MutatePod"
 )
 
 // OperatorClient is the client API for Operator service.
@@ -40,9 +39,6 @@ type OperatorClient interface {
 	ValidateClusterChange(ctx context.Context, in *OperatorValidateClusterChangeRequest, opts ...grpc.CallOption) (*OperatorValidateClusterChangeResult, error)
 	// MutateCluster fills in the defaults inside a Cluster resource
 	MutateCluster(ctx context.Context, in *OperatorMutateClusterRequest, opts ...grpc.CallOption) (*OperatorMutateClusterResult, error)
-	// MutatePod reconciles a Pod definition before it
-	// is applied in the Kubernetes cluster
-	MutatePod(ctx context.Context, in *OperatorMutatePodRequest, opts ...grpc.CallOption) (*OperatorMutatePodResult, error)
 }
 
 type operatorClient struct {
@@ -89,15 +85,6 @@ func (c *operatorClient) MutateCluster(ctx context.Context, in *OperatorMutateCl
 	return out, nil
 }
 
-func (c *operatorClient) MutatePod(ctx context.Context, in *OperatorMutatePodRequest, opts ...grpc.CallOption) (*OperatorMutatePodResult, error) {
-	out := new(OperatorMutatePodResult)
-	err := c.cc.Invoke(ctx, Operator_MutatePod_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // OperatorServer is the server API for Operator service.
 // All implementations must embed UnimplementedOperatorServer
 // for forward compatibility
@@ -112,9 +99,6 @@ type OperatorServer interface {
 	ValidateClusterChange(context.Context, *OperatorValidateClusterChangeRequest) (*OperatorValidateClusterChangeResult, error)
 	// MutateCluster fills in the defaults inside a Cluster resource
 	MutateCluster(context.Context, *OperatorMutateClusterRequest) (*OperatorMutateClusterResult, error)
-	// MutatePod reconciles a Pod definition before it
-	// is applied in the Kubernetes cluster
-	MutatePod(context.Context, *OperatorMutatePodRequest) (*OperatorMutatePodResult, error)
 	mustEmbedUnimplementedOperatorServer()
 }
 
@@ -133,9 +117,6 @@ func (UnimplementedOperatorServer) ValidateClusterChange(context.Context, *Opera
 }
 func (UnimplementedOperatorServer) MutateCluster(context.Context, *OperatorMutateClusterRequest) (*OperatorMutateClusterResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MutateCluster not implemented")
-}
-func (UnimplementedOperatorServer) MutatePod(context.Context, *OperatorMutatePodRequest) (*OperatorMutatePodResult, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method MutatePod not implemented")
 }
 func (UnimplementedOperatorServer) mustEmbedUnimplementedOperatorServer() {}
 
@@ -222,24 +203,6 @@ func _Operator_MutateCluster_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Operator_MutatePod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OperatorMutatePodRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OperatorServer).MutatePod(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Operator_MutatePod_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperatorServer).MutatePod(ctx, req.(*OperatorMutatePodRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // Operator_ServiceDesc is the grpc.ServiceDesc for Operator service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -262,10 +225,6 @@ var Operator_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "MutateCluster",
 			Handler:    _Operator_MutateCluster_Handler,
-		},
-		{
-			MethodName: "MutatePod",
-			Handler:    _Operator_MutatePod_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
