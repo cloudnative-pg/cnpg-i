@@ -20,12 +20,6 @@ service Operator {
   // MutatePod reconciles a Pod definition before it
   // is applied in the Kubernetes cluster
   rpc MutatePod(OperatorMutatePodRequest) returns (OperatorMutatePodResult) {}
-
-  // PreReconcile is executed before the operator executes the reconciliation loop
-  rpc PreReconcile(OperatorPreReconcileRequest) returns (OperatorPreReconcileResult) {}
-
-  // PostReconcile is executed after the operator executes the reconciliation loop
-  rpc PostReconcile(OperatorPostReconcileRequest) returns (OperatorPostReconcileResult) {}
 }
 
 message OperatorMutatePodRequest {
@@ -144,42 +138,4 @@ message OperatorCapability {
   oneof type {
     RPC rpc = 1;
   }
-}
-
-message OperatorPreReconcileRequest {
-  // This field is REQUIRED. Value of this field is the JSON
-  // serialization of the Cluster corresponding to the Pod being applied
-  bytes cluster_definition = 1;
-}
-
-message OperatorPreReconcileResult {
-  // This field is REQUIRED. If true, the current reconciliation loop
-  // will be stopped and a new one will be requested.
-  bool requeue = 1;
-
-  // This field is OPTIONAL. If true, the current reconciliation loop
-  // will be stopped and the operator will ensure that another one will
-  // be run in the requested number of seconds. IMPORTANT: the new
-  // reconciliation loop may start even before the number of specified
-  // seconds.
-  int64 requeue_after = 2;
-}
-
-message OperatorPostReconcileRequest {
-  // This field is REQUIRED. Value of this field is the JSON
-  // serialization of the Cluster corresponding to the Pod being applied
-  bytes cluster_definition = 1;
-}
-
-message OperatorPostReconcileResult {
-  // This field is REQUIRED. If true, the current reconciliation loop
-  // will be stopped and a new one will be requested.
-  bool requeue = 1;
-
-  // This field is OPTIONAL. If true, the current reconciliation loop
-  // will be stopped and the operator will ensure that another one will
-  // be run in the requested number of seconds. IMPORTANT: the new
-  // reconciliation loop may start even before the number of specified
-  // seconds.
-  int64 requeue_after = 2;
 }
