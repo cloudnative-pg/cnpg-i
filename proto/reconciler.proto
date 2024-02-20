@@ -1,0 +1,79 @@
+syntax = "proto3";
+package cnpgi.adapter.v1;
+option go_package = "github.com/cloudnative-pg/cnpg-i/pkg/controller/reconciler";
+
+service ReconcilerHooks {
+  // GetCapabilities gets the capabilities of the Backup service
+  rpc GetCapabilities(ReconcilerHooksCapabilitiesRequest) returns (ReconcilerHooksCapabilitiesResult) {}
+
+  // Pre is executed before the operator executes the reconciliation loop
+  rpc Pre(ReconcilerHooksRequest) returns (ReconcilerHooksResult) {}
+
+  // Post is executed after the operator executes the reconciliation loop
+  rpc Post(ReconcilerHooksRequest) returns (ReconcilerHooksResult) {}
+}
+
+message ReconcilerHooksCapabilitiesRequest {
+}
+
+message ReconcilerHooksCapabilitiesResult {
+  // This message is OPTIONAL, containing the list of resources
+  // for which the lifecycle hook is called
+  repeated ReconcilerHooksCapability reconciler_capabilities = 1;
+}
+
+message ReconcilerHooksCapability {
+  enum Kind {
+    KIND_UNSPECIFIED = 0;
+
+    // KIND_CLUSTER indicates that the plugin will plug the
+    // Cluster reconciler
+    KIND_CLUSTER = 1;
+
+    // KIND_BACKUP indicates that the plugin will plug the
+    // Backup reconciler
+    KIND_BACKUP = 2;
+  }
+
+  // kind is the controller Kind
+  Kind kind = 1;
+}
+
+message ReconcilerHooksRequest {
+  // This field is REQUIRED. Value of this field is the JSON
+  // serialization of the Cluster corresponding to the Pod being applied
+  bytes cluster_definition = 1;
+
+  // This field is REQUIRED. Value of this field is the JSON
+  // serialization of the resource being reconciled
+  bytes resource_definition = 2;
+}
+
+message ReconcilerHooksResult {
+  enum Behavior {
+    BEHAVIOR_UNSPECIFIED = 0;
+
+    // BEHAVIOR_CONTINUE indicates that this reconciliation loop will
+    // proceed running.
+    BEHAVIOR_CONTINUE = 1;
+
+    // BEHAVIOR_REQUEUE indicates that this reconciliation loop will
+    // be stopped and a new one will be requested
+    BEHAVIOR_REQUEUE = 2;
+
+    // BEHAVIOR_TERMINATE indicates that this reconciliation loop will
+    // be marked as succeded and no other operations will be done.
+    BEHAVIOR_TERMINATE = 3;
+  }
+
+  // This field is REQUIRED, and indicates the behavior that should
+  // be used for the current reconciliation loog.
+  Behavior behavior = 1;
+
+  // This field is OPTIONAL. If true, the current reconciliation loop
+  // will be stopped and the operator will ensure that another one will
+  // be run in the requested number of seconds. IMPORTANT: the new
+  // reconciliation loop may start even before the number of specified
+  // seconds.
+  int64 requeue_after = 2;
+}

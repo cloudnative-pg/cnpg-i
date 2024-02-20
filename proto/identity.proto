@@ -94,9 +94,13 @@ message PluginCapability {
       // as specific RPCs as indicated by GetCapabilities.
       TYPE_BACKUP_SERVICE = 3;
 
-      // TYPE_LIFECYCLE_SERVICE indicates that the Plugin provider RPCs for
+      // TYPE_LIFECYCLE_SERVICE indicates that the Plugin provides RPCs for
       // the Lifecycle service.
       TYPE_LIFECYCLE_SERVICE = 4;
+
+      // TYPE_RECONCILER_HOOKS indicates that the Plugin provides RPCs to
+      // enhance the behavior of the reconcilers
+      TYPE_RECONCILER_HOOKS = 5;
     }
     Type type = 1;
   }
