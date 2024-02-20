@@ -1,6 +1,6 @@
 syntax = "proto3";
 package cnpgi.adapter.v1;
-option go_package = "github.com/cloudnative-pg/cnpg-i/pkg/controller/reconciler";
+option go_package = "github.com/cloudnative-pg/cnpg-i/pkg/reconciler";
 
 service ReconcilerHooks {
   // GetCapabilities gets the capabilities of the Backup service
