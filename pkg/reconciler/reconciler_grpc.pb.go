@@ -19,9 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ReconcilerHooks_GetCapabilities_FullMethodName = "/cnpgi.adapter.v1.ReconcilerHooks/GetCapabilities"
-	ReconcilerHooks_Pre_FullMethodName             = "/cnpgi.adapter.v1.ReconcilerHooks/Pre"
-	ReconcilerHooks_Post_FullMethodName            = "/cnpgi.adapter.v1.ReconcilerHooks/Post"
+	ReconcilerHooks_GetCapabilities_FullMethodName = "/cnpgi.reconciler.v1.ReconcilerHooks/GetCapabilities"
+	ReconcilerHooks_Pre_FullMethodName             = "/cnpgi.reconciler.v1.ReconcilerHooks/Pre"
+	ReconcilerHooks_Post_FullMethodName            = "/cnpgi.reconciler.v1.ReconcilerHooks/Post"
 )
 
 // ReconcilerHooksClient is the client API for ReconcilerHooks service.
@@ -168,7 +168,7 @@ func _ReconcilerHooks_Post_Handler(srv interface{}, ctx context.Context, dec fun
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ReconcilerHooks_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "cnpgi.adapter.v1.ReconcilerHooks",
+	ServiceName: "cnpgi.reconciler.v1.ReconcilerHooks",
 	HandlerType: (*ReconcilerHooksServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
