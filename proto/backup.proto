@@ -1,5 +1,5 @@
 syntax = "proto3";
-package cnpgi.adapter.v1;
+package cnpgi.backup.v1;
 option go_package = "github.com/cloudnative-pg/cnpg-i/pkg/backup";
 
 service Backup {

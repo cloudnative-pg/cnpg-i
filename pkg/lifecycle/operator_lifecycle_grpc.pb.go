@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	OperatorLifecycle_GetCapabilities_FullMethodName = "/cnpgi.identity.v1.OperatorLifecycle/GetCapabilities"
-	OperatorLifecycle_LifecycleHook_FullMethodName   = "/cnpgi.identity.v1.OperatorLifecycle/LifecycleHook"
+	OperatorLifecycle_GetCapabilities_FullMethodName = "/cnpgi.operator_lifecycle.v1.OperatorLifecycle/GetCapabilities"
+	OperatorLifecycle_LifecycleHook_FullMethodName   = "/cnpgi.operator_lifecycle.v1.OperatorLifecycle/LifecycleHook"
 )
 
 // OperatorLifecycleClient is the client API for OperatorLifecycle service.
@@ -135,7 +135,7 @@ func _OperatorLifecycle_LifecycleHook_Handler(srv interface{}, ctx context.Conte
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var OperatorLifecycle_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "cnpgi.identity.v1.OperatorLifecycle",
+	ServiceName: "cnpgi.operator_lifecycle.v1.OperatorLifecycle",
 	HandlerType: (*OperatorLifecycleServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

@@ -19,11 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	WAL_GetCapabilities_FullMethodName  = "/cnpgi.adapter.v1.WAL/GetCapabilities"
-	WAL_Archive_FullMethodName          = "/cnpgi.adapter.v1.WAL/Archive"
-	WAL_Restore_FullMethodName          = "/cnpgi.adapter.v1.WAL/Restore"
-	WAL_Status_FullMethodName           = "/cnpgi.adapter.v1.WAL/Status"
-	WAL_SetFirstRequired_FullMethodName = "/cnpgi.adapter.v1.WAL/SetFirstRequired"
+	WAL_GetCapabilities_FullMethodName  = "/cnpgi.wal.v1.WAL/GetCapabilities"
+	WAL_Archive_FullMethodName          = "/cnpgi.wal.v1.WAL/Archive"
+	WAL_Restore_FullMethodName          = "/cnpgi.wal.v1.WAL/Restore"
+	WAL_Status_FullMethodName           = "/cnpgi.wal.v1.WAL/Status"
+	WAL_SetFirstRequired_FullMethodName = "/cnpgi.wal.v1.WAL/SetFirstRequired"
 )
 
 // WALClient is the client API for WAL service.
@@ -238,7 +238,7 @@ func _WAL_SetFirstRequired_Handler(srv interface{}, ctx context.Context, dec fun
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var WAL_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "cnpgi.adapter.v1.WAL",
+	ServiceName: "cnpgi.wal.v1.WAL",
 	HandlerType: (*WALServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

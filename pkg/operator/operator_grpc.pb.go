@@ -19,10 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Operator_GetCapabilities_FullMethodName       = "/cnpgi.adapter.v1.Operator/GetCapabilities"
-	Operator_ValidateClusterCreate_FullMethodName = "/cnpgi.adapter.v1.Operator/ValidateClusterCreate"
-	Operator_ValidateClusterChange_FullMethodName = "/cnpgi.adapter.v1.Operator/ValidateClusterChange"
-	Operator_MutateCluster_FullMethodName         = "/cnpgi.adapter.v1.Operator/MutateCluster"
+	Operator_GetCapabilities_FullMethodName       = "/cnpgi.operator.v1.Operator/GetCapabilities"
+	Operator_ValidateClusterCreate_FullMethodName = "/cnpgi.operator.v1.Operator/ValidateClusterCreate"
+	Operator_ValidateClusterChange_FullMethodName = "/cnpgi.operator.v1.Operator/ValidateClusterChange"
+	Operator_MutateCluster_FullMethodName         = "/cnpgi.operator.v1.Operator/MutateCluster"
 )
 
 // OperatorClient is the client API for Operator service.
@@ -207,7 +207,7 @@ func _Operator_MutateCluster_Handler(srv interface{}, ctx context.Context, dec f
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Operator_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "cnpgi.adapter.v1.Operator",
+	ServiceName: "cnpgi.operator.v1.Operator",
 	HandlerType: (*OperatorServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

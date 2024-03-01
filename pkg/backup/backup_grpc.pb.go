@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Backup_GetCapabilities_FullMethodName = "/cnpgi.adapter.v1.Backup/GetCapabilities"
-	Backup_Backup_FullMethodName          = "/cnpgi.adapter.v1.Backup/Backup"
+	Backup_GetCapabilities_FullMethodName = "/cnpgi.backup.v1.Backup/GetCapabilities"
+	Backup_Backup_FullMethodName          = "/cnpgi.backup.v1.Backup/Backup"
 )
 
 // BackupClient is the client API for Backup service.
@@ -133,7 +133,7 @@ func _Backup_Backup_Handler(srv interface{}, ctx context.Context, dec func(inter
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Backup_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "cnpgi.adapter.v1.Backup",
+	ServiceName: "cnpgi.backup.v1.Backup",
 	HandlerType: (*BackupServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

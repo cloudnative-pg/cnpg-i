@@ -1,5 +1,5 @@
 syntax = "proto3";
-package cnpgi.identity.v1;
+package cnpgi.operator_lifecycle.v1;
 option go_package = "github.com/cloudnative-pg/cnpg-i/pkg/lifecycle";
 
 service OperatorLifecycle {
