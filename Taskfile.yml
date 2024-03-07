@@ -50,7 +50,7 @@ tasks:
   commitlint:
     desc: Check for conventional commits
     cmds:
-      - dagger call -m dagger/commitlint lint --source . --args "--from=main" stdout
+      - dagger call -m dagger/commitlint lint --source . --args "--from=origin/main" stdout
 
   uncommitted:
     desc: Check for uncommitted changes
