@@ -1,10 +1,11 @@
-package operator
+package operator //nolint:revive,stylecheck
 
 import (
 	"fmt"
 	"strings"
 )
 
+// ValidationErrors is a list of validation errors.
 type ValidationErrors []*ValidationError
 
 func (v ValidationErrors) Error() string {
