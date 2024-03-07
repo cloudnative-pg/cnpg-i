@@ -52,8 +52,18 @@ tasks:
     cmds:
       - dagger call -m dagger/commitlint lint --source . --args "--from=main" stdout
 
-  all:
+  uncommitted:
+    desc: Check for uncommitted changes
+    deps:
+      - build
+    cmds:
+      - dagger call -m dagger/uncommitted/ check-uncommitted --source . stdout
+    sources:
+      - ./**
+
+  ci:
     desc: Run the CI pipeline
     deps:
       - build
       - commitlint
+      - uncommitted
