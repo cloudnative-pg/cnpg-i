@@ -605,7 +605,7 @@ func invoke(ctx context.Context, parentJSON []byte, parentName string, fnName st
 					panic(fmt.Errorf("%s: %w", "failed to unmarshal input arg args", err))
 				}
 			}
-			return (*Protolint).Lint(&parent, ctx, source, args)
+			return (*Protolint).Lint(&parent, ctx, source, args), nil
 		case "":
 			var parent Protolint
 			err = json.Unmarshal(parentJSON, &parent)
@@ -629,7 +629,7 @@ func invoke(ctx context.Context, parentJSON []byte, parentName string, fnName st
 				dag.TypeDef().WithObject("Protolint").
 					WithFunction(
 						dag.Function("Lint",
-							dag.TypeDef().WithKind(StringKind)).
+							dag.TypeDef().WithObject("Container")).
 							WithDescription("Lint runs protolint on proto files.\n\nExample usage: dagger call run --source /path/ --args \"-config_path=.protolint.yaml\" --args .").
 							WithArg("source", dag.TypeDef().WithObject("Directory"), FunctionWithArgOpts{Description: "The directory of the repository."}).
 							WithArg("args", dag.TypeDef().WithListOf(dag.TypeDef().WithKind(StringKind)).WithOptional(true), FunctionWithArgOpts{Description: "A list of arguments to pass to commitlint."})).

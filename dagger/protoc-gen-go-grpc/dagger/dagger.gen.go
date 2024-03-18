@@ -504,17 +504,23 @@ func convertSlice[I any, O any](in []I, f func(I) O) []O {
 	return out
 }
 
-func (r ProtocGenGoGrpc) MarshalJSON() ([]byte, error) {
-	var concrete struct{}
+func (r ProtocGenGoGRPC) MarshalJSON() ([]byte, error) {
+	var concrete struct {
+		Ctr *Container
+	}
+	concrete.Ctr = r.Ctr
 	return json.Marshal(&concrete)
 }
 
-func (r *ProtocGenGoGrpc) UnmarshalJSON(bs []byte) error {
-	var concrete struct{}
+func (r *ProtocGenGoGRPC) UnmarshalJSON(bs []byte) error {
+	var concrete struct {
+		Ctr *Container
+	}
 	err := json.Unmarshal(bs, &concrete)
 	if err != nil {
 		return err
 	}
+	r.Ctr = concrete.Ctr
 	return nil
 }
 
@@ -577,62 +583,112 @@ func main() {
 
 func invoke(ctx context.Context, parentJSON []byte, parentName string, fnName string, inputArgs map[string][]byte) (_ any, err error) {
 	switch parentName {
-	case "ProtocGenGoGrpc":
+	case "ProtocGenGoGRPC":
 		switch fnName {
-		case "ContainerEcho":
-			var parent ProtocGenGoGrpc
+		case "Container":
+			var parent ProtocGenGoGRPC
 			err = json.Unmarshal(parentJSON, &parent)
 			if err != nil {
 				panic(fmt.Errorf("%s: %w", "failed to unmarshal parent object", err))
 			}
-			var stringArg string
-			if inputArgs["stringArg"] != nil {
-				err = json.Unmarshal([]byte(inputArgs["stringArg"]), &stringArg)
-				if err != nil {
-					panic(fmt.Errorf("%s: %w", "failed to unmarshal input arg stringArg", err))
-				}
-			}
-			return (*ProtocGenGoGrpc).ContainerEcho(&parent, stringArg), nil
-		case "GrepDir":
-			var parent ProtocGenGoGrpc
+			return (*ProtocGenGoGRPC).Container(&parent), nil
+		case "Run":
+			var parent ProtocGenGoGRPC
 			err = json.Unmarshal(parentJSON, &parent)
 			if err != nil {
 				panic(fmt.Errorf("%s: %w", "failed to unmarshal parent object", err))
 			}
-			var directoryArg *Directory
-			if inputArgs["directoryArg"] != nil {
-				err = json.Unmarshal([]byte(inputArgs["directoryArg"]), &directoryArg)
+			var source *Directory
+			if inputArgs["source"] != nil {
+				err = json.Unmarshal([]byte(inputArgs["source"]), &source)
 				if err != nil {
-					panic(fmt.Errorf("%s: %w", "failed to unmarshal input arg directoryArg", err))
+					panic(fmt.Errorf("%s: %w", "failed to unmarshal input arg source", err))
 				}
 			}
-			var pattern string
-			if inputArgs["pattern"] != nil {
-				err = json.Unmarshal([]byte(inputArgs["pattern"]), &pattern)
+			var protoPath string
+			if inputArgs["protoPath"] != nil {
+				err = json.Unmarshal([]byte(inputArgs["protoPath"]), &protoPath)
 				if err != nil {
-					panic(fmt.Errorf("%s: %w", "failed to unmarshal input arg pattern", err))
+					panic(fmt.Errorf("%s: %w", "failed to unmarshal input arg protoPath", err))
 				}
 			}
-			return (*ProtocGenGoGrpc).GrepDir(&parent, ctx, directoryArg, pattern)
+			var goOpt string
+			if inputArgs["goOpt"] != nil {
+				err = json.Unmarshal([]byte(inputArgs["goOpt"]), &goOpt)
+				if err != nil {
+					panic(fmt.Errorf("%s: %w", "failed to unmarshal input arg goOpt", err))
+				}
+			}
+			var goGrpcopt string
+			if inputArgs["goGRPCOpt"] != nil {
+				err = json.Unmarshal([]byte(inputArgs["goGRPCOpt"]), &goGrpcopt)
+				if err != nil {
+					panic(fmt.Errorf("%s: %w", "failed to unmarshal input arg goGRPCOpt", err))
+				}
+			}
+			return (*ProtocGenGoGRPC).Run(&parent, source, protoPath, goOpt, goGrpcopt), nil
+		case "":
+			var parent ProtocGenGoGRPC
+			err = json.Unmarshal(parentJSON, &parent)
+			if err != nil {
+				panic(fmt.Errorf("%s: %w", "failed to unmarshal parent object", err))
+			}
+			var goImage string
+			if inputArgs["goImage"] != nil {
+				err = json.Unmarshal([]byte(inputArgs["goImage"]), &goImage)
+				if err != nil {
+					panic(fmt.Errorf("%s: %w", "failed to unmarshal input arg goImage", err))
+				}
+			}
+			var protobufVersion string
+			if inputArgs["protobufVersion"] != nil {
+				err = json.Unmarshal([]byte(inputArgs["protobufVersion"]), &protobufVersion)
+				if err != nil {
+					panic(fmt.Errorf("%s: %w", "failed to unmarshal input arg protobufVersion", err))
+				}
+			}
+			var protocGenGoVersion string
+			if inputArgs["protocGenGoVersion"] != nil {
+				err = json.Unmarshal([]byte(inputArgs["protocGenGoVersion"]), &protocGenGoVersion)
+				if err != nil {
+					panic(fmt.Errorf("%s: %w", "failed to unmarshal input arg protocGenGoVersion", err))
+				}
+			}
+			var protocGenGoGrpcversion string
+			if inputArgs["protocGenGoGRPCVersion"] != nil {
+				err = json.Unmarshal([]byte(inputArgs["protocGenGoGRPCVersion"]), &protocGenGoGrpcversion)
+				if err != nil {
+					panic(fmt.Errorf("%s: %w", "failed to unmarshal input arg protocGenGoGRPCVersion", err))
+				}
+			}
+			return New(goImage, protobufVersion, protocGenGoVersion, protocGenGoGrpcversion), nil
 		default:
 			return nil, fmt.Errorf("unknown function %s", fnName)
 		}
 	case "":
 		return dag.Module().
-			WithDescription("A generated module for ProtocGenGoGrpc functions\n\nThis module has been generated via dagger init and serves as a reference to\nbasic module structure as you get started with Dagger.\n\nTwo functions have been pre-created. You can modify, delete, or add to them,\nas needed. They demonstrate usage of arguments and return types using simple\necho and grep commands. The functions can be called from the dagger CLI or\nfrom one of the SDKs.\n\nThe first line in this comment block is a short description line and the\nrest is a long description with more detail on the module's purpose or usage,\nif appropriate. All modules should have a short description.\n").
+			WithDescription("A generated module for ProtocGenGoGRPC functions\n").
 			WithObject(
-				dag.TypeDef().WithObject("ProtocGenGoGrpc").
+				dag.TypeDef().WithObject("ProtocGenGoGRPC").
 					WithFunction(
-						dag.Function("ContainerEcho",
+						dag.Function("Container",
 							dag.TypeDef().WithObject("Container")).
-							WithDescription("Returns a container that echoes whatever string argument is provided").
-							WithArg("stringArg", dag.TypeDef().WithKind(StringKind))).
+							WithDescription("Container get the current container")).
 					WithFunction(
-						dag.Function("GrepDir",
-							dag.TypeDef().WithKind(StringKind)).
-							WithDescription("Returns lines that match a pattern in the files of the provided Directory").
-							WithArg("directoryArg", dag.TypeDef().WithObject("Directory")).
-							WithArg("pattern", dag.TypeDef().WithKind(StringKind)))), nil
+						dag.Function("Run",
+							dag.TypeDef().WithObject("Directory")).
+							WithDescription("Run runs protoc on proto files, returning the generated go files as a directory.").
+							WithArg("source", dag.TypeDef().WithObject("Directory"), FunctionWithArgOpts{Description: "The source directory."}).
+							WithArg("protoPath", dag.TypeDef().WithKind(StringKind), FunctionWithArgOpts{Description: "The path to the proto files, relative to the source directory."}).
+							WithArg("goOpt", dag.TypeDef().WithKind(StringKind), FunctionWithArgOpts{Description: "go_opt flag to pass to protoc."}).
+							WithArg("goGRPCOpt", dag.TypeDef().WithKind(StringKind), FunctionWithArgOpts{Description: "go-grpc_opt flag to pass to protoc."})).
+					WithConstructor(
+						dag.Function("New",
+							dag.TypeDef().WithObject("ProtocGenGoGRPC")).
+							WithArg("goImage", dag.TypeDef().WithKind(StringKind).WithOptional(true), FunctionWithArgOpts{Description: "Custom image to use to run protoc.", DefaultValue: JSON("\"golang:1.22-bookworm\"")}).
+							WithArg("protobufVersion", dag.TypeDef().WithKind(StringKind).WithOptional(true), FunctionWithArgOpts{DefaultValue: JSON("\"25.3\"")}).
+							WithArg("protocGenGoVersion", dag.TypeDef().WithKind(StringKind).WithOptional(true), FunctionWithArgOpts{DefaultValue: JSON("\"v1.32.0\"")}).
+							WithArg("protocGenGoGRPCVersion", dag.TypeDef().WithKind(StringKind).WithOptional(true), FunctionWithArgOpts{DefaultValue: JSON("\"v1.3.0\"")}))), nil
 	default:
 		return nil, fmt.Errorf("unknown object %s", parentName)
 	}

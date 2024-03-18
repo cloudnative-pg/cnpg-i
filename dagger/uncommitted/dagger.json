@@ -2,5 +2,5 @@
   "name": "uncommitted",
   "sdk": "go",
   "source": "dagger",
-  "engineVersion": "v0.10.1"
+  "engineVersion": "v0.10.2"
 }

@@ -505,16 +505,22 @@ func convertSlice[I any, O any](in []I, f func(I) O) []O {
 }
 
 func (r Uncommitted) MarshalJSON() ([]byte, error) {
-	var concrete struct{}
+	var concrete struct {
+		Ctr *Container
+	}
+	concrete.Ctr = r.Ctr
 	return json.Marshal(&concrete)
 }
 
 func (r *Uncommitted) UnmarshalJSON(bs []byte) error {
-	var concrete struct{}
+	var concrete struct {
+		Ctr *Container
+	}
 	err := json.Unmarshal(bs, &concrete)
 	if err != nil {
 		return err
 	}
+	r.Ctr = concrete.Ctr
 	return nil
 }
 
@@ -579,41 +585,34 @@ func invoke(ctx context.Context, parentJSON []byte, parentName string, fnName st
 	switch parentName {
 	case "Uncommitted":
 		switch fnName {
-		case "ContainerEcho":
+		case "CheckUncommitted":
 			var parent Uncommitted
 			err = json.Unmarshal(parentJSON, &parent)
 			if err != nil {
 				panic(fmt.Errorf("%s: %w", "failed to unmarshal parent object", err))
 			}
-			var stringArg string
-			if inputArgs["stringArg"] != nil {
-				err = json.Unmarshal([]byte(inputArgs["stringArg"]), &stringArg)
+			var source *Directory
+			if inputArgs["source"] != nil {
+				err = json.Unmarshal([]byte(inputArgs["source"]), &source)
 				if err != nil {
-					panic(fmt.Errorf("%s: %w", "failed to unmarshal input arg stringArg", err))
+					panic(fmt.Errorf("%s: %w", "failed to unmarshal input arg source", err))
 				}
 			}
-			return (*Uncommitted).ContainerEcho(&parent, stringArg), nil
-		case "GrepDir":
+			return (*Uncommitted).CheckUncommitted(&parent, source), nil
+		case "":
 			var parent Uncommitted
 			err = json.Unmarshal(parentJSON, &parent)
 			if err != nil {
 				panic(fmt.Errorf("%s: %w", "failed to unmarshal parent object", err))
 			}
-			var directoryArg *Directory
-			if inputArgs["directoryArg"] != nil {
-				err = json.Unmarshal([]byte(inputArgs["directoryArg"]), &directoryArg)
+			var image string
+			if inputArgs["Image"] != nil {
+				err = json.Unmarshal([]byte(inputArgs["Image"]), &image)
 				if err != nil {
-					panic(fmt.Errorf("%s: %w", "failed to unmarshal input arg directoryArg", err))
+					panic(fmt.Errorf("%s: %w", "failed to unmarshal input arg Image", err))
 				}
 			}
-			var pattern string
-			if inputArgs["pattern"] != nil {
-				err = json.Unmarshal([]byte(inputArgs["pattern"]), &pattern)
-				if err != nil {
-					panic(fmt.Errorf("%s: %w", "failed to unmarshal input arg pattern", err))
-				}
-			}
-			return (*Uncommitted).GrepDir(&parent, ctx, directoryArg, pattern)
+			return New(image), nil
 		default:
 			return nil, fmt.Errorf("unknown function %s", fnName)
 		}
@@ -623,16 +622,14 @@ func invoke(ctx context.Context, parentJSON []byte, parentName string, fnName st
 			WithObject(
 				dag.TypeDef().WithObject("Uncommitted").
 					WithFunction(
-						dag.Function("ContainerEcho",
+						dag.Function("CheckUncommitted",
 							dag.TypeDef().WithObject("Container")).
 							WithDescription("Returns a container that echoes whatever string argument is provided").
-							WithArg("stringArg", dag.TypeDef().WithKind(StringKind))).
-					WithFunction(
-						dag.Function("GrepDir",
-							dag.TypeDef().WithKind(StringKind)).
-							WithDescription("Returns lines that match a pattern in the files of the provided Directory").
-							WithArg("directoryArg", dag.TypeDef().WithObject("Directory")).
-							WithArg("pattern", dag.TypeDef().WithKind(StringKind)))), nil
+							WithArg("source", dag.TypeDef().WithObject("Directory"))).
+					WithConstructor(
+						dag.Function("New",
+							dag.TypeDef().WithObject("Uncommitted")).
+							WithArg("Image", dag.TypeDef().WithKind(StringKind).WithOptional(true), FunctionWithArgOpts{Description: "Python image to use.", DefaultValue: JSON("\"python:3.12-alpine\"")}))), nil
 	default:
 		return nil, fmt.Errorf("unknown object %s", parentName)
 	}

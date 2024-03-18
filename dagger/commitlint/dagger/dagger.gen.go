@@ -605,7 +605,7 @@ func invoke(ctx context.Context, parentJSON []byte, parentName string, fnName st
 					panic(fmt.Errorf("%s: %w", "failed to unmarshal input arg args", err))
 				}
 			}
-			return (*Commitlint).Lint(&parent, ctx, source, args)
+			return (*Commitlint).Lint(&parent, ctx, source, args), nil
 		case "":
 			var parent Commitlint
 			err = json.Unmarshal(parentJSON, &parent)
@@ -630,7 +630,7 @@ func invoke(ctx context.Context, parentJSON []byte, parentName string, fnName st
 				dag.TypeDef().WithObject("Commitlint").
 					WithFunction(
 						dag.Function("Lint",
-							dag.TypeDef().WithKind(StringKind)).
+							dag.TypeDef().WithObject("Container")).
 							WithDescription("Lint runs commitlint to lint commit messages.\n\nExample usage: dagger call lint --source /path/to/your/repo --args arg1 --args arg2").
 							WithArg("source", dag.TypeDef().WithObject("Directory"), FunctionWithArgOpts{Description: "The directory of the repository."}).
 							WithArg("args", dag.TypeDef().WithListOf(dag.TypeDef().WithKind(StringKind)).WithOptional(true), FunctionWithArgOpts{Description: "A list of arguments to pass to commitlint."})).
