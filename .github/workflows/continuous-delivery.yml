@@ -1,7 +1,9 @@
 name: backup-adapter CI
+
 on:
   pull_request:
   workflow_dispatch:
+
 jobs:
   ci:
     runs-on: ubuntu-latest

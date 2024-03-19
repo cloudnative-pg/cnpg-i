@@ -54,6 +54,34 @@ func (m *ProtocGenGoGRPC) Container() *Container {
 	return m.Ctr
 }
 
+func getProtoFiles(
+	// The source directory.
+	source *Directory,
+	// The path to the proto files, relative to the source directory.
+	protoPath string,
+) ([]string, error) {
+	protoDir := source.Directory(protoPath)
+	protos, err := protoDir.Glob(context.Background(), "*")
+	if err != nil {
+		return nil, err
+	}
+	return protos, nil
+}
+
+// List lists the proto files that would be considered during a Run
+func (m *ProtocGenGoGRPC) List(
+	// The source directory.
+	source *Directory,
+	// The path to the proto files, relative to the source directory.
+	protoPath string,
+) string {
+	protos, err := getProtoFiles(source, protoPath)
+	if err != nil {
+		return err.Error()
+	}
+	return fmt.Sprintf("The following proto files would be examined:\n%v", protos)
+}
+
 // Run runs protoc on proto files, returning the generated go files as a directory.
 func (m *ProtocGenGoGRPC) Run(
 	// The source directory.
@@ -64,15 +92,16 @@ func (m *ProtocGenGoGRPC) Run(
 	goOpt string,
 	// go-grpc_opt flag to pass to protoc.
 	goGRPCOpt string,
-) *Directory {
+) (*Directory, error) {
 	args := []string{"/usr/local/bin/protoc"}
 	args = append(args, "--go_out=/out/")
 	args = append(args, fmt.Sprintf("--go_opt=%v", goOpt))
 	args = append(args, "--go-grpc_out=/out/")
 	args = append(args, fmt.Sprintf("--go-grpc_opt=%v", goGRPCOpt))
-	protoDir := source.Directory(protoPath)
-	protos, _ := protoDir.Glob(context.Background(), "*")
-	fmt.Println(protos)
+	protos, err := getProtoFiles(source, protoPath)
+	if err != nil {
+		return nil, err
+	}
 	args = append(args, protos...)
 	buildDir := m.Ctr.
 		WithMountedDirectory("/src", source).
@@ -80,5 +109,5 @@ func (m *ProtocGenGoGRPC) Run(
 		WithWorkdir("/src").
 		WithExec(args).
 		Directory("/out")
-	return buildDir
+	return buildDir, nil
 }
