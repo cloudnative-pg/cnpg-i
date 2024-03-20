@@ -64,7 +64,6 @@ tasks:
   ci:
     desc: Run the CI pipeline
     deps:
-      - build
       - commitlint
       - uncommitted
 
