@@ -1,10 +1,10 @@
 {
   "image": "mcr.microsoft.com/devcontainers/go:1-bullseye",
   "features": {
-    "ghcr.io/devcontainers-contrib/features/protoc:1": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
 
-  "postCreateCommand": "go install google.golang.org/protobuf/cmd/protoc-gen-go@latest; go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest",
+  "postCreateCommand": "curl -L https://dl.dagger.io/dagger/install.sh | BIN_DIR=$HOME/.local/bin sh; sh -c \"$(curl --location https://taskfile.dev/install.sh)\" -- -d -b $HOME/.local/bin",
 
   "customizations": {
     "vscode": {
