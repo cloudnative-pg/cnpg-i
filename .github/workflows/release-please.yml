@@ -1,11 +1,10 @@
+name: release-please
+
 on:
   push:
     branches:
       - main
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-name: release-please
+
 jobs:
   release-please:
     runs-on: ubuntu-latest
@@ -15,4 +14,4 @@ jobs:
         with:
           release-type: go
           package-name: cnpg-i
-          token: ${{secrets.REPO_PAT}}
+          token: ${{ secrets.REPO_PAT }}
