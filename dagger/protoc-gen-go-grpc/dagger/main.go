@@ -19,10 +19,10 @@ func New(
 	// +default="golang:1.22-bookworm"
 	goImage string,
 	// +optional
-	// +default="25.3"
+	// +default="26.1"
 	protobufVersion string,
 	// +optional
-	// +default="v1.32.0"
+	// +default="v1.33.0"
 	protocGenGoVersion string,
 	// +optional
 	// +default="v1.3.0"
