@@ -4,7 +4,7 @@ tasks:
   protolint:
     desc: Run protolint
     cmds:
-      - dagger -s call -m dagger/protolint lint --source . --args "--config_path=.protolint.yaml" --args proto/ stdout
+      - dagger -s call -m github.com/cloudnative-pg/daggerverse/protolint@f3ddf3912214a4f992e58ff43b6bc92be4b757d2 lint --source . --args "--config_path=.protolint.yaml" --args proto/ stdout
     sources:
       - proto/**/*.proto
 
@@ -14,7 +14,7 @@ tasks:
       - protolint
     cmds:
       - >
-        dagger -s call -m dagger/protoc-gen-go-grpc run --source . --go-opt module=github.com/cloudnative-pg/cnpg-i
+        dagger -s call -m github.com/cloudnative-pg/daggerverse/protoc-gen-go-grpc@f3ddf3912214a4f992e58ff43b6bc92be4b757d2 run --source . --go-opt module=github.com/cloudnative-pg/cnpg-i
         --go-grpcopt module=github.com/cloudnative-pg/cnpg-i --proto-path proto -o .
     sources:
       - proto/**/*.proto
@@ -33,7 +33,7 @@ tasks:
   protoc-gen-doc:
     desc: Generate documentation from proto files
     cmds:
-      - dagger -s call -m dagger/protoc-gen-doc generate --proto-dir proto -o docs
+      - dagger -s call -m github.com/cloudnative-pg/daggerverse/protoc-gen-doc@f3ddf3912214a4f992e58ff43b6bc92be4b757d2 generate --proto-dir proto -o docs
     sources:
       - proto/**/*.proto
 
@@ -50,14 +50,14 @@ tasks:
   commitlint:
     desc: Check for conventional commits
     cmds:
-      - dagger -s call -m dagger/commitlint lint --source . --args "--from=origin/main" stdout
+      - dagger -s call -m github.com/cloudnative-pg/daggerverse/commitlint@f3ddf3912214a4f992e58ff43b6bc92be4b757d2 lint --source . --args "--from=origin/main" stdout
 
   uncommitted:
     desc: Check for uncommitted changes
     deps:
       - build
     cmds:
-      - dagger -s call -m dagger/uncommitted/ check-uncommitted --source . stdout
+      - dagger -s call -m github.com/cloudnative-pg/daggerverse/uncommitted@f3ddf3912214a4f992e58ff43b6bc92be4b757d2 check-uncommitted --source . stdout
     sources:
       - ./**
 
