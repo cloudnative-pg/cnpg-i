@@ -3,8 +3,11 @@ version: '3'
 tasks:
   protolint:
     desc: Run protolint
+    env:
+      # renovate: datasource=git-refs depName=protolint lookupName=https://github.com/cloudnative-pg/daggerverse currentValue=main
+      DAGGER_PROTOLINT_SHA: f3ddf3912214a4f992e58ff43b6bc92be4b757d2
     cmds:
-      - dagger -s call -m github.com/cloudnative-pg/daggerverse/protolint@f3ddf3912214a4f992e58ff43b6bc92be4b757d2 lint --source . --args "--config_path=.protolint.yaml" --args proto/ stdout
+      - dagger -s call -m github.com/cloudnative-pg/daggerverse/protolint@${DAGGER_PROTOLINT_SHA} lint --source . --args "--config_path=.protolint.yaml" --args proto/ stdout
     sources:
       - proto/**/*.proto
 
@@ -12,9 +15,12 @@ tasks:
     desc: Compile proto files
     deps:
       - protolint
+    env:
+      # renovate: datasource=git-refs depName=protoc-gen-go-grpc lookupName=https://github.com/cloudnative-pg/daggerverse currentValue=main
+      DAGGER_PROTOC_GEN_GO_GRPC_SHA: f3ddf3912214a4f992e58ff43b6bc92be4b757d2
     cmds:
       - >
-        dagger -s call -m github.com/cloudnative-pg/daggerverse/protoc-gen-go-grpc@f3ddf3912214a4f992e58ff43b6bc92be4b757d2 run --source . --go-opt module=github.com/cloudnative-pg/cnpg-i
+        dagger -s call -m github.com/cloudnative-pg/daggerverse/protoc-gen-go-grpc@${DAGGER_PROTOC_GEN_GO_GRPC_SHA} run --source . --go-opt module=github.com/cloudnative-pg/cnpg-i
         --go-grpcopt module=github.com/cloudnative-pg/cnpg-i --proto-path proto -o .
     sources:
       - proto/**/*.proto
@@ -23,17 +29,23 @@ tasks:
     desc: Run golangci-lint
     deps:
       - protoc-gen-go-grpc
+    env:
+      # renovate: datasource=git-refs depName=golangci-lint lookupName=https://github.com/sagikazarmark/daggerverse currentValue=main
+      DAGGER_GOLANGCI_LINT_SHA: 157bf2192a7a1e8672da2c4fee37d8710734c35a
     cmds:
       - >
-        dagger -s call -m github.com/sagikazarmark/daggerverse/golangci-lint@157bf2192a7a1e8672da2c4fee37d8710734c35a
+        dagger -s call -m github.com/sagikazarmark/daggerverse/golangci-lint@${DAGGER_GOLANGCI_LINT_SHA}
         run --source . --config .golangci.yml stdout
     sources:
       - ./**/*.go
 
   protoc-gen-doc:
     desc: Generate documentation from proto files
+    env:
+      # renovate: datasource=git-refs depName=protoc-gen-go-grpc lookupName=https://github.com/cloudnative-pg/daggerverse currentValue=main
+      DAGGER_PROTOC_GEN_DOC_SHA: f3ddf3912214a4f992e58ff43b6bc92be4b757d2
     cmds:
-      - dagger -s call -m github.com/cloudnative-pg/daggerverse/protoc-gen-doc@f3ddf3912214a4f992e58ff43b6bc92be4b757d2 generate --proto-dir proto -o docs
+      - dagger -s call -m github.com/cloudnative-pg/daggerverse/protoc-gen-doc@${DAGGER_PROTOC_GEN_DOC_SHA} generate --proto-dir proto -o docs
     sources:
       - proto/**/*.proto
 
@@ -42,22 +54,31 @@ tasks:
     deps:
       - lint
       - protoc-gen-doc
+    env:
+      # renovate: datasource=git-refs depName=golang lookupName=https://github.com/kpenfound/dagger-modules currentValue=main
+      DAGGER_GOLANG_SHA: 8d662e001caf8c16253226d0d456f2f0f374f009
     cmds:
       - >
-        dagger -s -m github.com/kpenfound/dagger-modules/golang@8d662e001caf8c16253226d0d456f2f0f374f009
+        dagger -s -m github.com/kpenfound/dagger-modules/golang@${DAGGER_GOLANG_SHA}
         call base --version 1.22-bookworm build --source . --args ./...
 
   commitlint:
     desc: Check for conventional commits
+    env:
+      # renovate: datasource=git-refs depName=commitlint lookupName=https://github.com/cloudnative-pg/daggerverse currentValue=main
+      DAGGER_COMMITLINT_SHA: f3ddf3912214a4f992e58ff43b6bc92be4b757d2
     cmds:
-      - dagger -s call -m github.com/cloudnative-pg/daggerverse/commitlint@f3ddf3912214a4f992e58ff43b6bc92be4b757d2 lint --source . --args "--from=origin/main" stdout
+      - dagger -s call -m github.com/cloudnative-pg/daggerverse/commitlint@${DAGGER_COMMITLINT_SHA} lint --source . --args "--from=origin/main" stdout
 
   uncommitted:
     desc: Check for uncommitted changes
     deps:
       - build
+    env:
+      # renovate: datasource=git-refs depName=uncommitted lookupName=https://github.com/cloudnative-pg/daggerverse currentValue=main
+      DAGGER_UNCOMMITTED_SHA: f3ddf3912214a4f992e58ff43b6bc92be4b757d2
     cmds:
-      - dagger -s call -m github.com/cloudnative-pg/daggerverse/uncommitted@f3ddf3912214a4f992e58ff43b6bc92be4b757d2 check-uncommitted --source . stdout
+      - dagger -s call -m github.com/cloudnative-pg/daggerverse/uncommitted@${DAGGER_UNCOMMITTED_SHA} check-uncommitted --source . stdout
     sources:
       - ./**
 
