@@ -4,7 +4,8 @@
     "config:recommended",
     ":gitSignOff",
     ":semanticCommitType(chore)",
-    ":labels(automated,no-issue)"
+    ":labels(automated,no-issue)",
+    "regexManagers:githubActionsVersions"
   ],
   "prConcurrentLimit": 5,
   "ignorePaths": [
