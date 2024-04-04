@@ -31,7 +31,7 @@ tasks:
       - protoc-gen-go-grpc
     env:
       # renovate: datasource=git-refs depName=golangci-lint lookupName=https://github.com/sagikazarmark/daggerverse currentValue=main
-      DAGGER_GOLANGCI_LINT_SHA: 157bf2192a7a1e8672da2c4fee37d8710734c35a
+      DAGGER_GOLANGCI_LINT_SHA: 9a3074edb9cb21746ea2f9dcdd018d520b47f2e6
     cmds:
       - >
         dagger -s call -m github.com/sagikazarmark/daggerverse/golangci-lint@${DAGGER_GOLANGCI_LINT_SHA}
