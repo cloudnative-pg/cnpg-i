@@ -16,6 +16,7 @@
     "gomodTidy"
   ],
   "semanticCommits": "enabled",
+  "commitBodyTable": true,
   "customManagers": [
     {
       "customType": "regex",
