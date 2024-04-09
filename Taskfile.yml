@@ -56,7 +56,7 @@ tasks:
       - protoc-gen-doc
     env:
       # renovate: datasource=git-refs depName=golang lookupName=https://github.com/kpenfound/dagger-modules currentValue=main
-      DAGGER_GOLANG_SHA: 8d662e001caf8c16253226d0d456f2f0f374f009
+      DAGGER_GOLANG_SHA: 57352e06a1cfbcb5307c009d37c0201b2719b935
     cmds:
       - >
         dagger -s -m github.com/kpenfound/dagger-modules/golang@${DAGGER_GOLANG_SHA}
