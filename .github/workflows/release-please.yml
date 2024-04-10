@@ -13,5 +13,4 @@ jobs:
         id: release
         with:
           release-type: go
-          package-name: cnpg-i
           token: ${{ secrets.REPO_PAT }}
