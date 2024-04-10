@@ -54,6 +54,11 @@
         "digest"
       ],
       "groupName": "all cloudnative-pg daggerverse dependencies"
+    },
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchCurrentVersion": "!/^0/",
+      "automerge": true
     }
   ]
 }
