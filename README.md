@@ -1,6 +1,19 @@
 # CloudNativePG Interface (CNPG-I)
 
-**Status:** PROPOSAL
+**Status:** Implemented
+
+CNPG-I is a gRPC-based out-of-process plugin interface that allows
+[CloudNative-PG (CNPG)](https://github.com/cloudnative-pg/cloudnative-pg/)
+to be extended with custom behaviour.
+
+This interface is also supported by
+[EDB pg4k](https://github.com/EnterpriseDB/cloud-native-postgres).
+
+## References
+
+* [Protocol documentation](./docs/docs.md)
+* [The `cnpg-i-hello-world` plugin](https://github.com/cloudnative-pg/cnpg-i-hello-world) contains documentation and sample code.
+* [Another sample plugin to deploy sidecar containers in postgres pods](https://github.com/leonardoce/plugin-generic-exporter)
 
 ## Why do we need CNPG-I?
 
