@@ -31,7 +31,7 @@ tasks:
       - protoc-gen-go-grpc
     env:
       # renovate: datasource=git-refs depName=golangci-lint lookupName=https://github.com/sagikazarmark/daggerverse currentValue=main
-      DAGGER_GOLANGCI_LINT_SHA: 9a3074edb9cb21746ea2f9dcdd018d520b47f2e6
+      DAGGER_GOLANGCI_LINT_SHA: b249f27c0d6a2183cd368ae767fc912a09a1a40f
     cmds:
       - >
         dagger -s call -m github.com/sagikazarmark/daggerverse/golangci-lint@${DAGGER_GOLANGCI_LINT_SHA}
@@ -49,19 +49,6 @@ tasks:
     sources:
       - proto/**/*.proto
 
-  build:
-    desc: Build the project
-    deps:
-      - lint
-      - protoc-gen-doc
-    env:
-      # renovate: datasource=git-refs depName=golang lookupName=https://github.com/kpenfound/dagger-modules currentValue=main
-      DAGGER_GOLANG_SHA: 57352e06a1cfbcb5307c009d37c0201b2719b935
-    cmds:
-      - >
-        dagger -s -m github.com/kpenfound/dagger-modules/golang@${DAGGER_GOLANG_SHA}
-        call base --version 1.22-bookworm build --source . --args ./...
-
   commitlint:
     desc: Check for conventional commits
     env:
@@ -73,7 +60,8 @@ tasks:
   uncommitted:
     desc: Check for uncommitted changes
     deps:
-      - build
+      - lint
+      - protoc-gen-doc
     env:
       # renovate: datasource=git-refs depName=uncommitted lookupName=https://github.com/cloudnative-pg/daggerverse currentValue=main
       DAGGER_UNCOMMITTED_SHA: 9312a7826b1c8b5e67a44a12b092ab13a529adb7
