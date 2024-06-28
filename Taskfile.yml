@@ -42,7 +42,7 @@ tasks:
   protoc-gen-doc:
     desc: Generate documentation from proto files
     env:
-      # renovate: datasource=git-refs depName=protoc-gen-go-grpc lookupName=https://github.com/cloudnative-pg/daggerverse currentValue=main
+      # renovate: datasource=git-refs depName=protoc-gen-doc lookupName=https://github.com/cloudnative-pg/daggerverse currentValue=main
       DAGGER_PROTOC_GEN_DOC_SHA: f09d41cb90701db446048a9f20eb03495e50f727
     cmds:
       - dagger -s call -m github.com/cloudnative-pg/daggerverse/protoc-gen-doc@${DAGGER_PROTOC_GEN_DOC_SHA} generate --proto-dir proto -o docs
