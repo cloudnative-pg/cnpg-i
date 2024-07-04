@@ -62,12 +62,12 @@ message ReconcilerHooksResult {
     BEHAVIOR_REQUEUE = 2;
 
     // BEHAVIOR_TERMINATE indicates that this reconciliation loop will
-    // be marked as succeded and no other operations will be done.
+    // be marked as succeeded and no other operations will be done.
     BEHAVIOR_TERMINATE = 3;
   }
 
   // This field is REQUIRED, and indicates the behavior that should
-  // be used for the current reconciliation loog.
+  // be used for the current reconciliation loop.
   Behavior behavior = 1;
 
   // This field is OPTIONAL. If true, the current reconciliation loop

@@ -31,7 +31,7 @@ const (
 type OperatorClient interface {
 	// GetCapabilities gets the capabilities of the WAL service
 	GetCapabilities(ctx context.Context, in *OperatorCapabilitiesRequest, opts ...grpc.CallOption) (*OperatorCapabilitiesResult, error)
-	// ValidateCreate improves the behaviour of the validating webhook that
+	// ValidateCreate improves the behavior of the validating webhook that
 	// is called on creation of the Cluster resources
 	ValidateClusterCreate(ctx context.Context, in *OperatorValidateClusterCreateRequest, opts ...grpc.CallOption) (*OperatorValidateClusterCreateResult, error)
 	// ValidateClusterChange improves the behavior of the validating webhook of
@@ -91,7 +91,7 @@ func (c *operatorClient) MutateCluster(ctx context.Context, in *OperatorMutateCl
 type OperatorServer interface {
 	// GetCapabilities gets the capabilities of the WAL service
 	GetCapabilities(context.Context, *OperatorCapabilitiesRequest) (*OperatorCapabilitiesResult, error)
-	// ValidateCreate improves the behaviour of the validating webhook that
+	// ValidateCreate improves the behavior of the validating webhook that
 	// is called on creation of the Cluster resources
 	ValidateClusterCreate(context.Context, *OperatorValidateClusterCreateRequest) (*OperatorValidateClusterCreateResult, error)
 	// ValidateClusterChange improves the behavior of the validating webhook of

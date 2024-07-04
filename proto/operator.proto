@@ -6,7 +6,7 @@ service Operator {
   // GetCapabilities gets the capabilities of the WAL service
   rpc GetCapabilities(OperatorCapabilitiesRequest) returns (OperatorCapabilitiesResult) {}
 
-  // ValidateCreate improves the behaviour of the validating webhook that
+  // ValidateCreate improves the behavior of the validating webhook that
   // is called on creation of the Cluster resources
   rpc ValidateClusterCreate(OperatorValidateClusterCreateRequest) returns (OperatorValidateClusterCreateResult) {}
 
