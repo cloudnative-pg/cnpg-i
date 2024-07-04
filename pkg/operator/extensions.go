@@ -21,8 +21,8 @@ func (v ValidationErrors) Error() string {
 func (v *ValidationError) Error() string {
 	return fmt.Sprintf(
 		"encountered a validation error, message: %s, value: %s, pathComponents: %s",
-		v.Message,
-		v.Value,
-		v.PathComponents,
+		v.GetMessage(),
+		v.GetValue(),
+		v.GetPathComponents(),
 	)
 }
