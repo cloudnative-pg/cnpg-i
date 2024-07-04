@@ -5,12 +5,32 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      - uses: google-github-actions/release-please-action@v4
-        id: release
+      # TODO: googleapis/release-please-action cannot sign commits yet.
+      #   We'll use the cli until there's a fix for
+      #   https://github.com/googleapis/release-please/issues/2280.
+      - uses: actions/setup-node@v4
         with:
-          release-type: go
-          token: ${{ secrets.REPO_PAT }}
+          node-version: 20
+      # TODO: remove bump-minor-pre-major when in production. It prevents
+      #   release-please from bumping the major version on breaking changes.
+      # TODO: remove release-as after first release. Used to set the first
+      #   release version, which would default to 1.0.0. Set the version
+      #   manually also for 1.0.0.
+      - run: |
+          npx release-please release-pr \
+            --token="${{ secrets.REPO_PAT }}" \
+            --repo-url="${{ github.repository }}" \
+            --bump-minor-pre-major=true \
+            --release-as=0.1.0 \
+            --signoff "Peggie <info@cloudnative-pg.io>";
+          npx release-please github-release \
+            --token="${{ secrets.REPO_PAT }}" \
+            --repo-url="${{ github.repository }}" \
