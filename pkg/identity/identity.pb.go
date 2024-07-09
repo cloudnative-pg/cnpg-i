@@ -27,7 +27,7 @@ const (
 	// TYPE_OPERATOR_SERVICE indicated that the Plugin provider RPCs
 	// for the Operator service.
 	// The presence of this capability determines whether the CO will
-	// attempt to invoke the REQUIRED Opearator RPCs, as well
+	// attempt to invoke the REQUIRED Operator RPCs, as well
 	// as specific RPCs as indicated by GetCapabilities.
 	PluginCapability_Service_TYPE_OPERATOR_SERVICE PluginCapability_Service_Type = 1
 	// TYPE_WAL_SERVICE indicates that the Plugin provides RPCs for

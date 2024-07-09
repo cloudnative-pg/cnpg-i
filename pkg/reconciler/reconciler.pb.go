@@ -84,7 +84,7 @@ const (
 	// be stopped and a new one will be requested
 	ReconcilerHooksResult_BEHAVIOR_REQUEUE ReconcilerHooksResult_Behavior = 2
 	// BEHAVIOR_TERMINATE indicates that this reconciliation loop will
-	// be marked as succeded and no other operations will be done.
+	// be marked as succeeded and no other operations will be done.
 	ReconcilerHooksResult_BEHAVIOR_TERMINATE ReconcilerHooksResult_Behavior = 3
 )
 
@@ -331,7 +331,7 @@ type ReconcilerHooksResult struct {
 	unknownFields protoimpl.UnknownFields
 
 	// This field is REQUIRED, and indicates the behavior that should
-	// be used for the current reconciliation loog.
+	// be used for the current reconciliation loop.
 	Behavior ReconcilerHooksResult_Behavior `protobuf:"varint,1,opt,name=behavior,proto3,enum=cnpgi.reconciler.v1.ReconcilerHooksResult_Behavior" json:"behavior,omitempty"`
 	// This field is OPTIONAL. If true, the current reconciliation loop
 	// will be stopped and the operator will ensure that another one will

@@ -416,7 +416,7 @@ Intentionally empty.
 | Name | Number | Description |
 | ---- | ------ | ----------- |
 | TYPE_UNSPECIFIED | 0 |  |
-| TYPE_OPERATOR_SERVICE | 1 | TYPE_OPERATOR_SERVICE indicated that the Plugin provider RPCs for the Operator service. The presence of this capability determines whether the CO will attempt to invoke the REQUIRED Opearator RPCs, as well as specific RPCs as indicated by GetCapabilities. |
+| TYPE_OPERATOR_SERVICE | 1 | TYPE_OPERATOR_SERVICE indicated that the Plugin provider RPCs for the Operator service. The presence of this capability determines whether the CO will attempt to invoke the REQUIRED Operator RPCs, as well as specific RPCs as indicated by GetCapabilities. |
 | TYPE_WAL_SERVICE | 2 | TYPE_WAL_SERVICE indicates that the Plugin provides RPCs for the WAL service. Plugins MAY provide this capability. The presence of this capability determines whether the CO will attempt to invoke the REQUIRED WALService RPCs, as well as specific RPCs as indicated by GetCapabilities. |
 | TYPE_BACKUP_SERVICE | 3 | TYPE_BACKUP_SERVICE indicates that the Plugin provides RPCs for the Backup service. The presence of this capability determines whether the CO will attempt to invoke the REQUIRED Backup Service RPCs, as well as specific RPCs as indicated by GetCapabilities. |
 | TYPE_LIFECYCLE_SERVICE | 4 | TYPE_LIFECYCLE_SERVICE indicates that the Plugin provides RPCs for the Lifecycle service. |
@@ -642,7 +642,7 @@ Intentionally empty.
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
 | GetCapabilities | [OperatorCapabilitiesRequest](#cnpgi-operator-v1-OperatorCapabilitiesRequest) | [OperatorCapabilitiesResult](#cnpgi-operator-v1-OperatorCapabilitiesResult) | GetCapabilities gets the capabilities of the WAL service |
-| ValidateClusterCreate | [OperatorValidateClusterCreateRequest](#cnpgi-operator-v1-OperatorValidateClusterCreateRequest) | [OperatorValidateClusterCreateResult](#cnpgi-operator-v1-OperatorValidateClusterCreateResult) | ValidateCreate improves the behaviour of the validating webhook that is called on creation of the Cluster resources |
+| ValidateClusterCreate | [OperatorValidateClusterCreateRequest](#cnpgi-operator-v1-OperatorValidateClusterCreateRequest) | [OperatorValidateClusterCreateResult](#cnpgi-operator-v1-OperatorValidateClusterCreateResult) | ValidateCreate improves the behavior of the validating webhook that is called on creation of the Cluster resources |
 | ValidateClusterChange | [OperatorValidateClusterChangeRequest](#cnpgi-operator-v1-OperatorValidateClusterChangeRequest) | [OperatorValidateClusterChangeResult](#cnpgi-operator-v1-OperatorValidateClusterChangeResult) | ValidateClusterChange improves the behavior of the validating webhook of is called on updates of the Cluster resources |
 | MutateCluster | [OperatorMutateClusterRequest](#cnpgi-operator-v1-OperatorMutateClusterRequest) | [OperatorMutateClusterResult](#cnpgi-operator-v1-OperatorMutateClusterResult) | MutateCluster fills in the defaults inside a Cluster resource |
 
@@ -852,7 +852,7 @@ The operator type corresponds to the Kubernetes API method
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| behavior | [ReconcilerHooksResult.Behavior](#cnpgi-reconciler-v1-ReconcilerHooksResult-Behavior) |  | This field is REQUIRED, and indicates the behavior that should be used for the current reconciliation loog. |
+| behavior | [ReconcilerHooksResult.Behavior](#cnpgi-reconciler-v1-ReconcilerHooksResult-Behavior) |  | This field is REQUIRED, and indicates the behavior that should be used for the current reconciliation loop. |
 | requeue_after | [int64](#int64) |  | This field is OPTIONAL. If true, the current reconciliation loop will be stopped and the operator will ensure that another one will be run in the requested number of seconds. IMPORTANT: the new reconciliation loop may start even before the number of specified seconds. |
 
 
@@ -885,7 +885,7 @@ The operator type corresponds to the Kubernetes API method
 | BEHAVIOR_UNSPECIFIED | 0 |  |
 | BEHAVIOR_CONTINUE | 1 | BEHAVIOR_CONTINUE indicates that this reconciliation loop will proceed running. |
 | BEHAVIOR_REQUEUE | 2 | BEHAVIOR_REQUEUE indicates that this reconciliation loop will be stopped and a new one will be requested |
-| BEHAVIOR_TERMINATE | 3 | BEHAVIOR_TERMINATE indicates that this reconciliation loop will be marked as succeded and no other operations will be done. |
+| BEHAVIOR_TERMINATE | 3 | BEHAVIOR_TERMINATE indicates that this reconciliation loop will be marked as succeeded and no other operations will be done. |
 
 
  
