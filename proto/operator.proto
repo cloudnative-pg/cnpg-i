@@ -16,6 +16,10 @@ service Operator {
 
   // MutateCluster fills in the defaults inside a Cluster resource
   rpc MutateCluster(OperatorMutateClusterRequest) returns (OperatorMutateClusterResult) {}
+
+  // SetClusterStatus is invoked at the end of the reconciliation loop and it is used to set the plugin status
+  // inside the .status.plugins[pluginName] map key
+  rpc SetClusterStatus(SetClusterStatusRequest) returns (SetClusterStatusResponse) {}
 }
 
 message OperatorCapabilitiesRequest {
@@ -110,4 +114,16 @@ message OperatorCapability {
   oneof type {
     RPC rpc = 1;
   }
+}
+
+message SetClusterStatusRequest {
+  // This field is REQUIRED. Value of this field is the JSON
+  // serialization of the current Cluster definition
+  bytes cluster = 1;
+}
+
+message SetClusterStatusResponse {
+  // This field is OPTIONAL. No value means no-op, otherwise the passed json is set inside the
+  // .status.plugins[pluginName] key
+  bytes json_status = 1;
 }
