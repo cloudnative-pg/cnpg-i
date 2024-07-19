@@ -1,4 +1,4 @@
-name: backup-adapter CI
+name: CNPG-i CI
 
 on:
   pull_request:
