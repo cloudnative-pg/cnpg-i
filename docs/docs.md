@@ -43,6 +43,8 @@
     - [OperatorValidateClusterChangeResult](#cnpgi-operator-v1-OperatorValidateClusterChangeResult)
     - [OperatorValidateClusterCreateRequest](#cnpgi-operator-v1-OperatorValidateClusterCreateRequest)
     - [OperatorValidateClusterCreateResult](#cnpgi-operator-v1-OperatorValidateClusterCreateResult)
+    - [SetClusterStatusRequest](#cnpgi-operator-v1-SetClusterStatusRequest)
+    - [SetClusterStatusResponse](#cnpgi-operator-v1-SetClusterStatusResponse)
     - [ValidationError](#cnpgi-operator-v1-ValidationError)
   
     - [OperatorCapability.RPC.Type](#cnpgi-operator-v1-OperatorCapability-RPC-Type)
@@ -596,6 +598,36 @@ Intentionally empty.
 
 
 
+<a name="cnpgi-operator-v1-SetClusterStatusRequest"></a>
+
+### SetClusterStatusRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| cluster | [bytes](#bytes) |  | This field is REQUIRED. Value of this field is the JSON serialization of the current Cluster definition |
+
+
+
+
+
+
+<a name="cnpgi-operator-v1-SetClusterStatusResponse"></a>
+
+### SetClusterStatusResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| json_status | [bytes](#bytes) |  | This field is OPTIONAL. No value means no-op, otherwise the passed json is set inside the .status.plugins[pluginName] key |
+
+
+
+
+
+
 <a name="cnpgi-operator-v1-ValidationError"></a>
 
 ### ValidationError
@@ -627,6 +659,7 @@ Intentionally empty.
 | TYPE_VALIDATE_CLUSTER_CHANGE | 2 | TYPE_VALIDATE_CLUSTER_CHANGE indicates that the Plugin is able to reply to the ValidateClusterChange RPC request |
 | TYPE_MUTATE_CLUSTER | 3 | TYPE_MUTATE_CLUSTER indicates that the Plugin is able to reply to the MutateCluster RPC request |
 | TYPE_MUTATE_POD | 4 | TYPE_MUTATE_POD indicates that the Plugin is able to reply to the MutatePod RPC request |
+| TYPE_SET_CLUSTER_STATUS | 5 | TYPE_SET_CLUSTER_STATUS indicates that the Plugin is able to set cluster status |
 
 
  
@@ -645,6 +678,7 @@ Intentionally empty.
 | ValidateClusterCreate | [OperatorValidateClusterCreateRequest](#cnpgi-operator-v1-OperatorValidateClusterCreateRequest) | [OperatorValidateClusterCreateResult](#cnpgi-operator-v1-OperatorValidateClusterCreateResult) | ValidateCreate improves the behavior of the validating webhook that is called on creation of the Cluster resources |
 | ValidateClusterChange | [OperatorValidateClusterChangeRequest](#cnpgi-operator-v1-OperatorValidateClusterChangeRequest) | [OperatorValidateClusterChangeResult](#cnpgi-operator-v1-OperatorValidateClusterChangeResult) | ValidateClusterChange improves the behavior of the validating webhook of is called on updates of the Cluster resources |
 | MutateCluster | [OperatorMutateClusterRequest](#cnpgi-operator-v1-OperatorMutateClusterRequest) | [OperatorMutateClusterResult](#cnpgi-operator-v1-OperatorMutateClusterResult) | MutateCluster fills in the defaults inside a Cluster resource |
+| SetClusterStatus | [SetClusterStatusRequest](#cnpgi-operator-v1-SetClusterStatusRequest) | [SetClusterStatusResponse](#cnpgi-operator-v1-SetClusterStatusResponse) | SetClusterStatus is invoked at the end of the reconciliation loop and it is used to set the plugin status inside the .status.plugins[pluginName] map key |
 
  
 

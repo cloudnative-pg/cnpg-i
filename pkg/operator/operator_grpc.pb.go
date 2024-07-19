@@ -23,6 +23,7 @@ const (
 	Operator_ValidateClusterCreate_FullMethodName = "/cnpgi.operator.v1.Operator/ValidateClusterCreate"
 	Operator_ValidateClusterChange_FullMethodName = "/cnpgi.operator.v1.Operator/ValidateClusterChange"
 	Operator_MutateCluster_FullMethodName         = "/cnpgi.operator.v1.Operator/MutateCluster"
+	Operator_SetClusterStatus_FullMethodName      = "/cnpgi.operator.v1.Operator/SetClusterStatus"
 )
 
 // OperatorClient is the client API for Operator service.
@@ -39,6 +40,9 @@ type OperatorClient interface {
 	ValidateClusterChange(ctx context.Context, in *OperatorValidateClusterChangeRequest, opts ...grpc.CallOption) (*OperatorValidateClusterChangeResult, error)
 	// MutateCluster fills in the defaults inside a Cluster resource
 	MutateCluster(ctx context.Context, in *OperatorMutateClusterRequest, opts ...grpc.CallOption) (*OperatorMutateClusterResult, error)
+	// SetClusterStatus is invoked at the end of the reconciliation loop and it is used to set the plugin status
+	// inside the .status.plugins[pluginName] map key
+	SetClusterStatus(ctx context.Context, in *SetClusterStatusRequest, opts ...grpc.CallOption) (*SetClusterStatusResponse, error)
 }
 
 type operatorClient struct {
@@ -85,6 +89,15 @@ func (c *operatorClient) MutateCluster(ctx context.Context, in *OperatorMutateCl
 	return out, nil
 }
 
+func (c *operatorClient) SetClusterStatus(ctx context.Context, in *SetClusterStatusRequest, opts ...grpc.CallOption) (*SetClusterStatusResponse, error) {
+	out := new(SetClusterStatusResponse)
+	err := c.cc.Invoke(ctx, Operator_SetClusterStatus_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OperatorServer is the server API for Operator service.
 // All implementations must embed UnimplementedOperatorServer
 // for forward compatibility
@@ -99,6 +112,9 @@ type OperatorServer interface {
 	ValidateClusterChange(context.Context, *OperatorValidateClusterChangeRequest) (*OperatorValidateClusterChangeResult, error)
 	// MutateCluster fills in the defaults inside a Cluster resource
 	MutateCluster(context.Context, *OperatorMutateClusterRequest) (*OperatorMutateClusterResult, error)
+	// SetClusterStatus is invoked at the end of the reconciliation loop and it is used to set the plugin status
+	// inside the .status.plugins[pluginName] map key
+	SetClusterStatus(context.Context, *SetClusterStatusRequest) (*SetClusterStatusResponse, error)
 	mustEmbedUnimplementedOperatorServer()
 }
 
@@ -117,6 +133,9 @@ func (UnimplementedOperatorServer) ValidateClusterChange(context.Context, *Opera
 }
 func (UnimplementedOperatorServer) MutateCluster(context.Context, *OperatorMutateClusterRequest) (*OperatorMutateClusterResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MutateCluster not implemented")
+}
+func (UnimplementedOperatorServer) SetClusterStatus(context.Context, *SetClusterStatusRequest) (*SetClusterStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetClusterStatus not implemented")
 }
 func (UnimplementedOperatorServer) mustEmbedUnimplementedOperatorServer() {}
 
@@ -203,6 +222,24 @@ func _Operator_MutateCluster_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Operator_SetClusterStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetClusterStatusRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperatorServer).SetClusterStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Operator_SetClusterStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperatorServer).SetClusterStatus(ctx, req.(*SetClusterStatusRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Operator_ServiceDesc is the grpc.ServiceDesc for Operator service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -225,6 +262,10 @@ var Operator_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "MutateCluster",
 			Handler:    _Operator_MutateCluster_Handler,
+		},
+		{
+			MethodName: "SetClusterStatus",
+			Handler:    _Operator_SetClusterStatus_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

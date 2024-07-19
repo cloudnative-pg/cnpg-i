@@ -58,6 +58,7 @@ OperatorValidateClusterCreateResult
 ParametersEntry
 pluggable
 PluginCapability
+pluginName
 postgres
 Pre
 ProbeRequest
@@ -77,6 +78,9 @@ rpc
 RPC
 RPCs
 ScheduledBackup
+SetClusterStatus
+SetClusterStatusRequest
+SetClusterStatusResponse
 SetFirstRequired
 SetFirstRequiredRequest
 SetFirstRequiredResult
