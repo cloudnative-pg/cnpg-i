@@ -870,8 +870,8 @@ The operator type corresponds to the Kubernetes API method
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| cluster_definition | [bytes](#bytes) |  | This field is REQUIRED. Value of this field is the JSON serialization of the Cluster corresponding to the Pod being applied |
-| resource_definition | [bytes](#bytes) |  | This field is REQUIRED. Value of this field is the JSON serialization of the resource being reconciled |
+| cluster_definition | [bytes](#bytes) |  | This field is REQUIRED. Value of this field is the JSON serialization of the Cluster tied to the `Kind` being reconciled |
+| resource_definition | [bytes](#bytes) |  | This field is REQUIRED. Value of this field is the JSON serialization of the resource being reconciled. Please note that in case of Cluster Reconciliation, the `resource_definition` will match the `cluster_definition` |
 
 
 

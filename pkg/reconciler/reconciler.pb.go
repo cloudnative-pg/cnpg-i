@@ -272,10 +272,11 @@ type ReconcilerHooksRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// This field is REQUIRED. Value of this field is the JSON
-	// serialization of the Cluster corresponding to the Pod being applied
+	// serialization of the Cluster tied to the `Kind` being reconciled
 	ClusterDefinition []byte `protobuf:"bytes,1,opt,name=cluster_definition,json=clusterDefinition,proto3" json:"cluster_definition,omitempty"`
 	// This field is REQUIRED. Value of this field is the JSON
-	// serialization of the resource being reconciled
+	// serialization of the resource being reconciled. Please note that in case of Cluster Reconciliation, the
+	// `resource_definition` will match the `cluster_definition`
 	ResourceDefinition []byte `protobuf:"bytes,2,opt,name=resource_definition,json=resourceDefinition,proto3" json:"resource_definition,omitempty"`
 }
 

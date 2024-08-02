@@ -41,11 +41,12 @@ message ReconcilerHooksCapability {
 
 message ReconcilerHooksRequest {
   // This field is REQUIRED. Value of this field is the JSON
-  // serialization of the Cluster corresponding to the Pod being applied
+  // serialization of the Cluster tied to the `Kind` being reconciled
   bytes cluster_definition = 1;
 
   // This field is REQUIRED. Value of this field is the JSON
-  // serialization of the resource being reconciled
+  // serialization of the resource being reconciled. Please note that in case of Cluster Reconciliation, the
+  // `resource_definition` will match the `cluster_definition`
   bytes resource_definition = 2;
 }
 
