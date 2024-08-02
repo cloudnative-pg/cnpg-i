@@ -20,6 +20,10 @@ service Operator {
   // SetClusterStatus is invoked at the end of the reconciliation loop and it is used to set the plugin status
   // inside the .status.plugins[pluginName] map key
   rpc SetClusterStatus(SetClusterStatusRequest) returns (SetClusterStatusResponse) {}
+
+  // Deregister is invoked when the plugin is removed from the cluster definition. It is expected that the plugin
+  // executes its cleanup logic when this method is invoked.
+  rpc Deregister(DeregisterRequest) returns (DeregisterResponse) {}
 }
 
 message OperatorCapabilitiesRequest {
@@ -67,6 +71,16 @@ message OperatorMutateClusterRequest {
   bytes definition = 1;
 }
 
+message DeregisterRequest {
+  // This field is REQUIRED. Value of this field is the JSON
+  // serialization of the Cluster that should receive the
+  // default values
+  bytes definition = 1;
+}
+
+message DeregisterResponse {
+}
+
 message OperatorMutateClusterResult {
   // This field is OPTIONAL. Value of this field is a JSONPatch
   // to be applied on the passed Cluster definition
@@ -110,6 +124,10 @@ message OperatorCapability {
       // TYPE_SET_CLUSTER_STATUS indicates that the Plugin is able to
       // set cluster status
       TYPE_SET_CLUSTER_STATUS = 5;
+
+      // TYPE_DEREGISTER indicates that the Plugin is able to execute the cleanup logic once it is removed from
+      // the cluster definition
+      TYPE_DEREGISTER = 6;
     }
 
     Type type = 1;

@@ -24,6 +24,7 @@ const (
 	Operator_ValidateClusterChange_FullMethodName = "/cnpgi.operator.v1.Operator/ValidateClusterChange"
 	Operator_MutateCluster_FullMethodName         = "/cnpgi.operator.v1.Operator/MutateCluster"
 	Operator_SetClusterStatus_FullMethodName      = "/cnpgi.operator.v1.Operator/SetClusterStatus"
+	Operator_Deregister_FullMethodName            = "/cnpgi.operator.v1.Operator/Deregister"
 )
 
 // OperatorClient is the client API for Operator service.
@@ -43,6 +44,9 @@ type OperatorClient interface {
 	// SetClusterStatus is invoked at the end of the reconciliation loop and it is used to set the plugin status
 	// inside the .status.plugins[pluginName] map key
 	SetClusterStatus(ctx context.Context, in *SetClusterStatusRequest, opts ...grpc.CallOption) (*SetClusterStatusResponse, error)
+	// Deregister is invoked when the plugin is removed from the cluster definition. It is expected that the plugin
+	// executes its cleanup logic when this method is invoked.
+	Deregister(ctx context.Context, in *DeregisterRequest, opts ...grpc.CallOption) (*DeregisterResponse, error)
 }
 
 type operatorClient struct {
@@ -98,6 +102,15 @@ func (c *operatorClient) SetClusterStatus(ctx context.Context, in *SetClusterSta
 	return out, nil
 }
 
+func (c *operatorClient) Deregister(ctx context.Context, in *DeregisterRequest, opts ...grpc.CallOption) (*DeregisterResponse, error) {
+	out := new(DeregisterResponse)
+	err := c.cc.Invoke(ctx, Operator_Deregister_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OperatorServer is the server API for Operator service.
 // All implementations must embed UnimplementedOperatorServer
 // for forward compatibility
@@ -115,6 +128,9 @@ type OperatorServer interface {
 	// SetClusterStatus is invoked at the end of the reconciliation loop and it is used to set the plugin status
 	// inside the .status.plugins[pluginName] map key
 	SetClusterStatus(context.Context, *SetClusterStatusRequest) (*SetClusterStatusResponse, error)
+	// Deregister is invoked when the plugin is removed from the cluster definition. It is expected that the plugin
+	// executes its cleanup logic when this method is invoked.
+	Deregister(context.Context, *DeregisterRequest) (*DeregisterResponse, error)
 	mustEmbedUnimplementedOperatorServer()
 }
 
@@ -136,6 +152,9 @@ func (UnimplementedOperatorServer) MutateCluster(context.Context, *OperatorMutat
 }
 func (UnimplementedOperatorServer) SetClusterStatus(context.Context, *SetClusterStatusRequest) (*SetClusterStatusResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetClusterStatus not implemented")
+}
+func (UnimplementedOperatorServer) Deregister(context.Context, *DeregisterRequest) (*DeregisterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Deregister not implemented")
 }
 func (UnimplementedOperatorServer) mustEmbedUnimplementedOperatorServer() {}
 
@@ -240,6 +259,24 @@ func _Operator_SetClusterStatus_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Operator_Deregister_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeregisterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperatorServer).Deregister(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Operator_Deregister_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperatorServer).Deregister(ctx, req.(*DeregisterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Operator_ServiceDesc is the grpc.ServiceDesc for Operator service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -266,6 +303,10 @@ var Operator_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SetClusterStatus",
 			Handler:    _Operator_SetClusterStatus_Handler,
+		},
+		{
+			MethodName: "Deregister",
+			Handler:    _Operator_Deregister_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
