@@ -33,6 +33,8 @@
     - [Identity](#cnpgi-identity-v1-Identity)
   
 - [operator.proto](#operator-proto)
+    - [DeregisterRequest](#cnpgi-operator-v1-DeregisterRequest)
+    - [DeregisterResponse](#cnpgi-operator-v1-DeregisterResponse)
     - [OperatorCapabilitiesRequest](#cnpgi-operator-v1-OperatorCapabilitiesRequest)
     - [OperatorCapabilitiesResult](#cnpgi-operator-v1-OperatorCapabilitiesResult)
     - [OperatorCapability](#cnpgi-operator-v1-OperatorCapability)
@@ -452,6 +454,31 @@ Intentionally empty.
 
 
 
+<a name="cnpgi-operator-v1-DeregisterRequest"></a>
+
+### DeregisterRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| definition | [bytes](#bytes) |  | This field is REQUIRED. Value of this field is the JSON serialization of the Cluster that should receive the default values |
+
+
+
+
+
+
+<a name="cnpgi-operator-v1-DeregisterResponse"></a>
+
+### DeregisterResponse
+
+
+
+
+
+
+
 <a name="cnpgi-operator-v1-OperatorCapabilitiesRequest"></a>
 
 ### OperatorCapabilitiesRequest
@@ -660,6 +687,7 @@ Intentionally empty.
 | TYPE_MUTATE_CLUSTER | 3 | TYPE_MUTATE_CLUSTER indicates that the Plugin is able to reply to the MutateCluster RPC request |
 | TYPE_MUTATE_POD | 4 | TYPE_MUTATE_POD indicates that the Plugin is able to reply to the MutatePod RPC request |
 | TYPE_SET_CLUSTER_STATUS | 5 | TYPE_SET_CLUSTER_STATUS indicates that the Plugin is able to set cluster status |
+| TYPE_DEREGISTER | 6 | TYPE_DEREGISTER indicates that the Plugin is able to execute the cleanup logic once it is removed from the cluster definition |
 
 
  
@@ -679,6 +707,7 @@ Intentionally empty.
 | ValidateClusterChange | [OperatorValidateClusterChangeRequest](#cnpgi-operator-v1-OperatorValidateClusterChangeRequest) | [OperatorValidateClusterChangeResult](#cnpgi-operator-v1-OperatorValidateClusterChangeResult) | ValidateClusterChange improves the behavior of the validating webhook of is called on updates of the Cluster resources |
 | MutateCluster | [OperatorMutateClusterRequest](#cnpgi-operator-v1-OperatorMutateClusterRequest) | [OperatorMutateClusterResult](#cnpgi-operator-v1-OperatorMutateClusterResult) | MutateCluster fills in the defaults inside a Cluster resource |
 | SetClusterStatus | [SetClusterStatusRequest](#cnpgi-operator-v1-SetClusterStatusRequest) | [SetClusterStatusResponse](#cnpgi-operator-v1-SetClusterStatusResponse) | SetClusterStatus is invoked at the end of the reconciliation loop and it is used to set the plugin status inside the .status.plugins[pluginName] map key |
+| Deregister | [DeregisterRequest](#cnpgi-operator-v1-DeregisterRequest) | [DeregisterResponse](#cnpgi-operator-v1-DeregisterResponse) | Deregister is invoked when the plugin is removed from the cluster definition. It is expected that the plugin executes its cleanup logic when this method is invoked. |
 
  
 
@@ -794,6 +823,7 @@ The operator type corresponds to the Kubernetes API method
 | TYPE_UPDATE | 2 |  |
 | TYPE_CREATE | 3 |  |
 | TYPE_DELETE | 4 |  |
+| TYPE_DEREGISTER | 5 |  |
 
 
  
