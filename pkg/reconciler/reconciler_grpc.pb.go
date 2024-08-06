@@ -31,8 +31,12 @@ type ReconcilerHooksClient interface {
 	// GetCapabilities gets the capabilities of the Backup service
 	GetCapabilities(ctx context.Context, in *ReconcilerHooksCapabilitiesRequest, opts ...grpc.CallOption) (*ReconcilerHooksCapabilitiesResult, error)
 	// Pre is executed before the operator executes the reconciliation loop
+	// It is a way for the plugins to directly execute changes on the resources
+	// through the kube-api server.
 	Pre(ctx context.Context, in *ReconcilerHooksRequest, opts ...grpc.CallOption) (*ReconcilerHooksResult, error)
 	// Post is executed after the operator executes the reconciliation loop
+	// It is a way for the plugins to directly execute changes on the resources
+	// through the kube-api server.
 	Post(ctx context.Context, in *ReconcilerHooksRequest, opts ...grpc.CallOption) (*ReconcilerHooksResult, error)
 }
 
@@ -78,8 +82,12 @@ type ReconcilerHooksServer interface {
 	// GetCapabilities gets the capabilities of the Backup service
 	GetCapabilities(context.Context, *ReconcilerHooksCapabilitiesRequest) (*ReconcilerHooksCapabilitiesResult, error)
 	// Pre is executed before the operator executes the reconciliation loop
+	// It is a way for the plugins to directly execute changes on the resources
+	// through the kube-api server.
 	Pre(context.Context, *ReconcilerHooksRequest) (*ReconcilerHooksResult, error)
 	// Post is executed after the operator executes the reconciliation loop
+	// It is a way for the plugins to directly execute changes on the resources
+	// through the kube-api server.
 	Post(context.Context, *ReconcilerHooksRequest) (*ReconcilerHooksResult, error)
 	mustEmbedUnimplementedReconcilerHooksServer()
 }
