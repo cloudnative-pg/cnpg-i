@@ -79,12 +79,18 @@ const (
 	ReconcilerHooksResult_BEHAVIOR_UNSPECIFIED ReconcilerHooksResult_Behavior = 0
 	// BEHAVIOR_CONTINUE indicates that this reconciliation loop will
 	// proceed running.
+	// BEHAVIOR_CONTINUE is useful when the plugin executes changes on internal status or resources not directly managed
+	// by the main reconciliation loop
 	ReconcilerHooksResult_BEHAVIOR_CONTINUE ReconcilerHooksResult_Behavior = 1
 	// BEHAVIOR_REQUEUE indicates that this reconciliation loop will
-	// be stopped and a new one will be requested
+	// be stopped and a new one will be requested.
+	// BEHAVIOR_REQUEUE should always be set when the plugin applies changes on resources that are directly managed
+	// by the main reconciliation loop
 	ReconcilerHooksResult_BEHAVIOR_REQUEUE ReconcilerHooksResult_Behavior = 2
-	// BEHAVIOR_TERMINATE indicates that this reconciliation loop will
-	// be marked as succeeded and no other operations will be done.
+	// BEHAVIOR_TERMINATE indicates that the main reconciliation loop needs to
+	// be marked as succeeded and no further operations needs to be taken.
+	// This should be used when the invoked Reconcile hook act as a substitute for the main CNPG reconciliation loop.
+	// An example would be a plugin that substitutes the `Backup` logic of CNPG.
 	ReconcilerHooksResult_BEHAVIOR_TERMINATE ReconcilerHooksResult_Behavior = 3
 )
 
@@ -326,6 +332,8 @@ func (x *ReconcilerHooksRequest) GetResourceDefinition() []byte {
 	return nil
 }
 
+// ReconcilerHooksResult response is used to instruct then the CNPG controller on which action
+// take after the plugin execution.
 type ReconcilerHooksResult struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

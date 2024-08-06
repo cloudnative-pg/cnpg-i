@@ -1,4 +1,6 @@
 AdditionalInformationEntry
+alphanumerics
+api
 BackupCapabilitiesRequest
 BackupCapabilitiesResult
 BackupCapability
@@ -19,6 +21,9 @@ GetPluginMetadata
 GetPluginMetadataRequest
 GetPluginMetadataResponse
 JSONPatch
+kube
+kubernetes
+lifecycle
 LifecycleHook
 ManifestEntry
 MetadataEntry
@@ -53,6 +58,12 @@ ReconcilerHooksCapabilitiesResult
 ReconcilerHooksCapability
 ReconcilerHooksRequest
 ReconcilerHooksResult
+reconcilers
+requeue
+rfc
+RPC
+rpc
+RPCs
 ScheduledBackup
 SetClusterStatus
 SetClusterStatusRequest
