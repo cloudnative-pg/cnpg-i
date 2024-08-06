@@ -658,7 +658,6 @@ Intentionally empty.
 | TYPE_VALIDATE_CLUSTER_CREATE | 1 | TYPE_VALIDATE_CLUSTER_CREATE indicates that the Plugin is able to reply to the ValidateClusterCreate RPC request |
 | TYPE_VALIDATE_CLUSTER_CHANGE | 2 | TYPE_VALIDATE_CLUSTER_CHANGE indicates that the Plugin is able to reply to the ValidateClusterChange RPC request |
 | TYPE_MUTATE_CLUSTER | 3 | TYPE_MUTATE_CLUSTER indicates that the Plugin is able to reply to the MutateCluster RPC request |
-| TYPE_MUTATE_POD | 4 | TYPE_MUTATE_POD indicates that the Plugin is able to reply to the MutatePod RPC request |
 | TYPE_SET_CLUSTER_STATUS | 5 | TYPE_SET_CLUSTER_STATUS indicates that the Plugin is able to set cluster status |
 
 
