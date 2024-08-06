@@ -880,7 +880,8 @@ The operator type corresponds to the Kubernetes API method
 <a name="cnpgi-reconciler-v1-ReconcilerHooksResult"></a>
 
 ### ReconcilerHooksResult
-
+ReconcilerHooksResult response is used to instruct then the CNPG controller on which action
+take after the plugin execution.
 
 
 | Field | Type | Label | Description |
@@ -916,9 +917,9 @@ The operator type corresponds to the Kubernetes API method
 | Name | Number | Description |
 | ---- | ------ | ----------- |
 | BEHAVIOR_UNSPECIFIED | 0 |  |
-| BEHAVIOR_CONTINUE | 1 | BEHAVIOR_CONTINUE indicates that this reconciliation loop will proceed running. |
-| BEHAVIOR_REQUEUE | 2 | BEHAVIOR_REQUEUE indicates that this reconciliation loop will be stopped and a new one will be requested |
-| BEHAVIOR_TERMINATE | 3 | BEHAVIOR_TERMINATE indicates that this reconciliation loop will be marked as succeeded and no other operations will be done. |
+| BEHAVIOR_CONTINUE | 1 | BEHAVIOR_CONTINUE indicates that this reconciliation loop will proceed running. BEHAVIOR_CONTINUE is useful when the plugin executes changes on internal status or resources not directly managed by the main reconciliation loop |
+| BEHAVIOR_REQUEUE | 2 | BEHAVIOR_REQUEUE indicates that this reconciliation loop will be stopped and a new one will be requested. BEHAVIOR_REQUEUE should always be set when the plugin applies changes on resources that are directly managed by the main reconciliation loop |
+| BEHAVIOR_TERMINATE | 3 | BEHAVIOR_TERMINATE indicates that the main reconciliation loop needs to be marked as succeeded and no further operations needs to be taken. This should be used when the invoked Reconcile hook act as a substitute for the main CNPG reconciliation loop. An example would be a plugin that substitutes the `Backup` logic of CNPG. |
 
 
  
@@ -929,13 +930,14 @@ The operator type corresponds to the Kubernetes API method
 <a name="cnpgi-reconciler-v1-ReconcilerHooks"></a>
 
 ### ReconcilerHooks
-
+ReconcilerHooks offers a way for the plugins to directly execute changes on the resources
+through the kube-api server.
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
 | GetCapabilities | [ReconcilerHooksCapabilitiesRequest](#cnpgi-reconciler-v1-ReconcilerHooksCapabilitiesRequest) | [ReconcilerHooksCapabilitiesResult](#cnpgi-reconciler-v1-ReconcilerHooksCapabilitiesResult) | GetCapabilities gets the capabilities of the Backup service |
-| Pre | [ReconcilerHooksRequest](#cnpgi-reconciler-v1-ReconcilerHooksRequest) | [ReconcilerHooksResult](#cnpgi-reconciler-v1-ReconcilerHooksResult) | Pre is executed before the operator executes the reconciliation loop |
-| Post | [ReconcilerHooksRequest](#cnpgi-reconciler-v1-ReconcilerHooksRequest) | [ReconcilerHooksResult](#cnpgi-reconciler-v1-ReconcilerHooksResult) | Post is executed after the operator executes the reconciliation loop |
+| Pre | [ReconcilerHooksRequest](#cnpgi-reconciler-v1-ReconcilerHooksRequest) | [ReconcilerHooksResult](#cnpgi-reconciler-v1-ReconcilerHooksResult) | Pre is executed before the operator executes the reconciliation loop It is a way for the plugins to directly execute changes on the resources through the kube-api server. |
+| Post | [ReconcilerHooksRequest](#cnpgi-reconciler-v1-ReconcilerHooksRequest) | [ReconcilerHooksResult](#cnpgi-reconciler-v1-ReconcilerHooksResult) | Post is executed after the operator executes the reconciliation loop It is a way for the plugins to directly execute changes on the resources through the kube-api server. |
 
  
 
