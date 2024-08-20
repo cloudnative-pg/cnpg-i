@@ -17,9 +17,9 @@ service Operator {
   // MutateCluster fills in the defaults inside a Cluster resource
   rpc MutateCluster(OperatorMutateClusterRequest) returns (OperatorMutateClusterResult) {}
 
-  // SetClusterStatus is invoked at the end of the reconciliation loop and it is used to set the plugin status
+  // SetStatusInCluster is invoked at the end of the reconciliation loop and it is used to set the plugin status
   // inside the .status.plugins[pluginName] map key
-  rpc SetClusterStatus(SetClusterStatusRequest) returns (SetClusterStatusResponse) {}
+  rpc SetStatusInCluster(SetStatusInClusterRequest) returns (SetStatusInClusterResponse) {}
 
   // Deregister is invoked when the plugin is removed from the cluster definition. It is expected that the plugin
   // executes its cleanup logic when this method is invoked.
@@ -117,9 +117,9 @@ message OperatorCapability {
       // reply to the MutateCluster RPC request
       TYPE_MUTATE_CLUSTER = 3;
 
-      // TYPE_SET_CLUSTER_STATUS indicates that the Plugin is able to
-      // set cluster status
-      TYPE_SET_CLUSTER_STATUS = 5;
+      // TYPE_SET_STATUS_IN_CLUSTER indicates that the Plugin is able to
+      // reply to the SetStatusInCluster RPC request
+      TYPE_SET_STATUS_IN_CLUSTER = 5;
 
       // TYPE_DEREGISTER indicates that the Plugin is able to execute the cleanup logic once it is removed from
       // the cluster definition
@@ -134,13 +134,13 @@ message OperatorCapability {
   }
 }
 
-message SetClusterStatusRequest {
+message SetStatusInClusterRequest {
   // This field is REQUIRED. Value of this field is the JSON
   // serialization of the current Cluster definition
   bytes cluster = 1;
 }
 
-message SetClusterStatusResponse {
+message SetStatusInClusterResponse {
   // This field is OPTIONAL. No value means no-op, otherwise the passed json is set inside the
   // .status.plugins[pluginName] key
   bytes json_status = 1;

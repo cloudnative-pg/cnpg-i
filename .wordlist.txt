@@ -65,9 +65,9 @@ RPC
 rpc
 RPCs
 ScheduledBackup
-SetClusterStatus
-SetClusterStatusRequest
-SetClusterStatusResponse
+SetStatusInCluster
+SetStatusInClusterRequest
+SetStatusInClusterResponse
 SetFirstRequired
 SetFirstRequiredRequest
 SetFirstRequiredResult
