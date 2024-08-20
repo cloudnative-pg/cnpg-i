@@ -45,8 +45,8 @@
     - [OperatorValidateClusterChangeResult](#cnpgi-operator-v1-OperatorValidateClusterChangeResult)
     - [OperatorValidateClusterCreateRequest](#cnpgi-operator-v1-OperatorValidateClusterCreateRequest)
     - [OperatorValidateClusterCreateResult](#cnpgi-operator-v1-OperatorValidateClusterCreateResult)
-    - [SetClusterStatusRequest](#cnpgi-operator-v1-SetClusterStatusRequest)
-    - [SetClusterStatusResponse](#cnpgi-operator-v1-SetClusterStatusResponse)
+    - [SetStatusInClusterRequest](#cnpgi-operator-v1-SetStatusInClusterRequest)
+    - [SetStatusInClusterResponse](#cnpgi-operator-v1-SetStatusInClusterResponse)
     - [ValidationError](#cnpgi-operator-v1-ValidationError)
   
     - [OperatorCapability.RPC.Type](#cnpgi-operator-v1-OperatorCapability-RPC-Type)
@@ -625,9 +625,9 @@ Intentionally empty.
 
 
 
-<a name="cnpgi-operator-v1-SetClusterStatusRequest"></a>
+<a name="cnpgi-operator-v1-SetStatusInClusterRequest"></a>
 
-### SetClusterStatusRequest
+### SetStatusInClusterRequest
 
 
 
@@ -640,9 +640,9 @@ Intentionally empty.
 
 
 
-<a name="cnpgi-operator-v1-SetClusterStatusResponse"></a>
+<a name="cnpgi-operator-v1-SetStatusInClusterResponse"></a>
 
-### SetClusterStatusResponse
+### SetStatusInClusterResponse
 
 
 
@@ -685,7 +685,7 @@ Intentionally empty.
 | TYPE_VALIDATE_CLUSTER_CREATE | 1 | TYPE_VALIDATE_CLUSTER_CREATE indicates that the Plugin is able to reply to the ValidateClusterCreate RPC request |
 | TYPE_VALIDATE_CLUSTER_CHANGE | 2 | TYPE_VALIDATE_CLUSTER_CHANGE indicates that the Plugin is able to reply to the ValidateClusterChange RPC request |
 | TYPE_MUTATE_CLUSTER | 3 | TYPE_MUTATE_CLUSTER indicates that the Plugin is able to reply to the MutateCluster RPC request |
-| TYPE_SET_CLUSTER_STATUS | 5 | TYPE_SET_CLUSTER_STATUS indicates that the Plugin is able to set cluster status |
+| TYPE_SET_STATUS_IN_CLUSTER | 5 | TYPE_SET_STATUS_IN_CLUSTER indicates that the Plugin is able to reply to the SetStatusInCluster RPC request |
 | TYPE_DEREGISTER | 6 | TYPE_DEREGISTER indicates that the Plugin is able to execute the cleanup logic once it is removed from the cluster definition |
 
 
@@ -705,7 +705,7 @@ Intentionally empty.
 | ValidateClusterCreate | [OperatorValidateClusterCreateRequest](#cnpgi-operator-v1-OperatorValidateClusterCreateRequest) | [OperatorValidateClusterCreateResult](#cnpgi-operator-v1-OperatorValidateClusterCreateResult) | ValidateCreate improves the behavior of the validating webhook that is called on creation of the Cluster resources |
 | ValidateClusterChange | [OperatorValidateClusterChangeRequest](#cnpgi-operator-v1-OperatorValidateClusterChangeRequest) | [OperatorValidateClusterChangeResult](#cnpgi-operator-v1-OperatorValidateClusterChangeResult) | ValidateClusterChange improves the behavior of the validating webhook of is called on updates of the Cluster resources |
 | MutateCluster | [OperatorMutateClusterRequest](#cnpgi-operator-v1-OperatorMutateClusterRequest) | [OperatorMutateClusterResult](#cnpgi-operator-v1-OperatorMutateClusterResult) | MutateCluster fills in the defaults inside a Cluster resource |
-| SetClusterStatus | [SetClusterStatusRequest](#cnpgi-operator-v1-SetClusterStatusRequest) | [SetClusterStatusResponse](#cnpgi-operator-v1-SetClusterStatusResponse) | SetClusterStatus is invoked at the end of the reconciliation loop and it is used to set the plugin status inside the .status.plugins[pluginName] map key |
+| SetStatusInCluster | [SetStatusInClusterRequest](#cnpgi-operator-v1-SetStatusInClusterRequest) | [SetStatusInClusterResponse](#cnpgi-operator-v1-SetStatusInClusterResponse) | SetStatusInCluster is invoked at the end of the reconciliation loop and it is used to set the plugin status inside the .status.plugins[pluginName] map key |
 | Deregister | [DeregisterRequest](#cnpgi-operator-v1-DeregisterRequest) | [DeregisterResponse](#cnpgi-operator-v1-DeregisterResponse) | Deregister is invoked when the plugin is removed from the cluster definition. It is expected that the plugin executes its cleanup logic when this method is invoked. |
 
  
