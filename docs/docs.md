@@ -904,7 +904,7 @@ The operator type corresponds to the Kubernetes API method
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| configs | [EnrichConfigurationResult.ConfigsEntry](#cnpgi-identity-v1-EnrichConfigurationResult-ConfigsEntry) | repeated | This field is OPTIONAL ald represent the configuration parameters that need to be changed before applying a new configuration |
+| configs | [EnrichConfigurationResult.ConfigsEntry](#cnpgi-identity-v1-EnrichConfigurationResult-ConfigsEntry) | repeated | This field is OPTIONAL. It represent the configuration parameters that need to be changed before applying a new configuration |
 
 
 
