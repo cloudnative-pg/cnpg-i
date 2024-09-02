@@ -5,7 +5,9 @@
     ":gitSignOff",
     ":semanticCommitType(chore)",
     ":labels(automated,no-issue)",
-    "regexManagers:githubActionsVersions"
+    "regexManagers:githubActionsVersions",
+    ":automergeMinor",
+    ":automergeDigest"
   ],
   "prConcurrentLimit": 5,
   "ignorePaths": [
@@ -57,8 +59,7 @@
     },
     {
       "matchUpdateTypes": ["minor", "patch"],
-      "matchCurrentVersion": "!/^0/",
-      "automerge": true
+      "matchCurrentVersion": "!/^0/"
     }
   ]
 }
