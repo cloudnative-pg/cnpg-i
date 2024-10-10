@@ -62,6 +62,12 @@ ReconcilerHooksCapabilitiesResult
 ReconcilerHooksCapability
 ReconcilerHooksRequest
 ReconcilerHooksResult
+RestoreJobHooks
+RestoreJobHooksCapabilitiesRequest
+RestoreJobHooksCapabilitiesResult
+RestoreJobHooksCapability
+RestoreRequest
+RestoreResponse
 ScheduledBackup
 SetFirstRequired
 SetFirstRequiredRequest

@@ -44,7 +44,7 @@ message GetPluginMetadataResponse {
 
   // License of the plugin. This field is REQUIRED.
   string license = 7;
-  
+
   // URL of the license of the plugin. This field is REQUIRED.
   string license_url = 8;
 
@@ -101,6 +101,10 @@ message PluginCapability {
       // TYPE_RECONCILER_HOOKS indicates that the Plugin provides RPCs to
       // enhance the behavior of the reconcilers
       TYPE_RECONCILER_HOOKS = 5;
+
+      // TYPE_RESTORE_JOB_HOOKS indicates that the Plugin provides RPCs to
+      // enhance the behavior of the restore jobs
+      TYPE_RESTORE_JOB = 6;
     }
     Type type = 1;
   }
