@@ -98,11 +98,13 @@ bool
 boolean
 cncf
 cnpg
+config
 configs
 csi
 customizable
 customizations
 edb
+envs
 fixnum
 gRPC
 html

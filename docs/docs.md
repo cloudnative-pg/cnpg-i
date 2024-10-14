@@ -450,7 +450,7 @@ Intentionally empty.
 | TYPE_BACKUP_SERVICE | 3 | TYPE_BACKUP_SERVICE indicates that the Plugin provides RPCs for the Backup service. The presence of this capability determines whether the CO will attempt to invoke the REQUIRED Backup Service RPCs, as well as specific RPCs as indicated by GetCapabilities. |
 | TYPE_LIFECYCLE_SERVICE | 4 | TYPE_LIFECYCLE_SERVICE indicates that the Plugin provides RPCs for the Lifecycle service. |
 | TYPE_RECONCILER_HOOKS | 5 | TYPE_RECONCILER_HOOKS indicates that the Plugin provides RPCs to enhance the behavior of the reconcilers |
-| TYPE_RESTORE | 6 | TYPE_RESTORE_JOB_HOOKS indicates that the Plugin provides RPCs to enhance the behavior of the restore jobs |
+| TYPE_RESTORE_JOB | 6 | TYPE_RESTORE_JOB_HOOKS indicates that the Plugin provides RPCs to enhance the behavior of the restore jobs |
 
 
  
@@ -1216,6 +1216,12 @@ through the kube-api server.
 
 ### RestoreResponse
 
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| restore_config | [string](#string) |  |  |
+| envs | [string](#string) | repeated |  |
 
 
 
