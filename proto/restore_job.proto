@@ -25,6 +25,12 @@ message RestoreJobHooksCapability {
 }
 
 message RestoreRequest {
+  // This field is REQUIRED. Value of this field is the JSON
+  // serialization of the Cluster.
+  bytes cluster_definition = 1;
+  // This field is REQUIRED. Value of this field is the JSON
+  // serialization of the backup.
+  bytes backup_definition = 2;
 }
 
 message RestoreResponse {

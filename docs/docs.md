@@ -1208,6 +1208,12 @@ through the kube-api server.
 
 
 
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| cluster_definition | [bytes](#bytes) |  | This field is REQUIRED. Value of this field is the JSON serialization of the Cluster. |
+| backup_definition | [bytes](#bytes) |  | This field is REQUIRED. Value of this field is the JSON serialization of the backup. |
+
+
 
 
 
