@@ -1,0 +1,39 @@
+syntax = "proto3";
+package cnpgi.wal.v1;
+option go_package = "github.com/cloudnative-pg/cnpg-i/pkg/restore/job";
+
+service RestoreJobHooks {
+  rpc GetCapabilities(RestoreJobHooksCapabilitiesRequest) returns (RestoreJobHooksCapabilitiesResult) {}
+
+  rpc Restore(RestoreRequest) returns (RestoreResponse) {}
+}
+
+message RestoreJobHooksCapabilitiesRequest {
+}
+
+message RestoreJobHooksCapabilitiesResult {
+  repeated RestoreJobHooksCapability capabilities = 1;
+}
+
+message RestoreJobHooksCapability {
+  enum Kind {
+    KIND_UNSPECIFIED = 0;
+    KIND_RESTORE = 1;
+  }
+
+  Kind kind = 1;
+}
+
+message RestoreRequest {
+  // This field is REQUIRED. Value of this field is the JSON
+  // serialization of the Cluster.
+  bytes cluster_definition = 1;
+  // This field is REQUIRED. Value of this field is the JSON
+  // serialization of the backup.
+  bytes backup_definition = 2;
+}
+
+message RestoreResponse {
+  string restore_config = 1;
+  repeated string envs = 2;
+}
