@@ -243,6 +243,7 @@ Intentionally empty.
 | instance_id | [string](#string) |  | This field is OPTIONAL and contains the ID of the instance that have been backed up |
 | online | [bool](#bool) |  | This field is REQUIRED and is set to true for online/hot backups and to false otherwise. |
 | metadata | [BackupResult.MetadataEntry](#cnpgi-backup-v1-BackupResult-MetadataEntry) | repeated | This field is OPTIONAL and contains all the plugin specific information that needs to be stored |
+| server_name | [string](#string) |  | This field is OPTIONAL and contains the name of the object storage server |
 
 
 
