@@ -12,6 +12,7 @@
     - [BackupRequest.ParametersEntry](#cnpgi-backup-v1-BackupRequest-ParametersEntry)
     - [BackupResult](#cnpgi-backup-v1-BackupResult)
     - [BackupResult.MetadataEntry](#cnpgi-backup-v1-BackupResult-MetadataEntry)
+    - [KeyName](#cnpgi-backup-v1-KeyName)
   
     - [BackupCapability.RPC.Type](#cnpgi-backup-v1-BackupCapability-RPC-Type)
   
@@ -244,6 +245,10 @@ Intentionally empty.
 | online | [bool](#bool) |  | This field is REQUIRED and is set to true for online/hot backups and to false otherwise. |
 | metadata | [BackupResult.MetadataEntry](#cnpgi-backup-v1-BackupResult-MetadataEntry) | repeated | This field is OPTIONAL and contains all the plugin specific information that needs to be stored |
 | server_name | [string](#string) |  | This field is OPTIONAL and contains the name of the object storage server |
+| endpoint_url | [string](#string) |  | This field is OPTIONAL and contains the endpoint URL of the object storage server |
+| destination_path | [string](#string) |  | This field is OPTIONAL and contains the destination path of the backup |
+| endpoint_ca | [KeyName](#cnpgi-backup-v1-KeyName) |  | This field is OPTIONAL and contains the endpoint CA of the object storage server |
+| encryption | [string](#string) |  | This field is OPTIONAL and contains the encryption key of the backup |
 
 
 
@@ -260,6 +265,22 @@ Intentionally empty.
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
 | value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cnpgi-backup-v1-KeyName"></a>
+
+### KeyName
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | This field is REQUIRED and contains the name of the name |
+| key | [string](#string) |  | This field is REQUIRED and contains the value of the key |
 
 
 
