@@ -96,4 +96,7 @@ message BackupResult {
 
   // This field is OPTIONAL and contains all the plugin specific information that needs to be stored
   map<string, string> metadata = 13;
+
+  // This field is OPTIONAL and contains the name of the object storage server
+  string server_name = 14;
 }
