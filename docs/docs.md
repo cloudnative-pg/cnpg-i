@@ -12,6 +12,7 @@
     - [BackupRequest.ParametersEntry](#cnpgi-backup-v1-BackupRequest-ParametersEntry)
     - [BackupResult](#cnpgi-backup-v1-BackupResult)
     - [BackupResult.MetadataEntry](#cnpgi-backup-v1-BackupResult-MetadataEntry)
+    - [KeyName](#cnpgi-backup-v1-KeyName)
   
     - [BackupCapability.RPC.Type](#cnpgi-backup-v1-BackupCapability-RPC-Type)
   
@@ -90,6 +91,17 @@
     - [ReconcilerHooksResult.Behavior](#cnpgi-reconciler-v1-ReconcilerHooksResult-Behavior)
   
     - [ReconcilerHooks](#cnpgi-reconciler-v1-ReconcilerHooks)
+  
+- [restore_job.proto](#restore_job-proto)
+    - [RestoreJobHooksCapabilitiesRequest](#cnpgi-wal-v1-RestoreJobHooksCapabilitiesRequest)
+    - [RestoreJobHooksCapabilitiesResult](#cnpgi-wal-v1-RestoreJobHooksCapabilitiesResult)
+    - [RestoreJobHooksCapability](#cnpgi-wal-v1-RestoreJobHooksCapability)
+    - [RestoreRequest](#cnpgi-wal-v1-RestoreRequest)
+    - [RestoreResponse](#cnpgi-wal-v1-RestoreResponse)
+  
+    - [RestoreJobHooksCapability.Kind](#cnpgi-wal-v1-RestoreJobHooksCapability-Kind)
+  
+    - [RestoreJobHooks](#cnpgi-wal-v1-RestoreJobHooks)
   
 - [wal.proto](#wal-proto)
     - [SetFirstRequiredRequest](#cnpgi-wal-v1-SetFirstRequiredRequest)
@@ -232,6 +244,11 @@ Intentionally empty.
 | instance_id | [string](#string) |  | This field is OPTIONAL and contains the ID of the instance that have been backed up |
 | online | [bool](#bool) |  | This field is REQUIRED and is set to true for online/hot backups and to false otherwise. |
 | metadata | [BackupResult.MetadataEntry](#cnpgi-backup-v1-BackupResult-MetadataEntry) | repeated | This field is OPTIONAL and contains all the plugin specific information that needs to be stored |
+| server_name | [string](#string) |  | This field is OPTIONAL and contains the name of the object storage server |
+| endpoint_url | [string](#string) |  | This field is OPTIONAL and contains the endpoint URL of the object storage server |
+| destination_path | [string](#string) |  | This field is OPTIONAL and contains the destination path of the backup |
+| endpoint_ca | [KeyName](#cnpgi-backup-v1-KeyName) |  | This field is OPTIONAL and contains the endpoint CA of the object storage server |
+| encryption | [string](#string) |  | This field is OPTIONAL and contains the encryption key of the backup |
 
 
 
@@ -248,6 +265,22 @@ Intentionally empty.
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
 | value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cnpgi-backup-v1-KeyName"></a>
+
+### KeyName
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | This field is REQUIRED and contains the name of the name |
+| key | [string](#string) |  | This field is REQUIRED and contains the value of the key |
 
 
 
@@ -439,6 +472,7 @@ Intentionally empty.
 | TYPE_BACKUP_SERVICE | 3 | TYPE_BACKUP_SERVICE indicates that the Plugin provides RPCs for the Backup service. The presence of this capability determines whether the CO will attempt to invoke the REQUIRED Backup Service RPCs, as well as specific RPCs as indicated by GetCapabilities. |
 | TYPE_LIFECYCLE_SERVICE | 4 | TYPE_LIFECYCLE_SERVICE indicates that the Plugin provides RPCs for the Lifecycle service. |
 | TYPE_RECONCILER_HOOKS | 5 | TYPE_RECONCILER_HOOKS indicates that the Plugin provides RPCs to enhance the behavior of the reconcilers |
+| TYPE_RESTORE_JOB | 6 | TYPE_RESTORE_JOB_HOOKS indicates that the Plugin provides RPCs to enhance the behavior of the restore jobs |
 
 
  
@@ -1138,6 +1172,117 @@ through the kube-api server.
 | GetCapabilities | [ReconcilerHooksCapabilitiesRequest](#cnpgi-reconciler-v1-ReconcilerHooksCapabilitiesRequest) | [ReconcilerHooksCapabilitiesResult](#cnpgi-reconciler-v1-ReconcilerHooksCapabilitiesResult) | GetCapabilities gets the capabilities of the Backup service |
 | Pre | [ReconcilerHooksRequest](#cnpgi-reconciler-v1-ReconcilerHooksRequest) | [ReconcilerHooksResult](#cnpgi-reconciler-v1-ReconcilerHooksResult) | Pre is executed before the operator executes the reconciliation loop It is a way for the plugins to directly execute changes on the resources through the kube-api server. |
 | Post | [ReconcilerHooksRequest](#cnpgi-reconciler-v1-ReconcilerHooksRequest) | [ReconcilerHooksResult](#cnpgi-reconciler-v1-ReconcilerHooksResult) | Post is executed after the operator executes the reconciliation loop It is a way for the plugins to directly execute changes on the resources through the kube-api server. |
+
+ 
+
+
+
+<a name="restore_job-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## restore_job.proto
+
+
+
+<a name="cnpgi-wal-v1-RestoreJobHooksCapabilitiesRequest"></a>
+
+### RestoreJobHooksCapabilitiesRequest
+
+
+
+
+
+
+
+<a name="cnpgi-wal-v1-RestoreJobHooksCapabilitiesResult"></a>
+
+### RestoreJobHooksCapabilitiesResult
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| capabilities | [RestoreJobHooksCapability](#cnpgi-wal-v1-RestoreJobHooksCapability) | repeated |  |
+
+
+
+
+
+
+<a name="cnpgi-wal-v1-RestoreJobHooksCapability"></a>
+
+### RestoreJobHooksCapability
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| kind | [RestoreJobHooksCapability.Kind](#cnpgi-wal-v1-RestoreJobHooksCapability-Kind) |  |  |
+
+
+
+
+
+
+<a name="cnpgi-wal-v1-RestoreRequest"></a>
+
+### RestoreRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| cluster_definition | [bytes](#bytes) |  | This field is REQUIRED. Value of this field is the JSON serialization of the Cluster. |
+| backup_definition | [bytes](#bytes) |  | This field is REQUIRED. Value of this field is the JSON serialization of the backup. |
+
+
+
+
+
+
+<a name="cnpgi-wal-v1-RestoreResponse"></a>
+
+### RestoreResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| restore_config | [string](#string) |  |  |
+| envs | [string](#string) | repeated |  |
+
+
+
+
+
+ 
+
+
+<a name="cnpgi-wal-v1-RestoreJobHooksCapability-Kind"></a>
+
+### RestoreJobHooksCapability.Kind
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| KIND_UNSPECIFIED | 0 |  |
+| KIND_RESTORE | 1 |  |
+
+
+ 
+
+ 
+
+
+<a name="cnpgi-wal-v1-RestoreJobHooks"></a>
+
+### RestoreJobHooks
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| GetCapabilities | [RestoreJobHooksCapabilitiesRequest](#cnpgi-wal-v1-RestoreJobHooksCapabilitiesRequest) | [RestoreJobHooksCapabilitiesResult](#cnpgi-wal-v1-RestoreJobHooksCapabilitiesResult) |  |
+| Restore | [RestoreRequest](#cnpgi-wal-v1-RestoreRequest) | [RestoreResponse](#cnpgi-wal-v1-RestoreResponse) |  |
 
  
 
