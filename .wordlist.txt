@@ -23,6 +23,7 @@ GetPluginMetadata
 GetPluginMetadataRequest
 GetPluginMetadataResponse
 JSONPatch
+KeyName
 LifecycleHook
 ManifestEntry
 MetadataEntry
