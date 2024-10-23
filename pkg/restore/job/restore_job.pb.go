@@ -262,8 +262,13 @@ type RestoreResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	RestoreConfig string   `protobuf:"bytes,1,opt,name=restore_config,json=restoreConfig,proto3" json:"restore_config,omitempty"`
-	Envs          []string `protobuf:"bytes,2,rep,name=envs,proto3" json:"envs,omitempty"`
+	// This field is REQUIRED. Value of this field is the string
+	// representation of postgresql configuration parameters to use
+	// for the restore.
+	RestoreConfig string `protobuf:"bytes,1,opt,name=restore_config,json=restoreConfig,proto3" json:"restore_config,omitempty"`
+	// This field if REQUIRED. Environment variables to be set in the
+	// restore job, expressed as NAME=VALUE.
+	Envs []string `protobuf:"bytes,2,rep,name=envs,proto3" json:"envs,omitempty"`
 }
 
 func (x *RestoreResponse) Reset() {
