@@ -1248,8 +1248,8 @@ through the kube-api server.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| restore_config | [string](#string) |  |  |
-| envs | [string](#string) | repeated |  |
+| restore_config | [string](#string) |  | This field is REQUIRED. Value of this field is the string representation of postgresql configuration parameters to use for the restore. |
+| envs | [string](#string) | repeated | This field if REQUIRED. Environment variables to be set in the restore job, expressed as NAME=VALUE. |
 
 
 
