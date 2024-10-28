@@ -53,14 +53,6 @@ message BackupRequest {
   map<string, string> parameters = 3;
 }
 
-message KeyName {
-  // This field is REQUIRED and contains the name of the name
-  string name = 1;
-
-  // This field is REQUIRED and contains the value of the key
-  string key = 2;
-}
-
 message BackupResult {
   // This field is REQUIRED and contains a machine-readable ID of the
   // backup that is being taken
@@ -104,19 +96,4 @@ message BackupResult {
 
   // This field is OPTIONAL and contains all the plugin specific information that needs to be stored
   map<string, string> metadata = 13;
-
-  // This field is OPTIONAL and contains the name of the object storage server
-  string server_name = 14;
-
-  // This field is OPTIONAL and contains the endpoint URL of the object storage server
-  string endpoint_url = 15;
-
-  // This field is OPTIONAL and contains the destination path of the backup
-  string destination_path = 16;
-
-  // This field is OPTIONAL and contains the endpoint CA of the object storage server
-  KeyName endpoint_ca = 17;
-
-  // This field is OPTIONAL and contains the encryption key of the backup
-  string encryption = 18;
 }

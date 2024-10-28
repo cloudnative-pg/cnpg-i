@@ -27,7 +27,9 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RestoreJobHooksClient interface {
+	// GetCapabilities gets the capabilities of the Backup service
 	GetCapabilities(ctx context.Context, in *RestoreJobHooksCapabilitiesRequest, opts ...grpc.CallOption) (*RestoreJobHooksCapabilitiesResult, error)
+	// Restore is called to restore a PGDATA
 	Restore(ctx context.Context, in *RestoreRequest, opts ...grpc.CallOption) (*RestoreResponse, error)
 }
 
@@ -61,7 +63,9 @@ func (c *restoreJobHooksClient) Restore(ctx context.Context, in *RestoreRequest,
 // All implementations must embed UnimplementedRestoreJobHooksServer
 // for forward compatibility
 type RestoreJobHooksServer interface {
+	// GetCapabilities gets the capabilities of the Backup service
 	GetCapabilities(context.Context, *RestoreJobHooksCapabilitiesRequest) (*RestoreJobHooksCapabilitiesResult, error)
+	// Restore is called to restore a PGDATA
 	Restore(context.Context, *RestoreRequest) (*RestoreResponse, error)
 	mustEmbedUnimplementedRestoreJobHooksServer()
 }

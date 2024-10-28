@@ -23,7 +23,6 @@ GetPluginMetadata
 GetPluginMetadataRequest
 GetPluginMetadataResponse
 JSONPatch
-KeyName
 LifecycleHook
 ManifestEntry
 MetadataEntry
@@ -53,6 +52,7 @@ PostgresCapability
 Pre
 ProbeRequest
 ProbeResponse
+PGDATA
 RPC
 RPC
 RPCs

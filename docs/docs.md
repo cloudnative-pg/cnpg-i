@@ -12,7 +12,6 @@
     - [BackupRequest.ParametersEntry](#cnpgi-backup-v1-BackupRequest-ParametersEntry)
     - [BackupResult](#cnpgi-backup-v1-BackupResult)
     - [BackupResult.MetadataEntry](#cnpgi-backup-v1-BackupResult-MetadataEntry)
-    - [KeyName](#cnpgi-backup-v1-KeyName)
   
     - [BackupCapability.RPC.Type](#cnpgi-backup-v1-BackupCapability-RPC-Type)
   
@@ -244,11 +243,6 @@ Intentionally empty.
 | instance_id | [string](#string) |  | This field is OPTIONAL and contains the ID of the instance that have been backed up |
 | online | [bool](#bool) |  | This field is REQUIRED and is set to true for online/hot backups and to false otherwise. |
 | metadata | [BackupResult.MetadataEntry](#cnpgi-backup-v1-BackupResult-MetadataEntry) | repeated | This field is OPTIONAL and contains all the plugin specific information that needs to be stored |
-| server_name | [string](#string) |  | This field is OPTIONAL and contains the name of the object storage server |
-| endpoint_url | [string](#string) |  | This field is OPTIONAL and contains the endpoint URL of the object storage server |
-| destination_path | [string](#string) |  | This field is OPTIONAL and contains the destination path of the backup |
-| endpoint_ca | [KeyName](#cnpgi-backup-v1-KeyName) |  | This field is OPTIONAL and contains the endpoint CA of the object storage server |
-| encryption | [string](#string) |  | This field is OPTIONAL and contains the encryption key of the backup |
 
 
 
@@ -265,22 +259,6 @@ Intentionally empty.
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
 | value | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="cnpgi-backup-v1-KeyName"></a>
-
-### KeyName
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| name | [string](#string) |  | This field is REQUIRED and contains the name of the name |
-| key | [string](#string) |  | This field is REQUIRED and contains the value of the key |
 
 
 
@@ -1202,7 +1180,7 @@ through the kube-api server.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| capabilities | [RestoreJobHooksCapability](#cnpgi-wal-v1-RestoreJobHooksCapability) | repeated |  |
+| capabilities | [RestoreJobHooksCapability](#cnpgi-wal-v1-RestoreJobHooksCapability) | repeated | This field is REQUIRED and contains the describe capability |
 
 
 
@@ -1233,7 +1211,6 @@ through the kube-api server.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | cluster_definition | [bytes](#bytes) |  | This field is REQUIRED. Value of this field is the JSON serialization of the Cluster. |
-| backup_definition | [bytes](#bytes) |  | This field is REQUIRED. Value of this field is the JSON serialization of the backup. |
 
 
 
@@ -1248,7 +1225,7 @@ through the kube-api server.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| restore_config | [string](#string) |  | This field is REQUIRED. Value of this field is the string representation of postgresql configuration parameters to use for the restore. |
+| restore_config | [string](#string) |  | This field is REQUIRED. Value of this field is the string representation of PostgreSQL configuration parameters to use for the restore. |
 | envs | [string](#string) | repeated | This field if REQUIRED. Environment variables to be set in the restore job, expressed as NAME=VALUE. |
 
 
@@ -1266,7 +1243,7 @@ through the kube-api server.
 | Name | Number | Description |
 | ---- | ------ | ----------- |
 | KIND_UNSPECIFIED | 0 |  |
-| KIND_RESTORE | 1 |  |
+| KIND_RESTORE | 1 | KIND_RESTORE means that the plugin is able to handle Restore requests |
 
 
  
@@ -1277,12 +1254,13 @@ through the kube-api server.
 <a name="cnpgi-wal-v1-RestoreJobHooks"></a>
 
 ### RestoreJobHooks
-
+RestoreJobHooks offers a way for the plugins to enhance the cluster
+recovery process
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| GetCapabilities | [RestoreJobHooksCapabilitiesRequest](#cnpgi-wal-v1-RestoreJobHooksCapabilitiesRequest) | [RestoreJobHooksCapabilitiesResult](#cnpgi-wal-v1-RestoreJobHooksCapabilitiesResult) |  |
-| Restore | [RestoreRequest](#cnpgi-wal-v1-RestoreRequest) | [RestoreResponse](#cnpgi-wal-v1-RestoreResponse) |  |
+| GetCapabilities | [RestoreJobHooksCapabilitiesRequest](#cnpgi-wal-v1-RestoreJobHooksCapabilitiesRequest) | [RestoreJobHooksCapabilitiesResult](#cnpgi-wal-v1-RestoreJobHooksCapabilitiesResult) | GetCapabilities gets the capabilities of the Backup service |
+| Restore | [RestoreRequest](#cnpgi-wal-v1-RestoreRequest) | [RestoreResponse](#cnpgi-wal-v1-RestoreResponse) | Restore is called to restore a PGDATA |
 
  
 
