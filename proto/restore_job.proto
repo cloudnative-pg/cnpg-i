@@ -1,0 +1,49 @@
+syntax = "proto3";
+package cnpgi.wal.v1;
+option go_package = "github.com/cloudnative-pg/cnpg-i/pkg/restore/job";
+
+// RestoreJobHooks offers a way for the plugins to enhance the cluster
+// recovery process
+service RestoreJobHooks {
+  // GetCapabilities gets the capabilities of the Backup service
+  rpc GetCapabilities(RestoreJobHooksCapabilitiesRequest) returns (RestoreJobHooksCapabilitiesResult) {}
+
+  // Restore is called to restore a PGDATA
+  rpc Restore(RestoreRequest) returns (RestoreResponse) {}
+}
+
+message RestoreJobHooksCapabilitiesRequest {
+}
+
+message RestoreJobHooksCapabilitiesResult {
+  // This field is REQUIRED and contains the describe capability
+  repeated RestoreJobHooksCapability capabilities = 1;
+}
+
+message RestoreJobHooksCapability {
+  enum Kind {
+    KIND_UNSPECIFIED = 0;
+
+    // KIND_RESTORE means that the plugin is able to handle
+    // Restore requests
+    KIND_RESTORE = 1;
+  }
+
+  Kind kind = 1;
+}
+
+message RestoreRequest {
+  // This field is REQUIRED. Value of this field is the JSON
+  // serialization of the Cluster.
+  bytes cluster_definition = 1;
+}
+
+message RestoreResponse {
+  // This field is REQUIRED. Value of this field is the string
+  // representation of PostgreSQL configuration parameters to use
+  // for the restore.
+  string restore_config = 1;
+  // This field if REQUIRED. Environment variables to be set in the
+  // restore job, expressed as NAME=VALUE.
+  repeated string envs = 2;
+}

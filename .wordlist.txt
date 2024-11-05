@@ -52,6 +52,7 @@ PostgresCapability
 Pre
 ProbeRequest
 ProbeResponse
+PGDATA
 RPC
 RPC
 RPCs
@@ -62,6 +63,12 @@ ReconcilerHooksCapabilitiesResult
 ReconcilerHooksCapability
 ReconcilerHooksRequest
 ReconcilerHooksResult
+RestoreJobHooks
+RestoreJobHooksCapabilitiesRequest
+RestoreJobHooksCapabilitiesResult
+RestoreJobHooksCapability
+RestoreRequest
+RestoreResponse
 ScheduledBackup
 SetFirstRequired
 SetFirstRequiredRequest
@@ -92,11 +99,13 @@ bool
 boolean
 cncf
 cnpg
+config
 configs
 csi
 customizable
 customizations
 edb
+envs
 fixnum
 gRPC
 html
