@@ -118,6 +118,7 @@ kubernetes
 lifecycle
 lifecycle
 lsn
+md
 pluggable
 pluginName
 postgres
