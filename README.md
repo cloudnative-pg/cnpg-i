@@ -8,8 +8,6 @@ approach to integrating plugins with the
 enabling greater flexibility and ease of feature development in the
 CloudNativePG ecosystem.
 
----
-
 ## What is CNPG-I?
 
 The **CloudNativePG Interface** is a **gRPC-based protocol** that defines a
@@ -18,8 +16,6 @@ This approach empowers developers and organizations to extend the operator's
 functionality without the need to fork its codebase.
 
 For a detailed protocol specification, refer to the [protocol.md](docs/protocol.md) file.
-
----
 
 ## Why CNPG-I?
 
@@ -33,8 +29,6 @@ the success of Kubernetes' [Container Storage Interface (CSI)](https://github.co
 CNPG-I fosters a thriving ecosystem by making it easier to integrate new
 capabilities through independent plugins, allowing for faster innovation and
 simplified maintenance.
-
----
 
 ### Key Benefits
 
@@ -51,8 +45,6 @@ simplified maintenance.
 5. **Ease of Adoption**: Simplify the move to CloudNativePG for Postgres and
    Kubernetes users by facilitating custom enhancements and integrations.
 
----
-
 ## Use Cases for Plugins
 
 CNPG-I enables the creation of plugins for diverse use cases, such as:
@@ -68,8 +60,6 @@ CNPG-I enables the creation of plugins for diverse use cases, such as:
 
 By leveraging plugins, developers can extend CloudNativePG’s functionality
 without modifying its core code.
-
----
 
 ## Projects Built with CNPG-I
 
