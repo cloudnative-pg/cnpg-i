@@ -6,6 +6,7 @@ BackupRequest
 BackupResult
 ByteString
 CloudNativePG
+CloudNativePG's
 ConfigsEntry
 DEREGISTER
 Deregister
@@ -99,6 +100,7 @@ bool
 boolean
 cncf
 cnpg
+codebase
 config
 configs
 csi
@@ -111,6 +113,7 @@ gRPC
 html
 https
 ietf
+integrations
 json
 kube
 kubernetes
