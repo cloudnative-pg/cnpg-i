@@ -2,65 +2,86 @@
 
 **Status:** Experimental
 
-## Protocol
+The **CloudNativePG Interface (CNPG-I)** introduces a modular and extensible
+approach to integrating plugins with the
+[CloudNativePG operator for PostgreSQL](https://github.com/cloudnative-pg/cloudnative-pg),
+enabling greater flexibility and ease of feature development in the
+CloudNativePG ecosystem.
 
-The CloudNativePG Interface (CNPG-I) is a gRPC-based protocol that defines the
-interface between the CloudNativePG operator and its plugins.
+---
 
-For the full protocol specification, refer to the [protocol.md](docs/protocol.md) file.
+## What is CNPG-I?
 
-## Rationale
+The **CloudNativePG Interface** is a **gRPC-based protocol** that defines a
+standardized interface between the CloudNativePG operator and external plugins.
+This approach empowers developers and organizations to extend the operator's
+functionality without the need to fork its codebase.
 
-The CloudNativePG code base has grown significantly over the years, increasing
-the cognitive load required to work with it and creating challenges in the
-submission of new pull requests in the open source project.
+For a detailed protocol specification, refer to the [protocol.md](docs/protocol.md) file.
 
-As the project grows both in code base and adoption, it is important to ensure
-that the delivery of new features remains efficient.
+---
 
-To address this, we propose a more modular approach to adding new behaviors and
-capabilities to the operator, inspired by the successful implementation of the
-[Container Storage Interface (CSI)](https://github.com/container-storage-interface/spec/blob/master/spec.md)
-in Kubernetes.
+## Why CNPG-I?
 
-The CloudNativePG Interface (CNPG-I) standard API, based on gRPC, aims to enable
-developers and organizations to create plugins or collections of them, rather
-than creating, maintaining, and distributing a fork of CloudNativePG.
+Over the years, CloudNativePG's codebase has grown significantly, creating
+challenges for developers contributing to the project and increasing the time
+required to deliver new features.
 
-Some of the benefits of CNPG-I include:
+To address this, CNPG-I provides a **modular plugin architecture** inspired by
+the success of Kubernetes' [Container Storage Interface (CSI)](https://github.com/container-storage-interface/spec/blob/master/spec.md).
 
-* Reducing complexity and responsibility within the CloudNativePG open source
-  code base by delegating them to external plugins that can run as sidecar
-  containers alongside Postgres
-* Increasing the velocity of feature delivery by removing bottlenecks from the
-  CloudNativePG core team, fostering prototyping, and nurturing an independent
-  ecosystem of plugins
-* Providing a standard gRPC-based API specification that covers customizable
-  aspects of the operator and the operands, and offering a way to test
-  compliance with it
-* Encouraging dynamic growth of the ecosystem through customizations that can be
-  independently developed within the operands, as separate projects instead of
-  operator forks, with a lower required cognitive load
-* Facilitating the move to CloudNativePG for other Postgres and Kubernetes
-  companies.
+CNPG-I fosters a thriving ecosystem by making it easier to integrate new
+capabilities through independent plugins, allowing for faster innovation and
+simplified maintenance.
 
-### Use cases for plugins
+---
 
-For example, plugins might involve:
+### Key Benefits
 
-* WAL management
-* Backup and recovery management
-* Logging and auditing
-* Export of metrics
-* Authentication and authorization
-* Management of extensions
-* Management of an instance lifecycle
-* Management of the configuration of an instance
+1. **Reduced Complexity**: Delegate responsibilities to external plugins,
+   reducing the cognitive load and size of the CloudNativePG core codebase.
+2. **Faster Feature Delivery**: Accelerate development by fostering independent
+   plugin creation, prototyping, and ecosystem growth.
+3. **Standardized gRPC API**:
+   Provide a robust, gRPC-based API specification for customizing operator and
+   operand behavior, complete with compliance testing tools.
+4. **Ecosystem Expansion**: Encourage innovation by enabling developers to
+   create enhancements as separate projects, avoiding forks and lowering barriers
+   to entry.
+5. **Ease of Adoption**: Simplify the move to CloudNativePG for Postgres and
+   Kubernetes users by facilitating custom enhancements and integrations.
 
-## Projects using CNPG-I
+---
 
-* [CNPG-I Hello World](https://github.com/cloudnative-pg/cnpg-i-hello-world/)
-* [Barman Cloud CNPG-I Plugin](https://github.com/cloudnative-pg/plugin-barman-cloud)
+## Use Cases for Plugins
+
+CNPG-I enables the creation of plugins for diverse use cases, such as:
+
+- **WAL Management**
+- **Backup and Recovery**
+- **Logging and Auditing**
+- **Metrics Export**
+- **Authentication and Authorization**
+- **Extension Management**
+- **Instance Lifecycle Management**
+- **Configuration Management**
+
+By leveraging plugins, developers can extend CloudNativePG’s functionality
+without modifying its core code.
+
+---
+
+## Projects Built with CNPG-I
+
+Explore real-world applications of CNPG-I:
+
+- [CNPG-I Hello World](https://github.com/cloudnative-pg/cnpg-i-hello-world/):
+  A simple example plugin demonstrating CNPG-I.
+- [Barman Cloud CNPG-I Plugin](https://github.com/cloudnative-pg/plugin-barman-cloud):
+  A plugin for seamless integration with Barman Cloud for Continuous Backup and
+  Recovery using object stores.
+
+---
 
 ## Trademarks
 
