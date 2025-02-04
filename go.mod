@@ -2,7 +2,7 @@ module github.com/cloudnative-pg/cnpg-i
 
 go 1.22.7
 
-toolchain go1.23.5
+toolchain go1.23.6
 
 require (
 	google.golang.org/grpc v1.70.0
