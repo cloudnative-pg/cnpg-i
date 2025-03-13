@@ -849,6 +849,7 @@ The operator type corresponds to the Kubernetes API method
 | TYPE_CREATE | 3 |  |
 | TYPE_DELETE | 4 |  |
 | TYPE_DEREGISTER | 5 |  |
+| TYPE_EVALUATE | 6 |  |
 
 
  
