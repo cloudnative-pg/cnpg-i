@@ -105,6 +105,10 @@ message PluginCapability {
       // TYPE_RESTORE_JOB_HOOKS indicates that the Plugin provides RPCs to
       // enhance the behavior of the restore jobs
       TYPE_RESTORE_JOB = 6;
+
+      // TYPE_POSTGRES indicates that the Plugin provides RPCs to
+      // enhance the behavior of PostgreSQL
+      TYPE_POSTGRES = 7;
     }
     Type type = 1;
   }
