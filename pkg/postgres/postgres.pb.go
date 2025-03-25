@@ -70,6 +70,58 @@ func (PostgresCapability_RPC_Type) EnumDescriptor() ([]byte, []int) {
 	return file_proto_postgres_proto_rawDescGZIP(), []int{2, 0, 0}
 }
 
+type OperationType_Type int32
+
+const (
+	OperationType_TYPE_UNSPECIFIED OperationType_Type = 0
+	OperationType_TYPE_INIT        OperationType_Type = 1
+	OperationType_TYPE_RESTORE     OperationType_Type = 2
+	OperationType_TYPE_RECONCILE   OperationType_Type = 3
+)
+
+// Enum value maps for OperationType_Type.
+var (
+	OperationType_Type_name = map[int32]string{
+		0: "TYPE_UNSPECIFIED",
+		1: "TYPE_INIT",
+		2: "TYPE_RESTORE",
+		3: "TYPE_RECONCILE",
+	}
+	OperationType_Type_value = map[string]int32{
+		"TYPE_UNSPECIFIED": 0,
+		"TYPE_INIT":        1,
+		"TYPE_RESTORE":     2,
+		"TYPE_RECONCILE":   3,
+	}
+)
+
+func (x OperationType_Type) Enum() *OperationType_Type {
+	p := new(OperationType_Type)
+	*p = x
+	return p
+}
+
+func (x OperationType_Type) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (OperationType_Type) Descriptor() protoreflect.EnumDescriptor {
+	return file_proto_postgres_proto_enumTypes[1].Descriptor()
+}
+
+func (OperationType_Type) Type() protoreflect.EnumType {
+	return &file_proto_postgres_proto_enumTypes[1]
+}
+
+func (x OperationType_Type) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use OperationType_Type.Descriptor instead.
+func (OperationType_Type) EnumDescriptor() ([]byte, []int) {
+	return file_proto_postgres_proto_rawDescGZIP(), []int{3, 0}
+}
+
 type PostgresCapabilitiesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -218,6 +270,50 @@ type PostgresCapability_Rpc struct {
 
 func (*PostgresCapability_Rpc) isPostgresCapability_Type() {}
 
+type OperationType struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Type          OperationType_Type     `protobuf:"varint,1,opt,name=type,proto3,enum=cnpgi.identity.v1.OperationType_Type" json:"type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *OperationType) Reset() {
+	*x = OperationType{}
+	mi := &file_proto_postgres_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *OperationType) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*OperationType) ProtoMessage() {}
+
+func (x *OperationType) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_postgres_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use OperationType.ProtoReflect.Descriptor instead.
+func (*OperationType) Descriptor() ([]byte, []int) {
+	return file_proto_postgres_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *OperationType) GetType() OperationType_Type {
+	if x != nil {
+		return x.Type
+	}
+	return OperationType_TYPE_UNSPECIFIED
+}
+
 type EnrichConfigurationRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// This field is REQUIRED and represent the PostgreSQL configuration parameters as
@@ -225,13 +321,15 @@ type EnrichConfigurationRequest struct {
 	Configs map[string]string `protobuf:"bytes,1,rep,name=configs,proto3" json:"configs,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	// This field is REQUIRED
 	ClusterDefinition []byte `protobuf:"bytes,2,opt,name=cluster_definition,json=clusterDefinition,proto3" json:"cluster_definition,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// This field is REQUIRED.
+	OperationType *OperationType `protobuf:"bytes,3,opt,name=operation_type,json=operationType,proto3" json:"operation_type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *EnrichConfigurationRequest) Reset() {
 	*x = EnrichConfigurationRequest{}
-	mi := &file_proto_postgres_proto_msgTypes[3]
+	mi := &file_proto_postgres_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -243,7 +341,7 @@ func (x *EnrichConfigurationRequest) String() string {
 func (*EnrichConfigurationRequest) ProtoMessage() {}
 
 func (x *EnrichConfigurationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_postgres_proto_msgTypes[3]
+	mi := &file_proto_postgres_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -256,7 +354,7 @@ func (x *EnrichConfigurationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EnrichConfigurationRequest.ProtoReflect.Descriptor instead.
 func (*EnrichConfigurationRequest) Descriptor() ([]byte, []int) {
-	return file_proto_postgres_proto_rawDescGZIP(), []int{3}
+	return file_proto_postgres_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *EnrichConfigurationRequest) GetConfigs() map[string]string {
@@ -273,6 +371,13 @@ func (x *EnrichConfigurationRequest) GetClusterDefinition() []byte {
 	return nil
 }
 
+func (x *EnrichConfigurationRequest) GetOperationType() *OperationType {
+	if x != nil {
+		return x.OperationType
+	}
+	return nil
+}
+
 type EnrichConfigurationResult struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// This field is OPTIONAL. It represent the configuration parameters that need
@@ -284,7 +389,7 @@ type EnrichConfigurationResult struct {
 
 func (x *EnrichConfigurationResult) Reset() {
 	*x = EnrichConfigurationResult{}
-	mi := &file_proto_postgres_proto_msgTypes[4]
+	mi := &file_proto_postgres_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -296,7 +401,7 @@ func (x *EnrichConfigurationResult) String() string {
 func (*EnrichConfigurationResult) ProtoMessage() {}
 
 func (x *EnrichConfigurationResult) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_postgres_proto_msgTypes[4]
+	mi := &file_proto_postgres_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -309,7 +414,7 @@ func (x *EnrichConfigurationResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EnrichConfigurationResult.ProtoReflect.Descriptor instead.
 func (*EnrichConfigurationResult) Descriptor() ([]byte, []int) {
-	return file_proto_postgres_proto_rawDescGZIP(), []int{4}
+	return file_proto_postgres_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *EnrichConfigurationResult) GetConfigs() map[string]string {
@@ -328,7 +433,7 @@ type PostgresCapability_RPC struct {
 
 func (x *PostgresCapability_RPC) Reset() {
 	*x = PostgresCapability_RPC{}
-	mi := &file_proto_postgres_proto_msgTypes[5]
+	mi := &file_proto_postgres_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -340,7 +445,7 @@ func (x *PostgresCapability_RPC) String() string {
 func (*PostgresCapability_RPC) ProtoMessage() {}
 
 func (x *PostgresCapability_RPC) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_postgres_proto_msgTypes[5]
+	mi := &file_proto_postgres_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -378,10 +483,18 @@ const file_proto_postgres_proto_rawDesc = "" +
 	"\x04Type\x12\x14\n" +
 	"\x10TYPE_UNSPECIFIED\x10\x00\x12\x1d\n" +
 	"\x19TYPE_ENRICH_CONFIGURATION\x10\x01B\x06\n" +
-	"\x04type\"\xdd\x01\n" +
+	"\x04type\"\x9d\x01\n" +
+	"\rOperationType\x129\n" +
+	"\x04type\x18\x01 \x01(\x0e2%.cnpgi.identity.v1.OperationType.TypeR\x04type\"Q\n" +
+	"\x04Type\x12\x14\n" +
+	"\x10TYPE_UNSPECIFIED\x10\x00\x12\r\n" +
+	"\tTYPE_INIT\x10\x01\x12\x10\n" +
+	"\fTYPE_RESTORE\x10\x02\x12\x12\n" +
+	"\x0eTYPE_RECONCILE\x10\x03\"\xa6\x02\n" +
 	"\x1aEnrichConfigurationRequest\x12T\n" +
 	"\aconfigs\x18\x01 \x03(\v2:.cnpgi.identity.v1.EnrichConfigurationRequest.ConfigsEntryR\aconfigs\x12-\n" +
-	"\x12cluster_definition\x18\x02 \x01(\fR\x11clusterDefinition\x1a:\n" +
+	"\x12cluster_definition\x18\x02 \x01(\fR\x11clusterDefinition\x12G\n" +
+	"\x0eoperation_type\x18\x03 \x01(\v2 .cnpgi.identity.v1.OperationTypeR\roperationType\x1a:\n" +
 	"\fConfigsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xac\x01\n" +
@@ -406,34 +519,38 @@ func file_proto_postgres_proto_rawDescGZIP() []byte {
 	return file_proto_postgres_proto_rawDescData
 }
 
-var file_proto_postgres_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_proto_postgres_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_proto_postgres_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_proto_postgres_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_proto_postgres_proto_goTypes = []any{
 	(PostgresCapability_RPC_Type)(0),    // 0: cnpgi.identity.v1.PostgresCapability.RPC.Type
-	(*PostgresCapabilitiesRequest)(nil), // 1: cnpgi.identity.v1.PostgresCapabilitiesRequest
-	(*PostgresCapabilitiesResult)(nil),  // 2: cnpgi.identity.v1.PostgresCapabilitiesResult
-	(*PostgresCapability)(nil),          // 3: cnpgi.identity.v1.PostgresCapability
-	(*EnrichConfigurationRequest)(nil),  // 4: cnpgi.identity.v1.EnrichConfigurationRequest
-	(*EnrichConfigurationResult)(nil),   // 5: cnpgi.identity.v1.EnrichConfigurationResult
-	(*PostgresCapability_RPC)(nil),      // 6: cnpgi.identity.v1.PostgresCapability.RPC
-	nil,                                 // 7: cnpgi.identity.v1.EnrichConfigurationRequest.ConfigsEntry
-	nil,                                 // 8: cnpgi.identity.v1.EnrichConfigurationResult.ConfigsEntry
+	(OperationType_Type)(0),             // 1: cnpgi.identity.v1.OperationType.Type
+	(*PostgresCapabilitiesRequest)(nil), // 2: cnpgi.identity.v1.PostgresCapabilitiesRequest
+	(*PostgresCapabilitiesResult)(nil),  // 3: cnpgi.identity.v1.PostgresCapabilitiesResult
+	(*PostgresCapability)(nil),          // 4: cnpgi.identity.v1.PostgresCapability
+	(*OperationType)(nil),               // 5: cnpgi.identity.v1.OperationType
+	(*EnrichConfigurationRequest)(nil),  // 6: cnpgi.identity.v1.EnrichConfigurationRequest
+	(*EnrichConfigurationResult)(nil),   // 7: cnpgi.identity.v1.EnrichConfigurationResult
+	(*PostgresCapability_RPC)(nil),      // 8: cnpgi.identity.v1.PostgresCapability.RPC
+	nil,                                 // 9: cnpgi.identity.v1.EnrichConfigurationRequest.ConfigsEntry
+	nil,                                 // 10: cnpgi.identity.v1.EnrichConfigurationResult.ConfigsEntry
 }
 var file_proto_postgres_proto_depIdxs = []int32{
-	3, // 0: cnpgi.identity.v1.PostgresCapabilitiesResult.capabilities:type_name -> cnpgi.identity.v1.PostgresCapability
-	6, // 1: cnpgi.identity.v1.PostgresCapability.rpc:type_name -> cnpgi.identity.v1.PostgresCapability.RPC
-	7, // 2: cnpgi.identity.v1.EnrichConfigurationRequest.configs:type_name -> cnpgi.identity.v1.EnrichConfigurationRequest.ConfigsEntry
-	8, // 3: cnpgi.identity.v1.EnrichConfigurationResult.configs:type_name -> cnpgi.identity.v1.EnrichConfigurationResult.ConfigsEntry
-	0, // 4: cnpgi.identity.v1.PostgresCapability.RPC.type:type_name -> cnpgi.identity.v1.PostgresCapability.RPC.Type
-	1, // 5: cnpgi.identity.v1.Postgres.GetCapabilities:input_type -> cnpgi.identity.v1.PostgresCapabilitiesRequest
-	4, // 6: cnpgi.identity.v1.Postgres.EnrichConfiguration:input_type -> cnpgi.identity.v1.EnrichConfigurationRequest
-	2, // 7: cnpgi.identity.v1.Postgres.GetCapabilities:output_type -> cnpgi.identity.v1.PostgresCapabilitiesResult
-	5, // 8: cnpgi.identity.v1.Postgres.EnrichConfiguration:output_type -> cnpgi.identity.v1.EnrichConfigurationResult
-	7, // [7:9] is the sub-list for method output_type
-	5, // [5:7] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	4,  // 0: cnpgi.identity.v1.PostgresCapabilitiesResult.capabilities:type_name -> cnpgi.identity.v1.PostgresCapability
+	8,  // 1: cnpgi.identity.v1.PostgresCapability.rpc:type_name -> cnpgi.identity.v1.PostgresCapability.RPC
+	1,  // 2: cnpgi.identity.v1.OperationType.type:type_name -> cnpgi.identity.v1.OperationType.Type
+	9,  // 3: cnpgi.identity.v1.EnrichConfigurationRequest.configs:type_name -> cnpgi.identity.v1.EnrichConfigurationRequest.ConfigsEntry
+	5,  // 4: cnpgi.identity.v1.EnrichConfigurationRequest.operation_type:type_name -> cnpgi.identity.v1.OperationType
+	10, // 5: cnpgi.identity.v1.EnrichConfigurationResult.configs:type_name -> cnpgi.identity.v1.EnrichConfigurationResult.ConfigsEntry
+	0,  // 6: cnpgi.identity.v1.PostgresCapability.RPC.type:type_name -> cnpgi.identity.v1.PostgresCapability.RPC.Type
+	2,  // 7: cnpgi.identity.v1.Postgres.GetCapabilities:input_type -> cnpgi.identity.v1.PostgresCapabilitiesRequest
+	6,  // 8: cnpgi.identity.v1.Postgres.EnrichConfiguration:input_type -> cnpgi.identity.v1.EnrichConfigurationRequest
+	3,  // 9: cnpgi.identity.v1.Postgres.GetCapabilities:output_type -> cnpgi.identity.v1.PostgresCapabilitiesResult
+	7,  // 10: cnpgi.identity.v1.Postgres.EnrichConfiguration:output_type -> cnpgi.identity.v1.EnrichConfigurationResult
+	9,  // [9:11] is the sub-list for method output_type
+	7,  // [7:9] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_proto_postgres_proto_init() }
@@ -449,8 +566,8 @@ func file_proto_postgres_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_postgres_proto_rawDesc), len(file_proto_postgres_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   8,
+			NumEnums:      2,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
