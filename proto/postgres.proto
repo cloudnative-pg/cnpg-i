@@ -64,7 +64,6 @@ message EnrichConfigurationRequest {
 }
 
 message EnrichConfigurationResult {
-  // This field is OPTIONAL. It represent the configuration parameters that need
-  // to be changed before applying a new configuration
+  // This field is OPTIONAL. Returns the new configuration.
   map<string, string> configs = 1;
 }
