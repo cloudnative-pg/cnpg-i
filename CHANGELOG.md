@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.2.0](https://github.com/cloudnative-pg/cnpg-i/compare/v0.1.0...v0.2.0) (2025-03-27)
+
+
+### Features
+
+* **lifecycle:** add `evaluate` verb ([#169](https://github.com/cloudnative-pg/cnpg-i/issues/169)) ([de4ab51](https://github.com/cloudnative-pg/cnpg-i/commit/de4ab51537cbea0920aaf8b527a71bfba8ef12c0))
+
+
+### Bug Fixes
+
+* **deps:** update module google.golang.org/grpc to v1.71.0 ([#167](https://github.com/cloudnative-pg/cnpg-i/issues/167)) ([fd4ef16](https://github.com/cloudnative-pg/cnpg-i/commit/fd4ef16869dd864e8db48a7dbdde992fb05c8041))
+* **deps:** update module google.golang.org/protobuf to v1.36.6 ([#177](https://github.com/cloudnative-pg/cnpg-i/issues/177)) ([2d2b274](https://github.com/cloudnative-pg/cnpg-i/commit/2d2b27435b6f26ece85f8ed6d2c7acba9c0f0fd9))
+
 ## 0.1.0 (2025-02-21)
 
 
