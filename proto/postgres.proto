@@ -46,6 +46,7 @@ message OperationType {
     TYPE_INIT = 1;
     TYPE_RESTORE = 2;
     TYPE_RECONCILE = 3;
+    TYPE_UPGRADE = 4;
   }
 
   Type type = 1;
