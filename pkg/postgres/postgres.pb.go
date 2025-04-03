@@ -380,8 +380,7 @@ func (x *EnrichConfigurationRequest) GetOperationType() *OperationType {
 
 type EnrichConfigurationResult struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// This field is OPTIONAL. It represent the configuration parameters that need
-	// to be changed before applying a new configuration
+	// This field is OPTIONAL. Returns the new configuration.
 	Configs       map[string]string `protobuf:"bytes,1,rep,name=configs,proto3" json:"configs,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
