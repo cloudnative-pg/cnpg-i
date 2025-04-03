@@ -451,6 +451,7 @@ Intentionally empty.
 | TYPE_LIFECYCLE_SERVICE | 4 | TYPE_LIFECYCLE_SERVICE indicates that the Plugin provides RPCs for the Lifecycle service. |
 | TYPE_RECONCILER_HOOKS | 5 | TYPE_RECONCILER_HOOKS indicates that the Plugin provides RPCs to enhance the behavior of the reconcilers |
 | TYPE_RESTORE_JOB | 6 | TYPE_RESTORE_JOB_HOOKS indicates that the Plugin provides RPCs to enhance the behavior of the restore jobs |
+| TYPE_INSTANCE_SIDECAR_INJECTION | 7 | TYPE_INSTANCE_SIDECAR_INJECTION indicates that the Plugin provides a instance sidecar container |
 
 
  
