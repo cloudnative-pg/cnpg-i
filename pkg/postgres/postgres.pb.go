@@ -77,6 +77,7 @@ const (
 	OperationType_TYPE_INIT        OperationType_Type = 1
 	OperationType_TYPE_RESTORE     OperationType_Type = 2
 	OperationType_TYPE_RECONCILE   OperationType_Type = 3
+	OperationType_TYPE_UPGRADE     OperationType_Type = 4
 )
 
 // Enum value maps for OperationType_Type.
@@ -86,12 +87,14 @@ var (
 		1: "TYPE_INIT",
 		2: "TYPE_RESTORE",
 		3: "TYPE_RECONCILE",
+		4: "TYPE_UPGRADE",
 	}
 	OperationType_Type_value = map[string]int32{
 		"TYPE_UNSPECIFIED": 0,
 		"TYPE_INIT":        1,
 		"TYPE_RESTORE":     2,
 		"TYPE_RECONCILE":   3,
+		"TYPE_UPGRADE":     4,
 	}
 )
 
@@ -482,14 +485,15 @@ const file_proto_postgres_proto_rawDesc = "" +
 	"\x04Type\x12\x14\n" +
 	"\x10TYPE_UNSPECIFIED\x10\x00\x12\x1d\n" +
 	"\x19TYPE_ENRICH_CONFIGURATION\x10\x01B\x06\n" +
-	"\x04type\"\x9d\x01\n" +
+	"\x04type\"\xaf\x01\n" +
 	"\rOperationType\x129\n" +
-	"\x04type\x18\x01 \x01(\x0e2%.cnpgi.identity.v1.OperationType.TypeR\x04type\"Q\n" +
+	"\x04type\x18\x01 \x01(\x0e2%.cnpgi.identity.v1.OperationType.TypeR\x04type\"c\n" +
 	"\x04Type\x12\x14\n" +
 	"\x10TYPE_UNSPECIFIED\x10\x00\x12\r\n" +
 	"\tTYPE_INIT\x10\x01\x12\x10\n" +
 	"\fTYPE_RESTORE\x10\x02\x12\x12\n" +
-	"\x0eTYPE_RECONCILE\x10\x03\"\xa6\x02\n" +
+	"\x0eTYPE_RECONCILE\x10\x03\x12\x10\n" +
+	"\fTYPE_UPGRADE\x10\x04\"\xa6\x02\n" +
 	"\x1aEnrichConfigurationRequest\x12T\n" +
 	"\aconfigs\x18\x01 \x03(\v2:.cnpgi.identity.v1.EnrichConfigurationRequest.ConfigsEntryR\aconfigs\x12-\n" +
 	"\x12cluster_definition\x18\x02 \x01(\fR\x11clusterDefinition\x12G\n" +
