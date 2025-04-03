@@ -109,6 +109,10 @@ message PluginCapability {
       // TYPE_POSTGRES indicates that the Plugin provides RPCs to
       // enhance the behavior of PostgreSQL
       TYPE_POSTGRES = 7;
+
+      // TYPE_INSTANCE_SIDECAR_INJECTION indicates that the Plugin provides
+      // a instance sidecar container
+      TYPE_INSTANCE_SIDECAR_INJECTION = 8;
     }
     Type type = 1;
   }
