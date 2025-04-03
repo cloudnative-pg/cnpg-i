@@ -394,8 +394,7 @@ type EnrichConfigurationResult struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// This field is OPTIONAL. It represent the configuration parameters that need
-	// to be changed before applying a new configuration
+	// This field is OPTIONAL. Returns the new configuration.
 	Configs map[string]string `protobuf:"bytes,1,rep,name=configs,proto3" json:"configs,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
