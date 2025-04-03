@@ -454,6 +454,7 @@ Intentionally empty.
 | TYPE_RECONCILER_HOOKS | 5 | TYPE_RECONCILER_HOOKS indicates that the Plugin provides RPCs to enhance the behavior of the reconcilers |
 | TYPE_RESTORE_JOB | 6 | TYPE_RESTORE_JOB_HOOKS indicates that the Plugin provides RPCs to enhance the behavior of the restore jobs |
 | TYPE_POSTGRES | 7 | TYPE_POSTGRES indicates that the Plugin provides RPCs to enhance the behavior of PostgreSQL |
+| TYPE_INSTANCE_SIDECAR_INJECTION | 8 | TYPE_INSTANCE_SIDECAR_INJECTION indicates that the Plugin provides a instance sidecar container |
 
 
  
