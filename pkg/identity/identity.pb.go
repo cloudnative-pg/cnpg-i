@@ -52,6 +52,15 @@ const (
 	// TYPE_RESTORE_JOB_HOOKS indicates that the Plugin provides RPCs to
 	// enhance the behavior of the restore jobs
 	PluginCapability_Service_TYPE_RESTORE_JOB PluginCapability_Service_Type = 6
+	// TYPE_POSTGRES indicates that the Plugin provides RPCs to
+	// enhance the behavior of PostgreSQL
+	PluginCapability_Service_TYPE_POSTGRES PluginCapability_Service_Type = 7
+	// TYPE_INSTANCE_SIDECAR_INJECTION indicates that the Plugin provides
+	// a instance sidecar container
+	PluginCapability_Service_TYPE_INSTANCE_SIDECAR_INJECTION PluginCapability_Service_Type = 8
+	// TYPE_INSTANCE_JOB_SIDECAR_INJECTION indicates that the Plugin provides
+	// a job sidecar container
+	PluginCapability_Service_TYPE_INSTANCE_JOB_SIDECAR_INJECTION PluginCapability_Service_Type = 9
 )
 
 // Enum value maps for PluginCapability_Service_Type.
@@ -64,15 +73,21 @@ var (
 		4: "TYPE_LIFECYCLE_SERVICE",
 		5: "TYPE_RECONCILER_HOOKS",
 		6: "TYPE_RESTORE_JOB",
+		7: "TYPE_POSTGRES",
+		8: "TYPE_INSTANCE_SIDECAR_INJECTION",
+		9: "TYPE_INSTANCE_JOB_SIDECAR_INJECTION",
 	}
 	PluginCapability_Service_Type_value = map[string]int32{
-		"TYPE_UNSPECIFIED":       0,
-		"TYPE_OPERATOR_SERVICE":  1,
-		"TYPE_WAL_SERVICE":       2,
-		"TYPE_BACKUP_SERVICE":    3,
-		"TYPE_LIFECYCLE_SERVICE": 4,
-		"TYPE_RECONCILER_HOOKS":  5,
-		"TYPE_RESTORE_JOB":       6,
+		"TYPE_UNSPECIFIED":                    0,
+		"TYPE_OPERATOR_SERVICE":               1,
+		"TYPE_WAL_SERVICE":                    2,
+		"TYPE_BACKUP_SERVICE":                 3,
+		"TYPE_LIFECYCLE_SERVICE":              4,
+		"TYPE_RECONCILER_HOOKS":               5,
+		"TYPE_RESTORE_JOB":                    6,
+		"TYPE_POSTGRES":                       7,
+		"TYPE_INSTANCE_SIDECAR_INJECTION":     8,
+		"TYPE_INSTANCE_JOB_SIDECAR_INJECTION": 9,
 	}
 )
 
@@ -582,11 +597,11 @@ const file_proto_identity_proto_rawDesc = "" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x1e\n" +
 	"\x1cGetPluginCapabilitiesRequest\"h\n" +
 	"\x1dGetPluginCapabilitiesResponse\x12G\n" +
-	"\fcapabilities\x18\x01 \x03(\v2#.cnpgi.identity.v1.PluginCapabilityR\fcapabilities\"\xeb\x02\n" +
+	"\fcapabilities\x18\x01 \x03(\v2#.cnpgi.identity.v1.PluginCapabilityR\fcapabilities\"\xcc\x03\n" +
 	"\x10PluginCapability\x12G\n" +
-	"\aservice\x18\x01 \x01(\v2+.cnpgi.identity.v1.PluginCapability.ServiceH\x00R\aservice\x1a\x85\x02\n" +
+	"\aservice\x18\x01 \x01(\v2+.cnpgi.identity.v1.PluginCapability.ServiceH\x00R\aservice\x1a\xe6\x02\n" +
 	"\aService\x12D\n" +
-	"\x04type\x18\x01 \x01(\x0e20.cnpgi.identity.v1.PluginCapability.Service.TypeR\x04type\"\xb3\x01\n" +
+	"\x04type\x18\x01 \x01(\x0e20.cnpgi.identity.v1.PluginCapability.Service.TypeR\x04type\"\x94\x02\n" +
 	"\x04Type\x12\x14\n" +
 	"\x10TYPE_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15TYPE_OPERATOR_SERVICE\x10\x01\x12\x14\n" +
@@ -594,7 +609,10 @@ const file_proto_identity_proto_rawDesc = "" +
 	"\x13TYPE_BACKUP_SERVICE\x10\x03\x12\x1a\n" +
 	"\x16TYPE_LIFECYCLE_SERVICE\x10\x04\x12\x19\n" +
 	"\x15TYPE_RECONCILER_HOOKS\x10\x05\x12\x14\n" +
-	"\x10TYPE_RESTORE_JOB\x10\x06B\x06\n" +
+	"\x10TYPE_RESTORE_JOB\x10\x06\x12\x11\n" +
+	"\rTYPE_POSTGRES\x10\a\x12#\n" +
+	"\x1fTYPE_INSTANCE_SIDECAR_INJECTION\x10\b\x12'\n" +
+	"#TYPE_INSTANCE_JOB_SIDECAR_INJECTION\x10\tB\x06\n" +
 	"\x04type\"\x0e\n" +
 	"\fProbeRequest\"%\n" +
 	"\rProbeResponse\x12\x14\n" +

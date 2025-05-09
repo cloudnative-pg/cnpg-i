@@ -23,12 +23,14 @@ GetPluginCapabilitiesResponse
 GetPluginMetadata
 GetPluginMetadataRequest
 GetPluginMetadataResponse
+INIT
 JSONPatch
 LifecycleHook
 ManifestEntry
 MetadataEntry
 MutateCluster
 MutatePod
+OperationType
 OperatorCapabilitiesRequest
 OperatorCapabilitiesResult
 OperatorCapability
@@ -45,6 +47,7 @@ OperatorValidateClusterChangeRequest
 OperatorValidateClusterChangeResult
 OperatorValidateClusterCreateRequest
 OperatorValidateClusterCreateResult
+PGDATA
 ParametersEntry
 PluginCapability
 PostgresCapabilitiesRequest
@@ -53,7 +56,6 @@ PostgresCapability
 Pre
 ProbeRequest
 ProbeResponse
-PGDATA
 RPC
 RPC
 RPCs
