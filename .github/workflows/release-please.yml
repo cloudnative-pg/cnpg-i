@@ -5,13 +5,14 @@ on:
     branches:
       - main
 
-permissions:
-  contents: write
-  pull-requests: write
+permissions: read-all
 
 jobs:
   release-please:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       # TODO: googleapis/release-please-action cannot sign commits yet.
       #   We'll use the cli until there's a fix for
