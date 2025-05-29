@@ -4,6 +4,8 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions: read-all
+
 jobs:
   ci:
     runs-on: ubuntu-latest
