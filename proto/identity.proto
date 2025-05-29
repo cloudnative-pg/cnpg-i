@@ -105,6 +105,18 @@ message PluginCapability {
       // TYPE_RESTORE_JOB_HOOKS indicates that the Plugin provides RPCs to
       // enhance the behavior of the restore jobs
       TYPE_RESTORE_JOB = 6;
+
+      // TYPE_POSTGRES indicates that the Plugin provides RPCs to
+      // enhance the behavior of PostgreSQL
+      TYPE_POSTGRES = 7;
+
+      // TYPE_INSTANCE_SIDECAR_INJECTION indicates that the Plugin provides
+      // a instance sidecar container
+      TYPE_INSTANCE_SIDECAR_INJECTION = 8;
+
+      // TYPE_INSTANCE_JOB_SIDECAR_INJECTION indicates that the Plugin provides
+      // a job sidecar container
+      TYPE_INSTANCE_JOB_SIDECAR_INJECTION = 9;
     }
     Type type = 1;
   }
