@@ -117,6 +117,9 @@ message PluginCapability {
       // TYPE_INSTANCE_JOB_SIDECAR_INJECTION indicates that the Plugin provides
       // a job sidecar container
       TYPE_INSTANCE_JOB_SIDECAR_INJECTION = 9;
+
+      // TYPE_METRICS indicates that the Plugin provides metrics to the instance container
+      TYPE_METRICS = 10;
     }
     Type type = 1;
   }

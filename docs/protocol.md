@@ -32,6 +32,26 @@
   
     - [Identity](#cnpgi-identity-v1-Identity)
   
+- [metrics.proto](#metrics-proto)
+    - [CollectMetric](#cnpgi-metrics-v1-CollectMetric)
+    - [CollectMetricsRequest](#cnpgi-metrics-v1-CollectMetricsRequest)
+    - [CollectMetricsRequest.ParametersEntry](#cnpgi-metrics-v1-CollectMetricsRequest-ParametersEntry)
+    - [CollectMetricsResult](#cnpgi-metrics-v1-CollectMetricsResult)
+    - [DefineMetricsRequest](#cnpgi-metrics-v1-DefineMetricsRequest)
+    - [DefineMetricsResult](#cnpgi-metrics-v1-DefineMetricsResult)
+    - [Metric](#cnpgi-metrics-v1-Metric)
+    - [Metric.ConstLabelsEntry](#cnpgi-metrics-v1-Metric-ConstLabelsEntry)
+    - [MetricType](#cnpgi-metrics-v1-MetricType)
+    - [MetricsCapabilitiesRequest](#cnpgi-metrics-v1-MetricsCapabilitiesRequest)
+    - [MetricsCapabilitiesResult](#cnpgi-metrics-v1-MetricsCapabilitiesResult)
+    - [MetricsCapability](#cnpgi-metrics-v1-MetricsCapability)
+    - [MetricsCapability.RPC](#cnpgi-metrics-v1-MetricsCapability-RPC)
+  
+    - [MetricType.Type](#cnpgi-metrics-v1-MetricType-Type)
+    - [MetricsCapability.RPC.Type](#cnpgi-metrics-v1-MetricsCapability-RPC-Type)
+  
+    - [Metrics](#cnpgi-metrics-v1-Metrics)
+  
 - [operator.proto](#operator-proto)
     - [DeregisterRequest](#cnpgi-operator-v1-DeregisterRequest)
     - [DeregisterResponse](#cnpgi-operator-v1-DeregisterResponse)
@@ -456,6 +476,7 @@ Intentionally empty.
 | TYPE_POSTGRES | 7 | TYPE_POSTGRES indicates that the Plugin provides RPCs to enhance the behavior of PostgreSQL |
 | TYPE_INSTANCE_SIDECAR_INJECTION | 8 | TYPE_INSTANCE_SIDECAR_INJECTION indicates that the Plugin provides a instance sidecar container |
 | TYPE_INSTANCE_JOB_SIDECAR_INJECTION | 9 | TYPE_INSTANCE_JOB_SIDECAR_INJECTION indicates that the Plugin provides a job sidecar container |
+| TYPE_METRICS | 10 | TYPE_METRICS indicates that the Plugin provides metrics to the instance container |
 
 
  
@@ -473,6 +494,260 @@ Intentionally empty.
 | GetPluginMetadata | [GetPluginMetadataRequest](#cnpgi-identity-v1-GetPluginMetadataRequest) | [GetPluginMetadataResponse](#cnpgi-identity-v1-GetPluginMetadataResponse) | GetPluginMetadata gets the plugin metadata |
 | GetPluginCapabilities | [GetPluginCapabilitiesRequest](#cnpgi-identity-v1-GetPluginCapabilitiesRequest) | [GetPluginCapabilitiesResponse](#cnpgi-identity-v1-GetPluginCapabilitiesResponse) | GetPluginCapabilities gets information about this plugin |
 | Probe | [ProbeRequest](#cnpgi-identity-v1-ProbeRequest) | [ProbeResponse](#cnpgi-identity-v1-ProbeResponse) | Probe is used to tell if the plugin is ready to receive requests |
+
+ 
+
+
+
+<a name="metrics-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## metrics.proto
+
+
+
+<a name="cnpgi-metrics-v1-CollectMetric"></a>
+
+### CollectMetric
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| value | [double](#double) |  | value is the metric value |
+| fq_name | [string](#string) |  | fq_name is the fully qualified name of the metric |
+| variable_labels | [string](#string) | repeated | variable_labels are the values for the variable labels of this metric |
+
+
+
+
+
+
+<a name="cnpgi-metrics-v1-CollectMetricsRequest"></a>
+
+### CollectMetricsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| cluster_definition | [bytes](#bytes) |  | This field is REQUIRED and contains the JSON serialization of the Cluster being monitored |
+| metrics_definition | [bytes](#bytes) |  | This field is REQUIRED and contains the JSON serialization of the Metrics that are being collected |
+| parameters | [CollectMetricsRequest.ParametersEntry](#cnpgi-metrics-v1-CollectMetricsRequest-ParametersEntry) | repeated | This field is OPTIONAL and contains the configuration of this collection |
+
+
+
+
+
+
+<a name="cnpgi-metrics-v1-CollectMetricsRequest-ParametersEntry"></a>
+
+### CollectMetricsRequest.ParametersEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cnpgi-metrics-v1-CollectMetricsResult"></a>
+
+### CollectMetricsResult
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| metrics | [CollectMetric](#cnpgi-metrics-v1-CollectMetric) | repeated | This field is REQUIRED and contains the JSON serialization of the collected metrics |
+
+
+
+
+
+
+<a name="cnpgi-metrics-v1-DefineMetricsRequest"></a>
+
+### DefineMetricsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| cluster_definition | [bytes](#bytes) |  | This field is REQUIRED and contains the JSON serialization of the Cluster being monitored |
+
+
+
+
+
+
+<a name="cnpgi-metrics-v1-DefineMetricsResult"></a>
+
+### DefineMetricsResult
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| metrics | [Metric](#cnpgi-metrics-v1-Metric) | repeated | This field is REQUIRED and contains the JSON serialization of the defined metrics |
+
+
+
+
+
+
+<a name="cnpgi-metrics-v1-Metric"></a>
+
+### Metric
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| fq_name | [string](#string) |  | fqName is the fully qualified name of the metric |
+| help | [string](#string) |  | help provides a human-readable description of the metric |
+| variable_labels | [string](#string) | repeated | variable_labels are the label names that can vary for this metric |
+| const_labels | [Metric.ConstLabelsEntry](#cnpgi-metrics-v1-Metric-ConstLabelsEntry) | repeated | const_labels are the constant labels applied to this metric |
+| value_type | [MetricType](#cnpgi-metrics-v1-MetricType) |  | value_type indicates the Prometheus value type for this metric |
+
+
+
+
+
+
+<a name="cnpgi-metrics-v1-Metric-ConstLabelsEntry"></a>
+
+### Metric.ConstLabelsEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="cnpgi-metrics-v1-MetricType"></a>
+
+### MetricType
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| type | [MetricType.Type](#cnpgi-metrics-v1-MetricType-Type) |  |  |
+
+
+
+
+
+
+<a name="cnpgi-metrics-v1-MetricsCapabilitiesRequest"></a>
+
+### MetricsCapabilitiesRequest
+Intentionally empty.
+
+
+
+
+
+
+<a name="cnpgi-metrics-v1-MetricsCapabilitiesResult"></a>
+
+### MetricsCapabilitiesResult
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| capabilities | [MetricsCapability](#cnpgi-metrics-v1-MetricsCapability) | repeated | All the capabilities that the controller service supports. This field is OPTIONAL. |
+
+
+
+
+
+
+<a name="cnpgi-metrics-v1-MetricsCapability"></a>
+
+### MetricsCapability
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| rpc | [MetricsCapability.RPC](#cnpgi-metrics-v1-MetricsCapability-RPC) |  |  |
+
+
+
+
+
+
+<a name="cnpgi-metrics-v1-MetricsCapability-RPC"></a>
+
+### MetricsCapability.RPC
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| type | [MetricsCapability.RPC.Type](#cnpgi-metrics-v1-MetricsCapability-RPC-Type) |  |  |
+
+
+
+
+
+ 
+
+
+<a name="cnpgi-metrics-v1-MetricType-Type"></a>
+
+### MetricType.Type
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| TYPE_UNSPECIFIED | 0 |  |
+| TYPE_COUNTER | 1 | COUNTER represents a monotonically increasing value |
+| TYPE_GAUGE | 2 | GAUGE represents a value that can go up and down |
+| TYPE_UNTYPED | 3 | UNTYPED represents an untyped metric |
+
+
+
+<a name="cnpgi-metrics-v1-MetricsCapability-RPC-Type"></a>
+
+### MetricsCapability.RPC.Type
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| TYPE_UNSPECIFIED | 0 |  |
+| TYPE_METRICS | 1 | TYPE_METRICS indicates that the Plugin is able to collect metrics. This feature is required for every plugin exposing the Metrics service |
+
+
+ 
+
+ 
+
+
+<a name="cnpgi-metrics-v1-Metrics"></a>
+
+### Metrics
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| GetCapabilities | [MetricsCapabilitiesRequest](#cnpgi-metrics-v1-MetricsCapabilitiesRequest) | [MetricsCapabilitiesResult](#cnpgi-metrics-v1-MetricsCapabilitiesResult) | GetCapabilities gets the capabilities of the Metrics service |
+| Define | [DefineMetricsRequest](#cnpgi-metrics-v1-DefineMetricsRequest) | [DefineMetricsResult](#cnpgi-metrics-v1-DefineMetricsResult) | Define the metrics that are collected |
+| Collect | [CollectMetricsRequest](#cnpgi-metrics-v1-CollectMetricsRequest) | [CollectMetricsResult](#cnpgi-metrics-v1-CollectMetricsResult) | Collect the defined metrics |
 
  
 
