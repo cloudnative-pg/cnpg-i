@@ -130,13 +130,8 @@ type CollectMetricsRequest struct {
 	// This field is REQUIRED and contains the JSON serialization of the
 	// Cluster being monitored
 	ClusterDefinition []byte `protobuf:"bytes,1,opt,name=cluster_definition,json=clusterDefinition,proto3" json:"cluster_definition,omitempty"`
-	// This field is REQUIRED and contains the JSON serialization of the
-	// Metrics that are being collected
-	MetricsDefinition []byte `protobuf:"bytes,2,opt,name=metrics_definition,json=metricsDefinition,proto3" json:"metrics_definition,omitempty"`
-	// This field is OPTIONAL and contains the configuration of this collection
-	Parameters    map[string]string `protobuf:"bytes,3,rep,name=parameters,proto3" json:"parameters,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *CollectMetricsRequest) Reset() {
@@ -172,20 +167,6 @@ func (*CollectMetricsRequest) Descriptor() ([]byte, []int) {
 func (x *CollectMetricsRequest) GetClusterDefinition() []byte {
 	if x != nil {
 		return x.ClusterDefinition
-	}
-	return nil
-}
-
-func (x *CollectMetricsRequest) GetMetricsDefinition() []byte {
-	if x != nil {
-		return x.MetricsDefinition
-	}
-	return nil
-}
-
-func (x *CollectMetricsRequest) GetParameters() map[string]string {
-	if x != nil {
-		return x.Parameters
 	}
 	return nil
 }
@@ -673,7 +654,7 @@ type MetricsCapability_RPC struct {
 
 func (x *MetricsCapability_RPC) Reset() {
 	*x = MetricsCapability_RPC{}
-	mi := &file_proto_metrics_proto_msgTypes[12]
+	mi := &file_proto_metrics_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -685,7 +666,7 @@ func (x *MetricsCapability_RPC) String() string {
 func (*MetricsCapability_RPC) ProtoMessage() {}
 
 func (x *MetricsCapability_RPC) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_metrics_proto_msgTypes[12]
+	mi := &file_proto_metrics_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -712,16 +693,9 @@ var File_proto_metrics_proto protoreflect.FileDescriptor
 
 const file_proto_metrics_proto_rawDesc = "" +
 	"\n" +
-	"\x13proto/metrics.proto\x12\x10cnpgi.metrics.v1\"\x8d\x02\n" +
+	"\x13proto/metrics.proto\x12\x10cnpgi.metrics.v1\"F\n" +
 	"\x15CollectMetricsRequest\x12-\n" +
-	"\x12cluster_definition\x18\x01 \x01(\fR\x11clusterDefinition\x12-\n" +
-	"\x12metrics_definition\x18\x02 \x01(\fR\x11metricsDefinition\x12W\n" +
-	"\n" +
-	"parameters\x18\x03 \x03(\v27.cnpgi.metrics.v1.CollectMetricsRequest.ParametersEntryR\n" +
-	"parameters\x1a=\n" +
-	"\x0fParametersEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"g\n" +
+	"\x12cluster_definition\x18\x01 \x01(\fR\x11clusterDefinition\"g\n" +
 	"\rCollectMetric\x12\x14\n" +
 	"\x05value\x18\x01 \x01(\x01R\x05value\x12\x17\n" +
 	"\afq_name\x18\x02 \x01(\tR\x06fqName\x12'\n" +
@@ -780,7 +754,7 @@ func file_proto_metrics_proto_rawDescGZIP() []byte {
 }
 
 var file_proto_metrics_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_proto_metrics_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_proto_metrics_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_proto_metrics_proto_goTypes = []any{
 	(MetricType_Type)(0),               // 0: cnpgi.metrics.v1.MetricType.Type
 	(MetricsCapability_RPC_Type)(0),    // 1: cnpgi.metrics.v1.MetricsCapability.RPC.Type
@@ -794,31 +768,29 @@ var file_proto_metrics_proto_goTypes = []any{
 	(*MetricsCapabilitiesRequest)(nil), // 9: cnpgi.metrics.v1.MetricsCapabilitiesRequest
 	(*MetricsCapabilitiesResult)(nil),  // 10: cnpgi.metrics.v1.MetricsCapabilitiesResult
 	(*MetricsCapability)(nil),          // 11: cnpgi.metrics.v1.MetricsCapability
-	nil,                                // 12: cnpgi.metrics.v1.CollectMetricsRequest.ParametersEntry
-	nil,                                // 13: cnpgi.metrics.v1.Metric.ConstLabelsEntry
-	(*MetricsCapability_RPC)(nil),      // 14: cnpgi.metrics.v1.MetricsCapability.RPC
+	nil,                                // 12: cnpgi.metrics.v1.Metric.ConstLabelsEntry
+	(*MetricsCapability_RPC)(nil),      // 13: cnpgi.metrics.v1.MetricsCapability.RPC
 }
 var file_proto_metrics_proto_depIdxs = []int32{
-	12, // 0: cnpgi.metrics.v1.CollectMetricsRequest.parameters:type_name -> cnpgi.metrics.v1.CollectMetricsRequest.ParametersEntry
-	3,  // 1: cnpgi.metrics.v1.CollectMetricsResult.metrics:type_name -> cnpgi.metrics.v1.CollectMetric
-	8,  // 2: cnpgi.metrics.v1.DefineMetricsResult.metrics:type_name -> cnpgi.metrics.v1.Metric
-	0,  // 3: cnpgi.metrics.v1.MetricType.type:type_name -> cnpgi.metrics.v1.MetricType.Type
-	13, // 4: cnpgi.metrics.v1.Metric.const_labels:type_name -> cnpgi.metrics.v1.Metric.ConstLabelsEntry
-	7,  // 5: cnpgi.metrics.v1.Metric.value_type:type_name -> cnpgi.metrics.v1.MetricType
-	11, // 6: cnpgi.metrics.v1.MetricsCapabilitiesResult.capabilities:type_name -> cnpgi.metrics.v1.MetricsCapability
-	14, // 7: cnpgi.metrics.v1.MetricsCapability.rpc:type_name -> cnpgi.metrics.v1.MetricsCapability.RPC
-	1,  // 8: cnpgi.metrics.v1.MetricsCapability.RPC.type:type_name -> cnpgi.metrics.v1.MetricsCapability.RPC.Type
-	9,  // 9: cnpgi.metrics.v1.Metrics.GetCapabilities:input_type -> cnpgi.metrics.v1.MetricsCapabilitiesRequest
-	5,  // 10: cnpgi.metrics.v1.Metrics.Define:input_type -> cnpgi.metrics.v1.DefineMetricsRequest
-	2,  // 11: cnpgi.metrics.v1.Metrics.Collect:input_type -> cnpgi.metrics.v1.CollectMetricsRequest
-	10, // 12: cnpgi.metrics.v1.Metrics.GetCapabilities:output_type -> cnpgi.metrics.v1.MetricsCapabilitiesResult
-	6,  // 13: cnpgi.metrics.v1.Metrics.Define:output_type -> cnpgi.metrics.v1.DefineMetricsResult
-	4,  // 14: cnpgi.metrics.v1.Metrics.Collect:output_type -> cnpgi.metrics.v1.CollectMetricsResult
-	12, // [12:15] is the sub-list for method output_type
-	9,  // [9:12] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	3,  // 0: cnpgi.metrics.v1.CollectMetricsResult.metrics:type_name -> cnpgi.metrics.v1.CollectMetric
+	8,  // 1: cnpgi.metrics.v1.DefineMetricsResult.metrics:type_name -> cnpgi.metrics.v1.Metric
+	0,  // 2: cnpgi.metrics.v1.MetricType.type:type_name -> cnpgi.metrics.v1.MetricType.Type
+	12, // 3: cnpgi.metrics.v1.Metric.const_labels:type_name -> cnpgi.metrics.v1.Metric.ConstLabelsEntry
+	7,  // 4: cnpgi.metrics.v1.Metric.value_type:type_name -> cnpgi.metrics.v1.MetricType
+	11, // 5: cnpgi.metrics.v1.MetricsCapabilitiesResult.capabilities:type_name -> cnpgi.metrics.v1.MetricsCapability
+	13, // 6: cnpgi.metrics.v1.MetricsCapability.rpc:type_name -> cnpgi.metrics.v1.MetricsCapability.RPC
+	1,  // 7: cnpgi.metrics.v1.MetricsCapability.RPC.type:type_name -> cnpgi.metrics.v1.MetricsCapability.RPC.Type
+	9,  // 8: cnpgi.metrics.v1.Metrics.GetCapabilities:input_type -> cnpgi.metrics.v1.MetricsCapabilitiesRequest
+	5,  // 9: cnpgi.metrics.v1.Metrics.Define:input_type -> cnpgi.metrics.v1.DefineMetricsRequest
+	2,  // 10: cnpgi.metrics.v1.Metrics.Collect:input_type -> cnpgi.metrics.v1.CollectMetricsRequest
+	10, // 11: cnpgi.metrics.v1.Metrics.GetCapabilities:output_type -> cnpgi.metrics.v1.MetricsCapabilitiesResult
+	6,  // 12: cnpgi.metrics.v1.Metrics.Define:output_type -> cnpgi.metrics.v1.DefineMetricsResult
+	4,  // 13: cnpgi.metrics.v1.Metrics.Collect:output_type -> cnpgi.metrics.v1.CollectMetricsResult
+	11, // [11:14] is the sub-list for method output_type
+	8,  // [8:11] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_proto_metrics_proto_init() }
@@ -835,7 +807,7 @@ func file_proto_metrics_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_metrics_proto_rawDesc), len(file_proto_metrics_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   13,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

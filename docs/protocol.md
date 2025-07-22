@@ -35,7 +35,6 @@
 - [metrics.proto](#metrics-proto)
     - [CollectMetric](#cnpgi-metrics-v1-CollectMetric)
     - [CollectMetricsRequest](#cnpgi-metrics-v1-CollectMetricsRequest)
-    - [CollectMetricsRequest.ParametersEntry](#cnpgi-metrics-v1-CollectMetricsRequest-ParametersEntry)
     - [CollectMetricsResult](#cnpgi-metrics-v1-CollectMetricsResult)
     - [DefineMetricsRequest](#cnpgi-metrics-v1-DefineMetricsRequest)
     - [DefineMetricsResult](#cnpgi-metrics-v1-DefineMetricsResult)
@@ -532,24 +531,6 @@ Intentionally empty.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | cluster_definition | [bytes](#bytes) |  | This field is REQUIRED and contains the JSON serialization of the Cluster being monitored |
-| metrics_definition | [bytes](#bytes) |  | This field is REQUIRED and contains the JSON serialization of the Metrics that are being collected |
-| parameters | [CollectMetricsRequest.ParametersEntry](#cnpgi-metrics-v1-CollectMetricsRequest-ParametersEntry) | repeated | This field is OPTIONAL and contains the configuration of this collection |
-
-
-
-
-
-
-<a name="cnpgi-metrics-v1-CollectMetricsRequest-ParametersEntry"></a>
-
-### CollectMetricsRequest.ParametersEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
 
 
 
