@@ -1,0 +1,113 @@
+syntax = "proto3";
+package cnpgi.metrics.v1;
+option go_package = "github.com/cloudnative-pg/cnpg-i/pkg/metrics";
+
+
+service Metrics {
+  // GetCapabilities gets the capabilities of the Metrics service
+  rpc GetCapabilities(MetricsCapabilitiesRequest) returns (MetricsCapabilitiesResult) {}
+
+  // Define the metrics that are collected
+  rpc Define(DefineMetricsRequest) returns (DefineMetricsResult) {}
+
+  // Collect the defined metrics
+  rpc Collect(CollectMetricsRequest) returns (CollectMetricsResult) {}
+}
+
+message CollectMetricsRequest {
+  // This field is REQUIRED and contains the JSON serialization of the
+  // Cluster being monitored
+  bytes cluster_definition = 1;
+}
+
+message CollectMetric {
+  // value is the metric value
+  double value = 1;
+
+  // fq_name is the fully qualified name of the metric
+  string fq_name = 2;
+
+  // variable_labels are the values for the variable labels of this metric
+  repeated string variable_labels = 3;
+}
+
+message CollectMetricsResult {
+  // This field is REQUIRED and contains the JSON serialization of the
+  // collected metrics
+  repeated CollectMetric metrics = 1;
+}
+
+message DefineMetricsRequest {
+  // This field is REQUIRED and contains the JSON serialization of the
+  // Cluster being monitored
+  bytes cluster_definition = 1;
+}
+
+message DefineMetricsResult {
+  // This field is REQUIRED and contains the JSON serialization of the
+  // defined metrics
+  repeated Metric metrics = 1;
+}
+
+message MetricType {
+  enum Type {
+    TYPE_UNSPECIFIED = 0;
+
+    // COUNTER represents a monotonically increasing value
+    TYPE_COUNTER = 1;
+
+    // GAUGE represents a value that can go up and down
+    TYPE_GAUGE = 2;
+
+    // UNTYPED represents an untyped metric
+    TYPE_UNTYPED = 3;
+  }
+
+  Type type = 1;
+}
+
+message Metric {
+  // fqName is the fully qualified name of the metric
+  string fq_name = 1;
+
+  // help provides a human-readable description of the metric
+  string help = 2;
+
+  // variable_labels are the label names that can vary for this metric
+  repeated string variable_labels = 3;
+
+  // const_labels are the constant labels applied to this metric
+  map<string, string> const_labels = 4;
+
+  // value_type indicates the Prometheus value type for this metric
+  MetricType value_type = 5;
+}
+
+message MetricsCapabilitiesRequest {
+  // Intentionally empty.
+}
+
+message MetricsCapabilitiesResult {
+  // All the capabilities that the controller service supports. This
+  // field is OPTIONAL.
+  repeated MetricsCapability capabilities = 1;
+}
+
+message MetricsCapability {
+  message RPC {
+    enum Type {
+      TYPE_UNSPECIFIED = 0;
+
+      // TYPE_METRICS indicates that the Plugin is able to
+      // collect metrics. This feature is required for every
+      // plugin exposing the Metrics service
+      TYPE_METRICS = 1;
+    }
+
+    Type type = 1;
+  }
+
+  oneof type {
+    RPC rpc = 1;
+  }
+}

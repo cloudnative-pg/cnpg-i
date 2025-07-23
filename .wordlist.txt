@@ -7,8 +7,14 @@ BackupResult
 ByteString
 CloudNativePG
 CloudNativePG's
+CollectMetric
+CollectMetricsRequest
+CollectMetricsResult
 ConfigsEntry
+ConstLabelsEntry
 DEREGISTER
+DefineMetricsRequest
+DefineMetricsResult
 Deregister
 DeregisterRequest
 DeregisterResponse
@@ -28,6 +34,10 @@ JSONPatch
 LifecycleHook
 ManifestEntry
 MetadataEntry
+MetricType
+MetricsCapabilitiesRequest
+MetricsCapabilitiesResult
+MetricsCapability
 MutateCluster
 MutatePod
 OperationType
@@ -80,6 +90,7 @@ SetStatusInCluster
 SetStatusInClusterRequest
 SetStatusInClusterResponse
 TrueClass
+UNTYPED
 ValidateClusterChange
 ValidateClusterCreate
 ValidateCreate
@@ -105,12 +116,15 @@ cnpg
 codebase
 config
 configs
+const
 csi
 customizable
 customizations
 edb
 envs
 fixnum
+fq
+fqName
 gRPC
 html
 https
@@ -145,6 +159,7 @@ tablespace
 uint
 ulong
 unicode
+untyped
 url
 utf
 wal
