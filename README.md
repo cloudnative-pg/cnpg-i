@@ -70,7 +70,9 @@ Explore real-world applications of CNPG-I:
 - [Barman Cloud CNPG-I Plugin](https://github.com/cloudnative-pg/plugin-barman-cloud):
   A plugin for seamless integration with Barman Cloud for Continuous Backup and
   Recovery using object stores.
-
+- [CNPG-I Scale-to-Zero Plugin](https://github.com/xataio/cnpg-i-scale-to-zero):
+  A plugin that automatically hibernates inactive CloudNativePG clusters to optimize resource usage and reduce costs.
+  
 ---
 
 ## Trademarks
