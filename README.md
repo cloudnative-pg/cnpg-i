@@ -71,9 +71,14 @@ Explore real-world applications of CNPG-I:
   A plugin for seamless integration with Barman Cloud for Continuous Backup and
   Recovery using object stores.
 
-## 3rd Party Plugins
-> **Disclaimer:**  
-> The following plugins are developed and maintained by third parties. CloudNativePG and the CNPG-I project are not responsible for the functionality, maintenance, or security of these plugins. Please refer to each plugin’s documentation and repository for support and further information.
+## Third-Party Plugins
+
+> **Disclaimer:**
+> The plugins listed in this section are developed and maintained by
+> independent third parties. CloudNativePG and the CNPG-I project do not
+> endorse, guarantee, or take responsibility for their functionality,
+> maintenance, or security. For usage, troubleshooting, or updates, please
+> consult the respective plugin’s documentation and source repository.
 
 - [CNPG-I Scale-to-Zero Plugin](https://github.com/xataio/cnpg-i-scale-to-zero):
   A plugin that automatically hibernates inactive CloudNativePG clusters to optimize resource usage and reduce costs.
