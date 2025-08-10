@@ -19,7 +19,7 @@ jobs:
       #   https://github.com/googleapis/release-please/issues/2280.
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       # TODO: remove bump-minor-pre-major when in production. It prevents
       #   release-please from bumping the major version on breaking changes.
       - run: |
