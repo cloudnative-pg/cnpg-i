@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.3.0](https://github.com/cloudnative-pg/cnpg-i/compare/v0.2.1...v0.3.0) (2025-08-11)
+
+
+### Features
+
+* add `cluster_definition` to `EnrichConfigurationRequest` ([#176](https://github.com/cloudnative-pg/cnpg-i/issues/176)) ([7cb5762](https://github.com/cloudnative-pg/cnpg-i/commit/7cb57628933b75045443de5850e7c470aef2a66c))
+* add metrics support ([#219](https://github.com/cloudnative-pg/cnpg-i/issues/219)) ([963c368](https://github.com/cloudnative-pg/cnpg-i/commit/963c368523c25d2e4043609ecc2d9076a8d422c2))
+
+
+### Bug Fixes
+
+* **deps:** update module google.golang.org/grpc to v1.72.0 ([#202](https://github.com/cloudnative-pg/cnpg-i/issues/202)) ([fc84e0d](https://github.com/cloudnative-pg/cnpg-i/commit/fc84e0dee4f3459194f4f7bfd608364c5345ac89))
+* **deps:** update module google.golang.org/grpc to v1.72.1 ([#211](https://github.com/cloudnative-pg/cnpg-i/issues/211)) ([d9bca68](https://github.com/cloudnative-pg/cnpg-i/commit/d9bca684bda3da86d4d82921f4fac45ffa5ba740))
+* **deps:** update module google.golang.org/grpc to v1.72.2 ([#213](https://github.com/cloudnative-pg/cnpg-i/issues/213)) ([8147b47](https://github.com/cloudnative-pg/cnpg-i/commit/8147b4701a09ec3af04cfc397cd7d7d6142b17f5))
+* **deps:** update module google.golang.org/grpc to v1.73.0 ([#216](https://github.com/cloudnative-pg/cnpg-i/issues/216)) ([d35c204](https://github.com/cloudnative-pg/cnpg-i/commit/d35c20496e1dd2948ba00fd49a6264b5934a36d9))
+* **deps:** update module google.golang.org/grpc to v1.74.0 ([#221](https://github.com/cloudnative-pg/cnpg-i/issues/221)) ([7e18556](https://github.com/cloudnative-pg/cnpg-i/commit/7e1855607c8e8604cc34e538845d0cba75fdeff4))
+* **deps:** update module google.golang.org/grpc to v1.74.1 ([#223](https://github.com/cloudnative-pg/cnpg-i/issues/223)) ([b582c8c](https://github.com/cloudnative-pg/cnpg-i/commit/b582c8c00fd867a4f022124503c36bf56fc3407b))
+* **deps:** update module google.golang.org/grpc to v1.74.2 ([#224](https://github.com/cloudnative-pg/cnpg-i/issues/224)) ([91e0e1f](https://github.com/cloudnative-pg/cnpg-i/commit/91e0e1ff26be4bde2e7dc9d9e1cd0b7828c01e2c))
+* **deps:** update module google.golang.org/protobuf to v1.36.7 ([#229](https://github.com/cloudnative-pg/cnpg-i/issues/229)) ([74c9971](https://github.com/cloudnative-pg/cnpg-i/commit/74c9971fdb0cfe77f78f3eb3d2254bc5139d4679))
+
 ## [0.2.1](https://github.com/cloudnative-pg/cnpg-i/compare/v0.2.0...v0.2.1) (2025-04-16)
 
 
