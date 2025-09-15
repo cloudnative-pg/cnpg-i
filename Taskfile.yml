@@ -34,8 +34,8 @@ tasks:
       DAGGER_GOLANGCI_LINT_SHA: ceffda4aebd349a24fc00e591b4ed9b801535b65
     cmds:
       - >
-        GITHUB_REF= dagger -s call -m github.com/sagikazarmark/daggerverse/golangci-lint@${DAGGER_GOLANGCI_LINT_SHA}
-        run --source . --config .golangci.yml stdout
+        GITHUB_REF= dagger -sc "github.com/sagikazarmark/daggerverse/golangci-lint@${DAGGER_GOLANGCI_LINT_SHA} |
+        run . --config .golangci.yml | stdout"
     sources:
       - ./**/*.go
 
