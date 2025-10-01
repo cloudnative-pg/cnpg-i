@@ -75,10 +75,12 @@ Explore real-world applications of CNPG-I:
 
 > **Disclaimer:**
 > The plugins listed in this section are developed and maintained by
-> independent third parties. CloudNativePG and the CNPG-I project do not
-> endorse, guarantee, or take responsibility for their functionality,
-> maintenance, or security. For usage, troubleshooting, or updates, please
-> consult the respective plugin’s documentation and source repository.
+> independent third parties. CloudNativePG and the CNPG-I project
+> (both under Apache-2.0 license) do not endorse, guarantee, or take
+> responsibility for their functionality, maintenance, support, or security.
+> For usage, troubleshooting, or updates, please consult the respective
+> plugin’s documentation, source repository or any other channel
+> offered in the plugin's pages.
 
 - [CNPG-I Scale-to-Zero Plugin](https://github.com/xataio/cnpg-i-scale-to-zero):
   A plugin that automatically hibernates inactive CloudNativePG clusters to optimize resource usage and reduce costs.
