@@ -17,7 +17,7 @@ jobs:
       # TODO: googleapis/release-please-action cannot sign commits yet.
       #   We'll use the cli until there's a fix for
       #   https://github.com/googleapis/release-please/issues/2280.
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
       # TODO: remove bump-minor-pre-major when in production. It prevents
