@@ -21,17 +21,27 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// The operator type corresponds to the Kubernetes API method
 type OperatorOperationType_Type int32
 
 const (
 	OperatorOperationType_TYPE_UNSPECIFIED OperatorOperationType_Type = 0
-	OperatorOperationType_TYPE_PATCH       OperatorOperationType_Type = 1
-	OperatorOperationType_TYPE_UPDATE      OperatorOperationType_Type = 2
-	OperatorOperationType_TYPE_CREATE      OperatorOperationType_Type = 3
-	OperatorOperationType_TYPE_DELETE      OperatorOperationType_Type = 4
-	OperatorOperationType_TYPE_DEREGISTER  OperatorOperationType_Type = 5
-	OperatorOperationType_TYPE_EVALUATE    OperatorOperationType_Type = 6
+	// This is invoked when the operator executes a Patch request on the resource
+	OperatorOperationType_TYPE_PATCH OperatorOperationType_Type = 1
+	// This is invoked when the operator executes an Update request on the resource
+	OperatorOperationType_TYPE_UPDATE OperatorOperationType_Type = 2
+	// This is invoked when the operator executes a Create request on the resource
+	OperatorOperationType_TYPE_CREATE OperatorOperationType_Type = 3
+	// This is invoked when the operator executes a Delete request on the resource
+	OperatorOperationType_TYPE_DELETE OperatorOperationType_Type = 4
+	// Reserved for future use.
+	OperatorOperationType_TYPE_DEREGISTER OperatorOperationType_Type = 5
+	// The operator calls this to perform a dry-run evaluation to determine if the plugin
+	// would make changes to the resource without actually applying them. This allows for
+	// validation and impact assessment before performing actual operations.
+	// A positive evaluation (changes that can potentially be applied) triggers calls to the Update, Patch,
+	// or Delete verbs.
+	// Currently only selected resources have support for this operation type (e.g., pod instances).
+	OperatorOperationType_TYPE_EVALUATE OperatorOperationType_Type = 6
 )
 
 // Enum value maps for OperatorOperationType_Type.

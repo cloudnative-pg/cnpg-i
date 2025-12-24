@@ -1100,17 +1100,17 @@ This message is intentionally empty
 <a name="cnpgi-operator_lifecycle-v1-OperatorOperationType-Type"></a>
 
 ### OperatorOperationType.Type
-The operator type corresponds to the Kubernetes API method
+
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
 | TYPE_UNSPECIFIED | 0 |  |
-| TYPE_PATCH | 1 |  |
-| TYPE_UPDATE | 2 |  |
-| TYPE_CREATE | 3 |  |
-| TYPE_DELETE | 4 |  |
-| TYPE_DEREGISTER | 5 |  |
-| TYPE_EVALUATE | 6 |  |
+| TYPE_PATCH | 1 | This is invoked when the operator executes a Patch request on the resource |
+| TYPE_UPDATE | 2 | This is invoked when the operator executes an Update request on the resource |
+| TYPE_CREATE | 3 | This is invoked when the operator executes a Create request on the resource |
+| TYPE_DELETE | 4 | This is invoked when the operator executes a Delete request on the resource |
+| TYPE_DEREGISTER | 5 | Reserved for future use. |
+| TYPE_EVALUATE | 6 | The operator calls this to perform a dry-run evaluation to determine if the plugin would make changes to the resource without actually applying them. This allows for validation and impact assessment before performing actual operations. A positive evaluation (changes that can potentially be applied) triggers calls to the Update, Patch, or Delete verbs. Currently only selected resources have support for this operation type (e.g., pod instances). |
 
 
  
