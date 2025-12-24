@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.3.1](https://github.com/cloudnative-pg/cnpg-i/compare/v0.3.0...v0.3.1) (2025-12-24)
+
+
+### Bug Fixes
+
+* **deps:** update module google.golang.org/grpc to v1.75.0 ([#233](https://github.com/cloudnative-pg/cnpg-i/issues/233)) ([26ceed1](https://github.com/cloudnative-pg/cnpg-i/commit/26ceed1c2dd59b98e38c1eaa3a0cacdee5630bbc))
+* **deps:** update module google.golang.org/grpc to v1.75.1 ([#241](https://github.com/cloudnative-pg/cnpg-i/issues/241)) ([a8a88da](https://github.com/cloudnative-pg/cnpg-i/commit/a8a88dab58f18d71729e2a0f404a8f8b8309d81b))
+* **deps:** update module google.golang.org/grpc to v1.76.0 ([#251](https://github.com/cloudnative-pg/cnpg-i/issues/251)) ([01df99b](https://github.com/cloudnative-pg/cnpg-i/commit/01df99bd9bd7160143661a863f8df2fe5f48b4b1))
+* **deps:** update module google.golang.org/grpc to v1.77.0 ([#264](https://github.com/cloudnative-pg/cnpg-i/issues/264)) ([47d1153](https://github.com/cloudnative-pg/cnpg-i/commit/47d1153863e58e84a390b4cc4dd8b328f5191bb0))
+* **deps:** update module google.golang.org/grpc to v1.78.0 ([#271](https://github.com/cloudnative-pg/cnpg-i/issues/271)) ([5454e23](https://github.com/cloudnative-pg/cnpg-i/commit/5454e2399cfd2105018e1ef311f8535d802bcbab))
+* **deps:** update module google.golang.org/protobuf to v1.36.10 ([#249](https://github.com/cloudnative-pg/cnpg-i/issues/249)) ([4ca3111](https://github.com/cloudnative-pg/cnpg-i/commit/4ca3111c150e4b5ebbfaced5e3274426eb6674d3))
+* **deps:** update module google.golang.org/protobuf to v1.36.11 ([#270](https://github.com/cloudnative-pg/cnpg-i/issues/270)) ([e1bfa46](https://github.com/cloudnative-pg/cnpg-i/commit/e1bfa4643744d0a8d6d0e95e4f8519bce6de99df))
+* **deps:** update module google.golang.org/protobuf to v1.36.8 ([#235](https://github.com/cloudnative-pg/cnpg-i/issues/235)) ([1b62247](https://github.com/cloudnative-pg/cnpg-i/commit/1b62247a597aca0acad36814bde16c701f05c736))
+* **deps:** update module google.golang.org/protobuf to v1.36.9 ([#240](https://github.com/cloudnative-pg/cnpg-i/issues/240)) ([86a67bf](https://github.com/cloudnative-pg/cnpg-i/commit/86a67bfe9b1d57e9af54a973d6899fe4544f74f1))
+
 ## [0.3.0](https://github.com/cloudnative-pg/cnpg-i/compare/v0.2.1...v0.3.0) (2025-08-11)
 
 
