@@ -82,10 +82,15 @@ message OperatorLifecycleResponse {
     // requeue the reconciliation without treating it as an error.
     // This allows plugins to handle temporary conditions gracefully.
     BEHAVIOR_REQUEUE = 2;
+
+    // Value 3 is reserved. Lifecycle hooks do not support BEHAVIOR_TERMINATE
+    // because they execute before the operator applies changes.
+    reserved 3;
+    reserved "BEHAVIOR_TERMINATE";
   }
 
   // This field is OPTIONAL. Value of this field is a JSONPatch to be applied
-  // on the object definition. Only used when behavior is CONTINUE or unset.
+  // on the object definition. Only used when behavior is BEHAVIOR_CONTINUE or BEHAVIOR_UNSPECIFIED.
   bytes json_patch = 1;
 
   // This field is OPTIONAL. Indicates the behavior that should be used for

@@ -406,7 +406,7 @@ func (x *OperatorLifecycleRequest) GetObjectDefinition() []byte {
 type OperatorLifecycleResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// This field is OPTIONAL. Value of this field is a JSONPatch to be applied
-	// on the object definition. Only used when behavior is CONTINUE or unset.
+	// on the object definition. Only used when behavior is BEHAVIOR_CONTINUE or BEHAVIOR_UNSPECIFIED.
 	JsonPatch []byte `protobuf:"bytes,1,opt,name=json_patch,json=jsonPatch,proto3" json:"json_patch,omitempty"`
 	// This field is OPTIONAL. Indicates the behavior that should be used for
 	// the current lifecycle hook execution. Defaults to BEHAVIOR_CONTINUE.
@@ -498,16 +498,16 @@ const file_proto_operator_lifecycle_proto_rawDesc = "" +
 	"\x18OperatorLifecycleRequest\x12Y\n" +
 	"\x0eoperation_type\x18\x01 \x01(\v22.cnpgi.operator_lifecycle.v1.OperatorOperationTypeR\roperationType\x12-\n" +
 	"\x12cluster_definition\x18\x02 \x01(\fR\x11clusterDefinition\x12+\n" +
-	"\x11object_definition\x18\x03 \x01(\fR\x10objectDefinition\"\x8f\x02\n" +
+	"\x11object_definition\x18\x03 \x01(\fR\x10objectDefinition\"\xa9\x02\n" +
 	"\x19OperatorLifecycleResponse\x12\x1d\n" +
 	"\n" +
 	"json_patch\x18\x01 \x01(\fR\tjsonPatch\x12[\n" +
 	"\bbehavior\x18\x02 \x01(\x0e2?.cnpgi.operator_lifecycle.v1.OperatorLifecycleResponse.BehaviorR\bbehavior\x12#\n" +
-	"\rrequeue_after\x18\x03 \x01(\x03R\frequeueAfter\"Q\n" +
+	"\rrequeue_after\x18\x03 \x01(\x03R\frequeueAfter\"k\n" +
 	"\bBehavior\x12\x18\n" +
 	"\x14BEHAVIOR_UNSPECIFIED\x10\x00\x12\x15\n" +
 	"\x11BEHAVIOR_CONTINUE\x10\x01\x12\x14\n" +
-	"\x10BEHAVIOR_REQUEUE\x10\x022\xb3\x02\n" +
+	"\x10BEHAVIOR_REQUEUE\x10\x02\"\x04\b\x03\x10\x03*\x12BEHAVIOR_TERMINATE2\xb3\x02\n" +
 	"\x11OperatorLifecycle\x12\x9a\x01\n" +
 	"\x0fGetCapabilities\x12A.cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilitiesRequest\x1aB.cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilitiesResponse\"\x00\x12\x80\x01\n" +
 	"\rLifecycleHook\x125.cnpgi.operator_lifecycle.v1.OperatorLifecycleRequest\x1a6.cnpgi.operator_lifecycle.v1.OperatorLifecycleResponse\"\x00B0Z.github.com/cloudnative-pg/cnpg-i/pkg/lifecycleb\x06proto3"
