@@ -66,7 +66,44 @@ message OperatorLifecycleRequest {
   bytes object_definition = 3;
 }
 
+// OperatorLifecycleResponse is used to instruct the CNPG controller on which action
+// to take after the plugin execution.
 message OperatorLifecycleResponse {
-  // This field is OPTIONAL.
+  enum Behavior {
+    // Treated as BEHAVIOR_CONTINUE.
+    BEHAVIOR_UNSPECIFIED = 0;
+
+    // BEHAVIOR_CONTINUE indicates that this lifecycle hook execution was successful
+    // and the operator should proceed with the json_patch (if any).
+    // This is the default behavior when behavior is not set.
+    BEHAVIOR_CONTINUE = 1;
+
+    // BEHAVIOR_REQUEUE indicates that the plugin cannot proceed at this time
+    // (e.g., waiting for a dependency to be created) and the operator should
+    // requeue the reconciliation without treating it as an error.
+    // This allows plugins to handle temporary conditions gracefully.
+    BEHAVIOR_REQUEUE = 2;
+
+    // Value 3 is reserved. Lifecycle hooks do not support BEHAVIOR_TERMINATE
+    // because they execute before the operator applies changes.
+    reserved 3;
+    reserved "BEHAVIOR_TERMINATE";
+  }
+
+  // This field is OPTIONAL. Value of this field is a JSONPatch to be applied
+  // on the object definition. When behavior is BEHAVIOR_REQUEUE, this field
+  // is ignored by the operator.
   bytes json_patch = 1;
+
+  // This field is OPTIONAL. Indicates the behavior that should be used for
+  // the current lifecycle hook execution. Defaults to BEHAVIOR_CONTINUE.
+  Behavior behavior = 2;
+
+  // This field is OPTIONAL. When behavior is BEHAVIOR_REQUEUE, this specifies
+  // the number of seconds to wait before retrying. If not set, zero, or
+  // negative, the operator will use its default requeue interval.
+  // When behavior is not BEHAVIOR_REQUEUE, this field is ignored.
+  // IMPORTANT: the new reconciliation loop may start even before the number
+  // of specified seconds.
+  int64 requeue_after = 3;
 }
