@@ -96,6 +96,7 @@ func (OperatorOperationType_Type) EnumDescriptor() ([]byte, []int) {
 type OperatorLifecycleResponse_Behavior int32
 
 const (
+	// Treated as BEHAVIOR_CONTINUE.
 	OperatorLifecycleResponse_BEHAVIOR_UNSPECIFIED OperatorLifecycleResponse_Behavior = 0
 	// BEHAVIOR_CONTINUE indicates that this lifecycle hook execution was successful
 	// and the operator should proceed with the json_patch (if any).
@@ -406,14 +407,16 @@ func (x *OperatorLifecycleRequest) GetObjectDefinition() []byte {
 type OperatorLifecycleResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// This field is OPTIONAL. Value of this field is a JSONPatch to be applied
-	// on the object definition. Only used when behavior is BEHAVIOR_CONTINUE or BEHAVIOR_UNSPECIFIED.
+	// on the object definition. When behavior is BEHAVIOR_REQUEUE, this field
+	// is ignored by the operator.
 	JsonPatch []byte `protobuf:"bytes,1,opt,name=json_patch,json=jsonPatch,proto3" json:"json_patch,omitempty"`
 	// This field is OPTIONAL. Indicates the behavior that should be used for
 	// the current lifecycle hook execution. Defaults to BEHAVIOR_CONTINUE.
 	Behavior OperatorLifecycleResponse_Behavior `protobuf:"varint,2,opt,name=behavior,proto3,enum=cnpgi.operator_lifecycle.v1.OperatorLifecycleResponse_Behavior" json:"behavior,omitempty"`
 	// This field is OPTIONAL. When behavior is BEHAVIOR_REQUEUE, this specifies
-	// the number of seconds to wait before retrying. If not set or zero,
-	// the operator will use its default requeue interval.
+	// the number of seconds to wait before retrying. If not set, zero, or
+	// negative, the operator will use its default requeue interval.
+	// When behavior is not BEHAVIOR_REQUEUE, this field is ignored.
 	// IMPORTANT: the new reconciliation loop may start even before the number
 	// of specified seconds.
 	RequeueAfter  int64 `protobuf:"varint,3,opt,name=requeue_after,json=requeueAfter,proto3" json:"requeue_after,omitempty"`

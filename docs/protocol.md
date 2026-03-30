@@ -1075,9 +1075,9 @@ to take after the plugin execution.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| json_patch | [bytes](#bytes) |  | This field is OPTIONAL. Value of this field is a JSONPatch to be applied on the object definition. Only used when behavior is BEHAVIOR_CONTINUE or BEHAVIOR_UNSPECIFIED. |
+| json_patch | [bytes](#bytes) |  | This field is OPTIONAL. Value of this field is a JSONPatch to be applied on the object definition. When behavior is BEHAVIOR_REQUEUE, this field is ignored by the operator. |
 | behavior | [OperatorLifecycleResponse.Behavior](#cnpgi-operator_lifecycle-v1-OperatorLifecycleResponse-Behavior) |  | This field is OPTIONAL. Indicates the behavior that should be used for the current lifecycle hook execution. Defaults to BEHAVIOR_CONTINUE. |
-| requeue_after | [int64](#int64) |  | This field is OPTIONAL. When behavior is BEHAVIOR_REQUEUE, this specifies the number of seconds to wait before retrying. If not set or zero, the operator will use its default requeue interval. IMPORTANT: the new reconciliation loop may start even before the number of specified seconds. |
+| requeue_after | [int64](#int64) |  | This field is OPTIONAL. When behavior is BEHAVIOR_REQUEUE, this specifies the number of seconds to wait before retrying. If not set, zero, or negative, the operator will use its default requeue interval. When behavior is not BEHAVIOR_REQUEUE, this field is ignored. IMPORTANT: the new reconciliation loop may start even before the number of specified seconds. |
 
 
 
@@ -1108,7 +1108,7 @@ to take after the plugin execution.
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| BEHAVIOR_UNSPECIFIED | 0 |  |
+| BEHAVIOR_UNSPECIFIED | 0 | Treated as BEHAVIOR_CONTINUE. |
 | BEHAVIOR_CONTINUE | 1 | BEHAVIOR_CONTINUE indicates that this lifecycle hook execution was successful and the operator should proceed with the json_patch (if any). This is the default behavior when behavior is not set. |
 | BEHAVIOR_REQUEUE | 2 | BEHAVIOR_REQUEUE indicates that the plugin cannot proceed at this time (e.g., waiting for a dependency to be created) and the operator should requeue the reconciliation without treating it as an error. This allows plugins to handle temporary conditions gracefully. |
 
