@@ -93,63 +93,6 @@ func (OperatorOperationType_Type) EnumDescriptor() ([]byte, []int) {
 	return file_proto_operator_lifecycle_proto_rawDescGZIP(), []int{3, 0}
 }
 
-type OperatorLifecycleResponse_Behavior int32
-
-const (
-	// Treated as BEHAVIOR_CONTINUE.
-	OperatorLifecycleResponse_BEHAVIOR_UNSPECIFIED OperatorLifecycleResponse_Behavior = 0
-	// BEHAVIOR_CONTINUE indicates that this lifecycle hook execution was successful
-	// and the operator should proceed with the json_patch (if any).
-	// This is the default behavior when behavior is not set.
-	OperatorLifecycleResponse_BEHAVIOR_CONTINUE OperatorLifecycleResponse_Behavior = 1
-	// BEHAVIOR_REQUEUE indicates that the plugin cannot proceed at this time
-	// (e.g., waiting for a dependency to be created) and the operator should
-	// requeue the reconciliation without treating it as an error.
-	// This allows plugins to handle temporary conditions gracefully.
-	OperatorLifecycleResponse_BEHAVIOR_REQUEUE OperatorLifecycleResponse_Behavior = 2
-)
-
-// Enum value maps for OperatorLifecycleResponse_Behavior.
-var (
-	OperatorLifecycleResponse_Behavior_name = map[int32]string{
-		0: "BEHAVIOR_UNSPECIFIED",
-		1: "BEHAVIOR_CONTINUE",
-		2: "BEHAVIOR_REQUEUE",
-	}
-	OperatorLifecycleResponse_Behavior_value = map[string]int32{
-		"BEHAVIOR_UNSPECIFIED": 0,
-		"BEHAVIOR_CONTINUE":    1,
-		"BEHAVIOR_REQUEUE":     2,
-	}
-)
-
-func (x OperatorLifecycleResponse_Behavior) Enum() *OperatorLifecycleResponse_Behavior {
-	p := new(OperatorLifecycleResponse_Behavior)
-	*p = x
-	return p
-}
-
-func (x OperatorLifecycleResponse_Behavior) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (OperatorLifecycleResponse_Behavior) Descriptor() protoreflect.EnumDescriptor {
-	return file_proto_operator_lifecycle_proto_enumTypes[1].Descriptor()
-}
-
-func (OperatorLifecycleResponse_Behavior) Type() protoreflect.EnumType {
-	return &file_proto_operator_lifecycle_proto_enumTypes[1]
-}
-
-func (x OperatorLifecycleResponse_Behavior) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use OperatorLifecycleResponse_Behavior.Descriptor instead.
-func (OperatorLifecycleResponse_Behavior) EnumDescriptor() ([]byte, []int) {
-	return file_proto_operator_lifecycle_proto_rawDescGZIP(), []int{5, 0}
-}
-
 type OperatorLifecycleCapabilitiesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -402,24 +345,10 @@ func (x *OperatorLifecycleRequest) GetObjectDefinition() []byte {
 	return nil
 }
 
-// OperatorLifecycleResponse is used to instruct the CNPG controller on which action
-// to take after the plugin execution.
 type OperatorLifecycleResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// This field is OPTIONAL. Value of this field is a JSONPatch to be applied
-	// on the object definition. When behavior is BEHAVIOR_REQUEUE, this field
-	// is ignored by the operator.
-	JsonPatch []byte `protobuf:"bytes,1,opt,name=json_patch,json=jsonPatch,proto3" json:"json_patch,omitempty"`
-	// This field is OPTIONAL. Indicates the behavior that should be used for
-	// the current lifecycle hook execution. Defaults to BEHAVIOR_CONTINUE.
-	Behavior OperatorLifecycleResponse_Behavior `protobuf:"varint,2,opt,name=behavior,proto3,enum=cnpgi.operator_lifecycle.v1.OperatorLifecycleResponse_Behavior" json:"behavior,omitempty"`
-	// This field is OPTIONAL. When behavior is BEHAVIOR_REQUEUE, this specifies
-	// the number of seconds to wait before retrying. If not set, zero, or
-	// negative, the operator will use its default requeue interval.
-	// When behavior is not BEHAVIOR_REQUEUE, this field is ignored.
-	// IMPORTANT: the new reconciliation loop may start even before the number
-	// of specified seconds.
-	RequeueAfter  int64 `protobuf:"varint,3,opt,name=requeue_after,json=requeueAfter,proto3" json:"requeue_after,omitempty"`
+	// This field is OPTIONAL.
+	JsonPatch     []byte `protobuf:"bytes,1,opt,name=json_patch,json=jsonPatch,proto3" json:"json_patch,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -461,20 +390,6 @@ func (x *OperatorLifecycleResponse) GetJsonPatch() []byte {
 	return nil
 }
 
-func (x *OperatorLifecycleResponse) GetBehavior() OperatorLifecycleResponse_Behavior {
-	if x != nil {
-		return x.Behavior
-	}
-	return OperatorLifecycleResponse_BEHAVIOR_UNSPECIFIED
-}
-
-func (x *OperatorLifecycleResponse) GetRequeueAfter() int64 {
-	if x != nil {
-		return x.RequeueAfter
-	}
-	return 0
-}
-
 var File_proto_operator_lifecycle_proto protoreflect.FileDescriptor
 
 const file_proto_operator_lifecycle_proto_rawDesc = "" +
@@ -501,16 +416,10 @@ const file_proto_operator_lifecycle_proto_rawDesc = "" +
 	"\x18OperatorLifecycleRequest\x12Y\n" +
 	"\x0eoperation_type\x18\x01 \x01(\v22.cnpgi.operator_lifecycle.v1.OperatorOperationTypeR\roperationType\x12-\n" +
 	"\x12cluster_definition\x18\x02 \x01(\fR\x11clusterDefinition\x12+\n" +
-	"\x11object_definition\x18\x03 \x01(\fR\x10objectDefinition\"\xa9\x02\n" +
+	"\x11object_definition\x18\x03 \x01(\fR\x10objectDefinition\":\n" +
 	"\x19OperatorLifecycleResponse\x12\x1d\n" +
 	"\n" +
-	"json_patch\x18\x01 \x01(\fR\tjsonPatch\x12[\n" +
-	"\bbehavior\x18\x02 \x01(\x0e2?.cnpgi.operator_lifecycle.v1.OperatorLifecycleResponse.BehaviorR\bbehavior\x12#\n" +
-	"\rrequeue_after\x18\x03 \x01(\x03R\frequeueAfter\"k\n" +
-	"\bBehavior\x12\x18\n" +
-	"\x14BEHAVIOR_UNSPECIFIED\x10\x00\x12\x15\n" +
-	"\x11BEHAVIOR_CONTINUE\x10\x01\x12\x14\n" +
-	"\x10BEHAVIOR_REQUEUE\x10\x02\"\x04\b\x03\x10\x03*\x12BEHAVIOR_TERMINATE2\xb3\x02\n" +
+	"json_patch\x18\x01 \x01(\fR\tjsonPatch2\xb3\x02\n" +
 	"\x11OperatorLifecycle\x12\x9a\x01\n" +
 	"\x0fGetCapabilities\x12A.cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilitiesRequest\x1aB.cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilitiesResponse\"\x00\x12\x80\x01\n" +
 	"\rLifecycleHook\x125.cnpgi.operator_lifecycle.v1.OperatorLifecycleRequest\x1a6.cnpgi.operator_lifecycle.v1.OperatorLifecycleResponse\"\x00B0Z.github.com/cloudnative-pg/cnpg-i/pkg/lifecycleb\x06proto3"
@@ -527,33 +436,31 @@ func file_proto_operator_lifecycle_proto_rawDescGZIP() []byte {
 	return file_proto_operator_lifecycle_proto_rawDescData
 }
 
-var file_proto_operator_lifecycle_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_proto_operator_lifecycle_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_proto_operator_lifecycle_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_proto_operator_lifecycle_proto_goTypes = []any{
 	(OperatorOperationType_Type)(0),               // 0: cnpgi.operator_lifecycle.v1.OperatorOperationType.Type
-	(OperatorLifecycleResponse_Behavior)(0),       // 1: cnpgi.operator_lifecycle.v1.OperatorLifecycleResponse.Behavior
-	(*OperatorLifecycleCapabilitiesRequest)(nil),  // 2: cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilitiesRequest
-	(*OperatorLifecycleCapabilitiesResponse)(nil), // 3: cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilitiesResponse
-	(*OperatorLifecycleCapabilities)(nil),         // 4: cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilities
-	(*OperatorOperationType)(nil),                 // 5: cnpgi.operator_lifecycle.v1.OperatorOperationType
-	(*OperatorLifecycleRequest)(nil),              // 6: cnpgi.operator_lifecycle.v1.OperatorLifecycleRequest
-	(*OperatorLifecycleResponse)(nil),             // 7: cnpgi.operator_lifecycle.v1.OperatorLifecycleResponse
+	(*OperatorLifecycleCapabilitiesRequest)(nil),  // 1: cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilitiesRequest
+	(*OperatorLifecycleCapabilitiesResponse)(nil), // 2: cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilitiesResponse
+	(*OperatorLifecycleCapabilities)(nil),         // 3: cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilities
+	(*OperatorOperationType)(nil),                 // 4: cnpgi.operator_lifecycle.v1.OperatorOperationType
+	(*OperatorLifecycleRequest)(nil),              // 5: cnpgi.operator_lifecycle.v1.OperatorLifecycleRequest
+	(*OperatorLifecycleResponse)(nil),             // 6: cnpgi.operator_lifecycle.v1.OperatorLifecycleResponse
 }
 var file_proto_operator_lifecycle_proto_depIdxs = []int32{
-	4, // 0: cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilitiesResponse.lifecycle_capabilities:type_name -> cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilities
-	5, // 1: cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilities.operation_types:type_name -> cnpgi.operator_lifecycle.v1.OperatorOperationType
+	3, // 0: cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilitiesResponse.lifecycle_capabilities:type_name -> cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilities
+	4, // 1: cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilities.operation_types:type_name -> cnpgi.operator_lifecycle.v1.OperatorOperationType
 	0, // 2: cnpgi.operator_lifecycle.v1.OperatorOperationType.type:type_name -> cnpgi.operator_lifecycle.v1.OperatorOperationType.Type
-	5, // 3: cnpgi.operator_lifecycle.v1.OperatorLifecycleRequest.operation_type:type_name -> cnpgi.operator_lifecycle.v1.OperatorOperationType
-	1, // 4: cnpgi.operator_lifecycle.v1.OperatorLifecycleResponse.behavior:type_name -> cnpgi.operator_lifecycle.v1.OperatorLifecycleResponse.Behavior
-	2, // 5: cnpgi.operator_lifecycle.v1.OperatorLifecycle.GetCapabilities:input_type -> cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilitiesRequest
-	6, // 6: cnpgi.operator_lifecycle.v1.OperatorLifecycle.LifecycleHook:input_type -> cnpgi.operator_lifecycle.v1.OperatorLifecycleRequest
-	3, // 7: cnpgi.operator_lifecycle.v1.OperatorLifecycle.GetCapabilities:output_type -> cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilitiesResponse
-	7, // 8: cnpgi.operator_lifecycle.v1.OperatorLifecycle.LifecycleHook:output_type -> cnpgi.operator_lifecycle.v1.OperatorLifecycleResponse
-	7, // [7:9] is the sub-list for method output_type
-	5, // [5:7] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	4, // 3: cnpgi.operator_lifecycle.v1.OperatorLifecycleRequest.operation_type:type_name -> cnpgi.operator_lifecycle.v1.OperatorOperationType
+	1, // 4: cnpgi.operator_lifecycle.v1.OperatorLifecycle.GetCapabilities:input_type -> cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilitiesRequest
+	5, // 5: cnpgi.operator_lifecycle.v1.OperatorLifecycle.LifecycleHook:input_type -> cnpgi.operator_lifecycle.v1.OperatorLifecycleRequest
+	2, // 6: cnpgi.operator_lifecycle.v1.OperatorLifecycle.GetCapabilities:output_type -> cnpgi.operator_lifecycle.v1.OperatorLifecycleCapabilitiesResponse
+	6, // 7: cnpgi.operator_lifecycle.v1.OperatorLifecycle.LifecycleHook:output_type -> cnpgi.operator_lifecycle.v1.OperatorLifecycleResponse
+	6, // [6:8] is the sub-list for method output_type
+	4, // [4:6] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_proto_operator_lifecycle_proto_init() }
@@ -566,7 +473,7 @@ func file_proto_operator_lifecycle_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_operator_lifecycle_proto_rawDesc), len(file_proto_operator_lifecycle_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      1,
 			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
