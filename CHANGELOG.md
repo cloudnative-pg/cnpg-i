@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/cloudnative-pg/cnpg-i/compare/v0.4.0...v0.5.0) (2026-03-30)
+
+
+### Reverts
+
+* remove requeue behavior from OperatorLifecycleResponse ([#297](https://github.com/cloudnative-pg/cnpg-i/issues/297)) ([01877c5](https://github.com/cloudnative-pg/cnpg-i/commit/01877c553d3a85242199577f1351c77837b8592c))
+
 ## [0.4.0](https://github.com/cloudnative-pg/cnpg-i/compare/v0.3.1...v0.4.0) (2026-03-30)
 
 
