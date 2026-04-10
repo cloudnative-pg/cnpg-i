@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/cloudnative-pg/cnpg-i/compare/v0.5.0...v0.5.1) (2026-04-10)
+
+
+### Bug Fixes
+
+* **deps:** update module google.golang.org/grpc to v1.80.0 ([#299](https://github.com/cloudnative-pg/cnpg-i/issues/299)) ([ff6975c](https://github.com/cloudnative-pg/cnpg-i/commit/ff6975c23c3fbe48524030046dd810e9341d1a14))
+
 ## [0.5.0](https://github.com/cloudnative-pg/cnpg-i/compare/v0.4.0...v0.5.0) (2026-03-30)
 
 
