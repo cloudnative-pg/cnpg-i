@@ -84,6 +84,10 @@ Explore real-world applications of CNPG-I:
 - [CNPG-I Scale-to-Zero Plugin](https://github.com/xataio/cnpg-i-scale-to-zero):
   A plugin that automatically hibernates inactive CloudNativePG clusters to
   optimize resource usage and reduce costs.
+- [dbivio](https://github.com/Devopzone-Eood/dbivio-operator):
+  A multi-tenancy add-on for CloudNativePG. Its operator-service plugin
+  validates dbivio-managed clusters and reports tenant status back to the
+  operator.
   
 ---
 
