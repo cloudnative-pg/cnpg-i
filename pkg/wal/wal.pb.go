@@ -40,6 +40,65 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type WALRestoreRequest_Mode int32
+
+const (
+	// MODE_UNSPECIFIED must be interpreted as MODE_RECOVERY: it is
+	// what an operator predating this field sends
+	WALRestoreRequest_MODE_UNSPECIFIED WALRestoreRequest_Mode = 0
+	// MODE_RECOVERY indicates that the WAL file is being restored
+	// by the restore_command of an instance in recovery
+	WALRestoreRequest_MODE_RECOVERY WALRestoreRequest_Mode = 1
+	// MODE_REWIND indicates that the WAL file is being restored on
+	// behalf of pg_rewind. pg_rewind fetches every WAL file it needs
+	// exactly once, walking the timeline backwards, and treats any
+	// restore failure as fatal: the plugin should retrieve exactly the
+	// requested file, without WAL prefetching and without caching
+	// archive misses observed on nearby WAL files
+	WALRestoreRequest_MODE_REWIND WALRestoreRequest_Mode = 2
+)
+
+// Enum value maps for WALRestoreRequest_Mode.
+var (
+	WALRestoreRequest_Mode_name = map[int32]string{
+		0: "MODE_UNSPECIFIED",
+		1: "MODE_RECOVERY",
+		2: "MODE_REWIND",
+	}
+	WALRestoreRequest_Mode_value = map[string]int32{
+		"MODE_UNSPECIFIED": 0,
+		"MODE_RECOVERY":    1,
+		"MODE_REWIND":      2,
+	}
+)
+
+func (x WALRestoreRequest_Mode) Enum() *WALRestoreRequest_Mode {
+	p := new(WALRestoreRequest_Mode)
+	*p = x
+	return p
+}
+
+func (x WALRestoreRequest_Mode) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (WALRestoreRequest_Mode) Descriptor() protoreflect.EnumDescriptor {
+	return file_proto_wal_proto_enumTypes[0].Descriptor()
+}
+
+func (WALRestoreRequest_Mode) Type() protoreflect.EnumType {
+	return &file_proto_wal_proto_enumTypes[0]
+}
+
+func (x WALRestoreRequest_Mode) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use WALRestoreRequest_Mode.Descriptor instead.
+func (WALRestoreRequest_Mode) EnumDescriptor() ([]byte, []int) {
+	return file_proto_wal_proto_rawDescGZIP(), []int{2, 0}
+}
+
 type WALCapability_RPC_Type int32
 
 const (
@@ -87,11 +146,11 @@ func (x WALCapability_RPC_Type) String() string {
 }
 
 func (WALCapability_RPC_Type) Descriptor() protoreflect.EnumDescriptor {
-	return file_proto_wal_proto_enumTypes[0].Descriptor()
+	return file_proto_wal_proto_enumTypes[1].Descriptor()
 }
 
 func (WALCapability_RPC_Type) Type() protoreflect.EnumType {
-	return &file_proto_wal_proto_enumTypes[0]
+	return &file_proto_wal_proto_enumTypes[1]
 }
 
 func (x WALCapability_RPC_Type) Number() protoreflect.EnumNumber {
@@ -217,7 +276,10 @@ type WALRestoreRequest struct {
 	// where the WAL file should be stored
 	DestinationFileName string `protobuf:"bytes,3,opt,name=destination_file_name,json=destinationFileName,proto3" json:"destination_file_name,omitempty"`
 	// This field is OPTIONAL. Values are opaque.
-	Parameters    map[string]string `protobuf:"bytes,4,rep,name=parameters,proto3" json:"parameters,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Parameters map[string]string `protobuf:"bytes,4,rep,name=parameters,proto3" json:"parameters,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// This field is OPTIONAL. Value of this field is the context the
+	// WAL file is being restored in
+	Mode          WALRestoreRequest_Mode `protobuf:"varint,5,opt,name=mode,proto3,enum=cnpgi.wal.v1.WALRestoreRequest_Mode" json:"mode,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -278,6 +340,13 @@ func (x *WALRestoreRequest) GetParameters() map[string]string {
 		return x.Parameters
 	}
 	return nil
+}
+
+func (x *WALRestoreRequest) GetMode() WALRestoreRequest_Mode {
+	if x != nil {
+		return x.Mode
+	}
+	return WALRestoreRequest_MODE_UNSPECIFIED
 }
 
 type WALRestoreResult struct {
@@ -728,17 +797,22 @@ const file_proto_wal_proto_rawDesc = "" +
 	"\x0fParametersEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x12\n" +
-	"\x10WALArchiveResult\"\xae\x02\n" +
+	"\x10WALArchiveResult\"\xaa\x03\n" +
 	"\x11WALRestoreRequest\x12-\n" +
 	"\x12cluster_definition\x18\x01 \x01(\fR\x11clusterDefinition\x12&\n" +
 	"\x0fsource_wal_name\x18\x02 \x01(\tR\rsourceWalName\x122\n" +
 	"\x15destination_file_name\x18\x03 \x01(\tR\x13destinationFileName\x12O\n" +
 	"\n" +
 	"parameters\x18\x04 \x03(\v2/.cnpgi.wal.v1.WALRestoreRequest.ParametersEntryR\n" +
-	"parameters\x1a=\n" +
+	"parameters\x128\n" +
+	"\x04mode\x18\x05 \x01(\x0e2$.cnpgi.wal.v1.WALRestoreRequest.ModeR\x04mode\x1a=\n" +
 	"\x0fParametersEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x12\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"@\n" +
+	"\x04Mode\x12\x14\n" +
+	"\x10MODE_UNSPECIFIED\x10\x00\x12\x11\n" +
+	"\rMODE_RECOVERY\x10\x01\x12\x0f\n" +
+	"\vMODE_REWIND\x10\x02\"\x12\n" +
 	"\x10WALRestoreResult\"A\n" +
 	"\x10WALStatusRequest\x12-\n" +
 	"\x12cluster_definition\x18\x01 \x01(\fR\x11clusterDefinition\"\x84\x02\n" +
@@ -786,48 +860,50 @@ func file_proto_wal_proto_rawDescGZIP() []byte {
 	return file_proto_wal_proto_rawDescData
 }
 
-var file_proto_wal_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_proto_wal_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_proto_wal_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_proto_wal_proto_goTypes = []any{
-	(WALCapability_RPC_Type)(0),     // 0: cnpgi.wal.v1.WALCapability.RPC.Type
-	(*WALArchiveRequest)(nil),       // 1: cnpgi.wal.v1.WALArchiveRequest
-	(*WALArchiveResult)(nil),        // 2: cnpgi.wal.v1.WALArchiveResult
-	(*WALRestoreRequest)(nil),       // 3: cnpgi.wal.v1.WALRestoreRequest
-	(*WALRestoreResult)(nil),        // 4: cnpgi.wal.v1.WALRestoreResult
-	(*WALStatusRequest)(nil),        // 5: cnpgi.wal.v1.WALStatusRequest
-	(*WALStatusResult)(nil),         // 6: cnpgi.wal.v1.WALStatusResult
-	(*SetFirstRequiredRequest)(nil), // 7: cnpgi.wal.v1.SetFirstRequiredRequest
-	(*SetFirstRequiredResult)(nil),  // 8: cnpgi.wal.v1.SetFirstRequiredResult
-	(*WALCapabilitiesRequest)(nil),  // 9: cnpgi.wal.v1.WALCapabilitiesRequest
-	(*WALCapabilitiesResult)(nil),   // 10: cnpgi.wal.v1.WALCapabilitiesResult
-	(*WALCapability)(nil),           // 11: cnpgi.wal.v1.WALCapability
-	nil,                             // 12: cnpgi.wal.v1.WALArchiveRequest.ParametersEntry
-	nil,                             // 13: cnpgi.wal.v1.WALRestoreRequest.ParametersEntry
-	nil,                             // 14: cnpgi.wal.v1.WALStatusResult.AdditionalInformationEntry
-	(*WALCapability_RPC)(nil),       // 15: cnpgi.wal.v1.WALCapability.RPC
+	(WALRestoreRequest_Mode)(0),     // 0: cnpgi.wal.v1.WALRestoreRequest.Mode
+	(WALCapability_RPC_Type)(0),     // 1: cnpgi.wal.v1.WALCapability.RPC.Type
+	(*WALArchiveRequest)(nil),       // 2: cnpgi.wal.v1.WALArchiveRequest
+	(*WALArchiveResult)(nil),        // 3: cnpgi.wal.v1.WALArchiveResult
+	(*WALRestoreRequest)(nil),       // 4: cnpgi.wal.v1.WALRestoreRequest
+	(*WALRestoreResult)(nil),        // 5: cnpgi.wal.v1.WALRestoreResult
+	(*WALStatusRequest)(nil),        // 6: cnpgi.wal.v1.WALStatusRequest
+	(*WALStatusResult)(nil),         // 7: cnpgi.wal.v1.WALStatusResult
+	(*SetFirstRequiredRequest)(nil), // 8: cnpgi.wal.v1.SetFirstRequiredRequest
+	(*SetFirstRequiredResult)(nil),  // 9: cnpgi.wal.v1.SetFirstRequiredResult
+	(*WALCapabilitiesRequest)(nil),  // 10: cnpgi.wal.v1.WALCapabilitiesRequest
+	(*WALCapabilitiesResult)(nil),   // 11: cnpgi.wal.v1.WALCapabilitiesResult
+	(*WALCapability)(nil),           // 12: cnpgi.wal.v1.WALCapability
+	nil,                             // 13: cnpgi.wal.v1.WALArchiveRequest.ParametersEntry
+	nil,                             // 14: cnpgi.wal.v1.WALRestoreRequest.ParametersEntry
+	nil,                             // 15: cnpgi.wal.v1.WALStatusResult.AdditionalInformationEntry
+	(*WALCapability_RPC)(nil),       // 16: cnpgi.wal.v1.WALCapability.RPC
 }
 var file_proto_wal_proto_depIdxs = []int32{
-	12, // 0: cnpgi.wal.v1.WALArchiveRequest.parameters:type_name -> cnpgi.wal.v1.WALArchiveRequest.ParametersEntry
-	13, // 1: cnpgi.wal.v1.WALRestoreRequest.parameters:type_name -> cnpgi.wal.v1.WALRestoreRequest.ParametersEntry
-	14, // 2: cnpgi.wal.v1.WALStatusResult.additional_information:type_name -> cnpgi.wal.v1.WALStatusResult.AdditionalInformationEntry
-	11, // 3: cnpgi.wal.v1.WALCapabilitiesResult.capabilities:type_name -> cnpgi.wal.v1.WALCapability
-	15, // 4: cnpgi.wal.v1.WALCapability.rpc:type_name -> cnpgi.wal.v1.WALCapability.RPC
-	0,  // 5: cnpgi.wal.v1.WALCapability.RPC.type:type_name -> cnpgi.wal.v1.WALCapability.RPC.Type
-	9,  // 6: cnpgi.wal.v1.WAL.GetCapabilities:input_type -> cnpgi.wal.v1.WALCapabilitiesRequest
-	1,  // 7: cnpgi.wal.v1.WAL.Archive:input_type -> cnpgi.wal.v1.WALArchiveRequest
-	3,  // 8: cnpgi.wal.v1.WAL.Restore:input_type -> cnpgi.wal.v1.WALRestoreRequest
-	5,  // 9: cnpgi.wal.v1.WAL.Status:input_type -> cnpgi.wal.v1.WALStatusRequest
-	7,  // 10: cnpgi.wal.v1.WAL.SetFirstRequired:input_type -> cnpgi.wal.v1.SetFirstRequiredRequest
-	10, // 11: cnpgi.wal.v1.WAL.GetCapabilities:output_type -> cnpgi.wal.v1.WALCapabilitiesResult
-	2,  // 12: cnpgi.wal.v1.WAL.Archive:output_type -> cnpgi.wal.v1.WALArchiveResult
-	4,  // 13: cnpgi.wal.v1.WAL.Restore:output_type -> cnpgi.wal.v1.WALRestoreResult
-	6,  // 14: cnpgi.wal.v1.WAL.Status:output_type -> cnpgi.wal.v1.WALStatusResult
-	8,  // 15: cnpgi.wal.v1.WAL.SetFirstRequired:output_type -> cnpgi.wal.v1.SetFirstRequiredResult
-	11, // [11:16] is the sub-list for method output_type
-	6,  // [6:11] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	13, // 0: cnpgi.wal.v1.WALArchiveRequest.parameters:type_name -> cnpgi.wal.v1.WALArchiveRequest.ParametersEntry
+	14, // 1: cnpgi.wal.v1.WALRestoreRequest.parameters:type_name -> cnpgi.wal.v1.WALRestoreRequest.ParametersEntry
+	0,  // 2: cnpgi.wal.v1.WALRestoreRequest.mode:type_name -> cnpgi.wal.v1.WALRestoreRequest.Mode
+	15, // 3: cnpgi.wal.v1.WALStatusResult.additional_information:type_name -> cnpgi.wal.v1.WALStatusResult.AdditionalInformationEntry
+	12, // 4: cnpgi.wal.v1.WALCapabilitiesResult.capabilities:type_name -> cnpgi.wal.v1.WALCapability
+	16, // 5: cnpgi.wal.v1.WALCapability.rpc:type_name -> cnpgi.wal.v1.WALCapability.RPC
+	1,  // 6: cnpgi.wal.v1.WALCapability.RPC.type:type_name -> cnpgi.wal.v1.WALCapability.RPC.Type
+	10, // 7: cnpgi.wal.v1.WAL.GetCapabilities:input_type -> cnpgi.wal.v1.WALCapabilitiesRequest
+	2,  // 8: cnpgi.wal.v1.WAL.Archive:input_type -> cnpgi.wal.v1.WALArchiveRequest
+	4,  // 9: cnpgi.wal.v1.WAL.Restore:input_type -> cnpgi.wal.v1.WALRestoreRequest
+	6,  // 10: cnpgi.wal.v1.WAL.Status:input_type -> cnpgi.wal.v1.WALStatusRequest
+	8,  // 11: cnpgi.wal.v1.WAL.SetFirstRequired:input_type -> cnpgi.wal.v1.SetFirstRequiredRequest
+	11, // 12: cnpgi.wal.v1.WAL.GetCapabilities:output_type -> cnpgi.wal.v1.WALCapabilitiesResult
+	3,  // 13: cnpgi.wal.v1.WAL.Archive:output_type -> cnpgi.wal.v1.WALArchiveResult
+	5,  // 14: cnpgi.wal.v1.WAL.Restore:output_type -> cnpgi.wal.v1.WALRestoreResult
+	7,  // 15: cnpgi.wal.v1.WAL.Status:output_type -> cnpgi.wal.v1.WALStatusResult
+	9,  // 16: cnpgi.wal.v1.WAL.SetFirstRequired:output_type -> cnpgi.wal.v1.SetFirstRequiredResult
+	12, // [12:17] is the sub-list for method output_type
+	7,  // [7:12] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_proto_wal_proto_init() }
@@ -843,7 +919,7 @@ func file_proto_wal_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_wal_proto_rawDesc), len(file_proto_wal_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      2,
 			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   1,
