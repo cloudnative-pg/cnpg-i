@@ -171,9 +171,15 @@ type WALArchiveRequest struct {
 	// of the WAL file that should be archived
 	SourceFileName string `protobuf:"bytes,2,opt,name=source_file_name,json=sourceFileName,proto3" json:"source_file_name,omitempty"`
 	// This field is OPTIONAL. Values are opaque.
-	Parameters    map[string]string `protobuf:"bytes,3,rep,name=parameters,proto3" json:"parameters,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Parameters map[string]string `protobuf:"bytes,3,rep,name=parameters,proto3" json:"parameters,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// This field is OPTIONAL. The operator always sets it, to convey its
+	// decision on whether the plugin should verify the WAL archive
+	// destination is empty before this upload. If unset, the request comes
+	// from an operator that predates this field, and the plugin is free to
+	// handle that case as it sees fit.
+	CheckEmptyWalArchive *bool `protobuf:"varint,4,opt,name=check_empty_wal_archive,json=checkEmptyWalArchive,proto3,oneof" json:"check_empty_wal_archive,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *WALArchiveRequest) Reset() {
@@ -225,6 +231,13 @@ func (x *WALArchiveRequest) GetParameters() map[string]string {
 		return x.Parameters
 	}
 	return nil
+}
+
+func (x *WALArchiveRequest) GetCheckEmptyWalArchive() bool {
+	if x != nil && x.CheckEmptyWalArchive != nil {
+		return *x.CheckEmptyWalArchive
+	}
+	return false
 }
 
 type WALArchiveResult struct {
@@ -787,16 +800,18 @@ var File_proto_wal_proto protoreflect.FileDescriptor
 
 const file_proto_wal_proto_rawDesc = "" +
 	"\n" +
-	"\x0fproto/wal.proto\x12\fcnpgi.wal.v1\"\xfc\x01\n" +
+	"\x0fproto/wal.proto\x12\fcnpgi.wal.v1\"\xd4\x02\n" +
 	"\x11WALArchiveRequest\x12-\n" +
 	"\x12cluster_definition\x18\x01 \x01(\fR\x11clusterDefinition\x12(\n" +
 	"\x10source_file_name\x18\x02 \x01(\tR\x0esourceFileName\x12O\n" +
 	"\n" +
 	"parameters\x18\x03 \x03(\v2/.cnpgi.wal.v1.WALArchiveRequest.ParametersEntryR\n" +
-	"parameters\x1a=\n" +
+	"parameters\x12:\n" +
+	"\x17check_empty_wal_archive\x18\x04 \x01(\bH\x00R\x14checkEmptyWalArchive\x88\x01\x01\x1a=\n" +
 	"\x0fParametersEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x12\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\x1a\n" +
+	"\x18_check_empty_wal_archive\"\x12\n" +
 	"\x10WALArchiveResult\"\xaa\x03\n" +
 	"\x11WALRestoreRequest\x12-\n" +
 	"\x12cluster_definition\x18\x01 \x01(\fR\x11clusterDefinition\x12&\n" +
@@ -911,6 +926,7 @@ func file_proto_wal_proto_init() {
 	if File_proto_wal_proto != nil {
 		return
 	}
+	file_proto_wal_proto_msgTypes[0].OneofWrappers = []any{}
 	file_proto_wal_proto_msgTypes[10].OneofWrappers = []any{
 		(*WALCapability_Rpc)(nil),
 	}

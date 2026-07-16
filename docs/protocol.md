@@ -1506,6 +1506,7 @@ through the kube-api server.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | cluster_definition | [bytes](#bytes) |  | This field is REQUIRED. Value of this field is the JSON serialization of the Cluster. |
+| check_empty_wal_archive | [bool](#bool) | optional | This field is OPTIONAL. The operator always sets it, to convey its decision on whether the plugin should verify that the backup destination is not already in use by a different cluster or timeline before restoring (protection against WAL/timeline divergence). If unset, the request comes from an operator that predates this field, and the plugin is free to handle that case as it sees fit. |
 
 
 
@@ -1605,6 +1606,7 @@ Intentionally empty.
 | cluster_definition | [bytes](#bytes) |  | This field is REQUIRED. Value of this field is the JSON serialization of the Cluster corresponding to the Pod being applied |
 | source_file_name | [string](#string) |  | This field is REQUIRED. Value of this field is the full path of the WAL file that should be archived |
 | parameters | [WALArchiveRequest.ParametersEntry](#cnpgi-wal-v1-WALArchiveRequest-ParametersEntry) | repeated | This field is OPTIONAL. Values are opaque. |
+| check_empty_wal_archive | [bool](#bool) | optional | This field is OPTIONAL. The operator always sets it, to convey its decision on whether the plugin should verify the WAL archive destination is empty before this upload. If unset, the request comes from an operator that predates this field, and the plugin is free to handle that case as it sees fit. |
 
 
 

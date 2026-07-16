@@ -48,6 +48,13 @@ message WALArchiveRequest {
 
   // This field is OPTIONAL. Values are opaque.
   map<string, string> parameters = 3;
+
+  // This field is OPTIONAL. The operator always sets it, to convey its
+  // decision on whether the plugin should verify the WAL archive
+  // destination is empty before this upload. If unset, the request comes
+  // from an operator that predates this field, and the plugin is free to
+  // handle that case as it sees fit.
+  optional bool check_empty_wal_archive = 4;
 }
 
 message WALArchiveResult {
