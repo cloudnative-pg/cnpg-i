@@ -218,8 +218,15 @@ type RestoreRequest struct {
 	// This field is REQUIRED. Value of this field is the JSON
 	// serialization of the Cluster.
 	ClusterDefinition []byte `protobuf:"bytes,1,opt,name=cluster_definition,json=clusterDefinition,proto3" json:"cluster_definition,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// This field is OPTIONAL. The operator always sets it, to convey its
+	// decision on whether the plugin should verify that the backup
+	// destination is not already in use by a different cluster or timeline
+	// before restoring (protection against WAL/timeline divergence). If
+	// unset, the request comes from an operator that predates this field,
+	// and the plugin is free to handle that case as it sees fit.
+	CheckEmptyWalArchive *bool `protobuf:"varint,2,opt,name=check_empty_wal_archive,json=checkEmptyWalArchive,proto3,oneof" json:"check_empty_wal_archive,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *RestoreRequest) Reset() {
@@ -257,6 +264,13 @@ func (x *RestoreRequest) GetClusterDefinition() []byte {
 		return x.ClusterDefinition
 	}
 	return nil
+}
+
+func (x *RestoreRequest) GetCheckEmptyWalArchive() bool {
+	if x != nil && x.CheckEmptyWalArchive != nil {
+		return *x.CheckEmptyWalArchive
+	}
+	return false
 }
 
 type RestoreResponse struct {
@@ -328,9 +342,11 @@ const file_proto_restore_job_proto_rawDesc = "" +
 	"\x04kind\x18\x01 \x01(\x0e2,.cnpgi.wal.v1.RestoreJobHooksCapability.KindR\x04kind\".\n" +
 	"\x04Kind\x12\x14\n" +
 	"\x10KIND_UNSPECIFIED\x10\x00\x12\x10\n" +
-	"\fKIND_RESTORE\x10\x01\"?\n" +
+	"\fKIND_RESTORE\x10\x01\"\x97\x01\n" +
 	"\x0eRestoreRequest\x12-\n" +
-	"\x12cluster_definition\x18\x01 \x01(\fR\x11clusterDefinition\"L\n" +
+	"\x12cluster_definition\x18\x01 \x01(\fR\x11clusterDefinition\x12:\n" +
+	"\x17check_empty_wal_archive\x18\x02 \x01(\bH\x00R\x14checkEmptyWalArchive\x88\x01\x01B\x1a\n" +
+	"\x18_check_empty_wal_archive\"L\n" +
 	"\x0fRestoreResponse\x12%\n" +
 	"\x0erestore_config\x18\x01 \x01(\tR\rrestoreConfig\x12\x12\n" +
 	"\x04envs\x18\x02 \x03(\tR\x04envs2\xd3\x01\n" +
@@ -379,6 +395,7 @@ func file_proto_restore_job_proto_init() {
 	if File_proto_restore_job_proto != nil {
 		return
 	}
+	file_proto_restore_job_proto_msgTypes[3].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

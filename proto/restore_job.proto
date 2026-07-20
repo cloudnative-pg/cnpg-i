@@ -54,6 +54,14 @@ message RestoreRequest {
   // This field is REQUIRED. Value of this field is the JSON
   // serialization of the Cluster.
   bytes cluster_definition = 1;
+
+  // This field is OPTIONAL. The operator always sets it, to convey its
+  // decision on whether the plugin should verify that the backup
+  // destination is not already in use by a different cluster or timeline
+  // before restoring (protection against WAL/timeline divergence). If
+  // unset, the request comes from an operator that predates this field,
+  // and the plugin is free to handle that case as it sees fit.
+  optional bool check_empty_wal_archive = 2;
 }
 
 message RestoreResponse {
