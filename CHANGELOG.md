@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.6.0](https://github.com/cloudnative-pg/cnpg-i/compare/v0.5.0...v0.6.0) (2026-07-20)
+
+
+### Features
+
+* add check_empty_wal_archive to WAL and RestoreJobHooks requests ([#353](https://github.com/cloudnative-pg/cnpg-i/issues/353)) ([b981bcc](https://github.com/cloudnative-pg/cnpg-i/commit/b981bcc6982eaf1b193e3f4e2885f30671335145))
+* **ip:** assign copyright to the Linux Foundation ([#307](https://github.com/cloudnative-pg/cnpg-i/issues/307)) ([7c4dcdc](https://github.com/cloudnative-pg/cnpg-i/commit/7c4dcdc321fd4b0ffb89bf8224be1b3541338d81))
+* **wal:** add restore mode to WALRestoreRequest ([#351](https://github.com/cloudnative-pg/cnpg-i/issues/351)) ([f1298e9](https://github.com/cloudnative-pg/cnpg-i/commit/f1298e9457b26b4e9173c50cbc2d7f4394e00fee))
+
+
+### Bug Fixes
+
+* **deps:** update module google.golang.org/grpc to v1.80.0 ([#299](https://github.com/cloudnative-pg/cnpg-i/issues/299)) ([ff6975c](https://github.com/cloudnative-pg/cnpg-i/commit/ff6975c23c3fbe48524030046dd810e9341d1a14))
+* **deps:** update module google.golang.org/grpc to v1.81.0 ([#312](https://github.com/cloudnative-pg/cnpg-i/issues/312)) ([9219a73](https://github.com/cloudnative-pg/cnpg-i/commit/9219a73aef47b1a94f7e52754f05bdf1f63a9383))
+* **deps:** update module google.golang.org/grpc to v1.81.1 ([#324](https://github.com/cloudnative-pg/cnpg-i/issues/324)) ([23ecd6e](https://github.com/cloudnative-pg/cnpg-i/commit/23ecd6e171169970d0323c5028c9467a85f37aea))
+* **deps:** update module google.golang.org/grpc to v1.82.0 ([#347](https://github.com/cloudnative-pg/cnpg-i/issues/347)) ([062bd40](https://github.com/cloudnative-pg/cnpg-i/commit/062bd40d3788c0405b7c226c1c68cd7cecc110a1))
+* **deps:** update module google.golang.org/grpc to v1.82.1 ([#352](https://github.com/cloudnative-pg/cnpg-i/issues/352)) ([f0c92a7](https://github.com/cloudnative-pg/cnpg-i/commit/f0c92a79eb15d188ee43dac50faa50e89f2012ba))
+
 ## [0.5.0](https://github.com/cloudnative-pg/cnpg-i/compare/v0.4.0...v0.5.0) (2026-03-30)
 
 
