@@ -55,6 +55,24 @@ message WALArchiveResult {
 }
 
 message WALRestoreRequest {
+  enum Mode {
+    // MODE_UNSPECIFIED must be interpreted as MODE_RECOVERY: it is
+    // what an operator predating this field sends
+    MODE_UNSPECIFIED = 0;
+
+    // MODE_RECOVERY indicates that the WAL file is being restored
+    // by the restore_command of an instance in recovery
+    MODE_RECOVERY = 1;
+
+    // MODE_REWIND indicates that the WAL file is being restored on
+    // behalf of pg_rewind. pg_rewind fetches every WAL file it needs
+    // exactly once, walking the timeline backwards, and treats any
+    // restore failure as fatal: the plugin should retrieve exactly the
+    // requested file, without WAL prefetching and without caching
+    // archive misses observed on nearby WAL files
+    MODE_REWIND = 2;
+  }
+
   // This field is REQUIRED. Value of this field is the JSON
   // serialization of the Cluster corresponding to the Pod being applied
   bytes cluster_definition = 1;
@@ -70,6 +88,10 @@ message WALRestoreRequest {
 
   // This field is OPTIONAL. Values are opaque.
   map<string, string> parameters = 4;
+
+  // This field is OPTIONAL. Value of this field is the context the
+  // WAL file is being restored in
+  Mode mode = 5;
 }
 
 message WALRestoreResult {

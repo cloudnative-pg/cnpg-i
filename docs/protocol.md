@@ -141,6 +141,7 @@
     - [WALStatusResult.AdditionalInformationEntry](#cnpgi-wal-v1-WALStatusResult-AdditionalInformationEntry)
   
     - [WALCapability.RPC.Type](#cnpgi-wal-v1-WALCapability-RPC-Type)
+    - [WALRestoreRequest.Mode](#cnpgi-wal-v1-WALRestoreRequest-Mode)
   
     - [WAL](#cnpgi-wal-v1-WAL)
   
@@ -1703,6 +1704,7 @@ Intentionally empty.
 | source_wal_name | [string](#string) |  | This field is REQUIRED. Value of this field is the name of the WAL to be retrieved from the archive, such as: 000000010000000100000012 |
 | destination_file_name | [string](#string) |  | This field is REQUIRED. Value of this field is the full path where the WAL file should be stored |
 | parameters | [WALRestoreRequest.ParametersEntry](#cnpgi-wal-v1-WALRestoreRequest-ParametersEntry) | repeated | This field is OPTIONAL. Values are opaque. |
+| mode | [WALRestoreRequest.Mode](#cnpgi-wal-v1-WALRestoreRequest-Mode) |  | This field is OPTIONAL. Value of this field is the context the WAL file is being restored in |
 
 
 
@@ -1797,6 +1799,19 @@ Intentionally empty.
 | TYPE_RESTORE_WAL | 2 | TYPE_RESTORE_WAL indicates that the Plugin is able to reply to the Restore RPC request |
 | TYPE_STATUS | 3 | TYPE_STATUS indicates that the Plugin is able to reply to the Status RPC request |
 | TYPE_SET_FIRST_REQUIRED | 4 | TYPE_SET_FIRST_REQUIRED indicates that the Plugin is able to reply to the SetFirstRequired RPC request |
+
+
+
+<a name="cnpgi-wal-v1-WALRestoreRequest-Mode"></a>
+
+### WALRestoreRequest.Mode
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| MODE_UNSPECIFIED | 0 | MODE_UNSPECIFIED must be interpreted as MODE_RECOVERY: it is what an operator predating this field sends |
+| MODE_RECOVERY | 1 | MODE_RECOVERY indicates that the WAL file is being restored by the restore_command of an instance in recovery |
+| MODE_REWIND | 2 | MODE_REWIND indicates that the WAL file is being restored on behalf of pg_rewind. pg_rewind fetches every WAL file it needs exactly once, walking the timeline backwards, and treats any restore failure as fatal: the plugin should retrieve exactly the requested file, without WAL prefetching and without caching archive misses observed on nearby WAL files |
 
 
  
